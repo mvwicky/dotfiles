@@ -1,0 +1,48 @@
+add_newline = true
+
+[git_status]
+staged_count.enabled = true
+unstaged_count.enabled = true
+modified_count.enabled = true
+modified_count.style = "underline bright-purple"
+unstaged_count.style = "underline bright-purple"
+staged_count.style = "underline bright-purple"
+
+[package]
+disabled = false
+display_private = true
+
+[cmd_duration]
+disabled = true
+
+[python]
+pyenv_version_name = true
+
+[java]
+disabled = true
+
+[character]
+use_symbol_for_status = true
+
+[nodejs]
+disabled = false
+
+[aws]
+disabled = true
+
+[hostname]
+disabled = false
+ssh_only = true
+
+[line_break]
+disabled = false
+
+[time]
+disabled = false
+format = "[%j]"
+
+[username]
+show_always = false
+
+[ruby]
+disabled = true

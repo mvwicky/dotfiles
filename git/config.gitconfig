@@ -1,0 +1,50 @@
+[credential]
+    helper = osxkeychain
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[user]
+    email = mvanwickle@gmail.com
+    name = Michael Van Wickle
+[alias]
+    p = push --verbose
+    pu = pull --verbose
+    sb = status -sb
+    ci = commit --verbose
+    ca = commit --verbose --all
+    st = status
+    hist = log --pretty=format:\"%C(auto)%h %ad | %s%d [%an]\" --graph --date=short
+    cl = clone
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    ls = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+    ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+    le = log --oneline --decorate
+    la = "!git config -l | grep alias | cut -c 7-"
+    lasttag = describe --tags --abbrev=0
+    lt = describe --tags --abbrev=0
+    diff = diff --word-diff
+    co = checkout
+    chlog = log --oneline --decorate --color
+    plog = log --graph --decorate --pretty=oneline --abbrev-commit
+[core]
+    excludesfile = /Users/michael/global.gitignore
+    pager = "delta --dark"
+[color]
+    ui = auto
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+[color "diff"]
+    meta = 11
+    frag = magenta bold
+    commit = yellow bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+[hub]
+    protocol = https

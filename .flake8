@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 88
+ignore =
+    D1,
+    D401,
+    W503,
+    E501
+import-order-style = pep8
+max-complexity = 14
+enable-extensions =
+    E704,
+    W504
+select = C,D,E,F,I,W,B,B950,PT
+docstring-convention = google
