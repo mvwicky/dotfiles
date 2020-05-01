@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034,SC1090
+
 setopt hist_ignore_dups
 setopt hist_expire_dups_first
 
@@ -9,26 +12,28 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 BREW_PREFIX="$(brew --prefix)"
 
-if type brew &>/dev/null; then
-    FPATH="${BREW_PREFIX}/share/zsh/site-functions:$FPATH"
-    FPATH="${BREW_PREFIX}/share/zsh-completions:$FPATH"
+if type brew &> /dev/null; then
+  FPATH="${BREW_PREFIX}/share/zsh/site-functions:$FPATH"
+  FPATH="${BREW_PREFIX}/share/zsh-completions:$FPATH"
 fi
 
-source $HOME/antigen.zsh
-antigen init $HOME/.antigenrc
+source "$HOME/antigen.zsh"
+antigen init "$HOME/.antigenrc"
+# source <(antibody init)
+# antibody bundle < ~/Dropbox/zsh/plugins.txt
 
 # Init pyenv
 export PYENV_VIRTUALENV_VERBOSE_ACTIVATE=1
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+if command -v pyenv 1> /dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
 # Init rbenv
-if command -v rbenv 1>/dev/null 2>&1; then
-    eval "$(rbenv init -)"
+if command -v rbenv 1> /dev/null 2>&1; then
+  eval "$(rbenv init -)"
 fi
 
-export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
 
 export PATH="$HOME/bin/yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -42,16 +47,16 @@ DROPBOX_ALIAS="${DROPBOX_ZSH}/alias.zsh"
 test -f "${DROPBOX_FUNC}" && source "${DROPBOX_FUNC}"
 test -f "${DROPBOX_ALIAS}" && source "${DROPBOX_ALIAS}"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
 
 eval "$(direnv hook zsh)"
 
 if [[ -f "${HOME}/startup.py" ]]; then
-    export PYTHONSTARTUP="${HOME}/startup.py"
+  export PYTHONSTARTUP="${HOME}/startup.py"
 fi
 
 # Wasmer
 export WASMER_DIR="/Users/michael/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"  # This loads wasmer
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh" # This loads wasmer
 
 eval "$(starship init zsh)"
