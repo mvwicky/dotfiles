@@ -5,37 +5,45 @@ alias p="poetry"
 alias py="python"
 alias pym="python manage.py"
 alias pup='pip install -U pip setuptools wheel'
-alias pupx="pip install -U pip setuptools wheel pipx"
-alias pip-old="pip list --outdated"
-alias pupdate='poetry update'
+alias pupx='pip install -U pip setuptools wheel pipx'
+alias pip-old='pip list --outdated'
 alias pold='poetry show --outdated'
+alias sm='smerge $PWD'
+alias nvm-ls='nvm ls --no-alias'
 
 alias ga="git add"
-alias gp="git push"
+alias gp="git push --verbose"
 alias gc="git commit"
 alias st='git status'
 
-alias nyarn="nvm use && yarn"
-alias pad="poetry add --dev"
+alias yas="yarn --silent"
+alias yc="yarn config"
 alias pa="poetry add"
-alias prg="ps -ex | rg --context=0"
-# alias print_path="python -c \"import os; print('\n'.join(os.environ['PATH'].split(os.pathsep)))\""
-# alias ls="colorls --light --sort-dirs --report -1la"
+alias pad="poetry add --dev"
+alias prg="ps -exf | rg --context=0 --no-stats"
+
 alias ycount="yarn --silent list --depth 0 --json | jq '[.data.trees[].name] | length'"
 if command -v exa 1> /dev/null 2>&1; then
   alias l="exa -lah"
   alias ll="exa -lah"
+  alias lg="exa -lah --git"
 else
   alias l="ls -lah"
   alias ll="ls -lah"
 fi
-alias pout='poetry show --outdated; yarn outdated'
+
 if command -v gmake 1> /dev/null 2>&1; then
   alias make='gmake'
 fi
+
 alias zshconfig='${EDITOR} ~/.zshrc'
+alias histedit='${EDITOR} ~/.zsh_history'
 alias dustr='dust -r'
 
-alias ffprh='ffprobe -hide_banner'
-alias ffmrh='ffmpeg -hide_banner'
+alias ffprobe='ffprobe -hide_banner'
+alias ffmpeg='ffmpeg -hide_banner'
 alias px='pipxr'
+alias batt='bat --terminal-width=$(tput cols)'
+alias yupl='yarn upgrade -L'
+alias yg='yarn global'
+alias g='git'
