@@ -1,3 +1,4 @@
+# shellcheck disable=SC2148
 antigen use oh-my-zsh
 
 antigen bundle cargo
@@ -9,12 +10,12 @@ antigen bundle yarn
 antigen bundle ripgrep
 antigen bundle docker
 antigen bundle docker-compose
-antigen bundle z
-# antigen bundle tmux
 
-antigen bundle lukechilds/zsh-better-npm-completion
 antigen bundle lukechilds/zsh-nvm
-antigen bundle zsh-users/zsh-syntax-highlighting
-# antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+# antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle djui/alias-tips
+antigen bundle zdharma/fast-syntax-highlighting
+# antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
