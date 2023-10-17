@@ -63,11 +63,13 @@ vim.opt.hlsearch = true -- Switch on highlighting the last used search pattern.
 
 -- Backups {{{
 DATA_HOME = os.getenv("XDG_DATA_HOME")
-vim.opt.backup = true -- keep a backup file (restore to previous version)
-vim.opt.backupdir = DATA_HOME .. "/nvim/backup"
-vim.opt.backupskip = "/tmp/*,/private/tmp/*"
-vim.opt.directory = DATA_HOME .. "/nvim/swap"
-vim.opt.writebackup = true
+if DATA_HOME ~= nil then
+  vim.opt.backup = true -- keep a backup file (restore to previous version)
+  vim.opt.backupdir = DATA_HOME .. "/nvim/backup"
+  vim.opt.backupskip = "/tmp/*,/private/tmp/*"
+  vim.opt.directory = DATA_HOME .. "/nvim/swap"
+  vim.opt.writebackup = true
+end
 -- }}}
 
 -- Folding {{{
@@ -105,7 +107,6 @@ local prettier_exts = {
   "ts",
   "tsx",
   "css",
-  "less",
   "scss",
   "json",
   "graphql",
@@ -118,7 +119,7 @@ for _, ext in ipairs(prettier_exts) do
   table.insert(prettier_globs, "*." .. ext)
 end
 
-create_augroups({
+Create_augroups({
   bufwritepre = {
     "BufWritePre " .. table.concat(prettier_globs, ",") .. " PrettierAsync",
     "BufWritePre *.vim :call <SID>StripTrailingWhitespaces()",
@@ -163,14 +164,10 @@ vim.g.javascript_plugin_jsdoc = 1
 
 vim.g.airline_theme = "gruvbox"
 
-vim.g.coc_global_extensions = {
-  "coc-tsserver",
-  "coc-json",
-  "coc-rust-analyzer",
-  "coc-yaml",
-  "coc-pyright",
-}
+vim.g.coc_global_extensions = { "coc-tsserver", "coc-json", "coc-yaml", "coc-pyright" }
 -- }}}
 
+vim.g.gruvbox_baby_background_color = "hard"
+vim.g.gruvbox_baby_telescope_theme = 1
 vim.opt.background = "dark"
-vim.cmd("colorscheme gruvbox")
+-- vim.cmd([[colorscheme gruvbox-baby]])

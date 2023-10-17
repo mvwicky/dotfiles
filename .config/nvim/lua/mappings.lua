@@ -60,5 +60,6 @@ nmap("<leader><space>", ":noh<CR>")
 
 nmap("<leader>ff", "<cmd>Telescope find_files<cr>")
 
--- imap("<C-space>", "coc#refresh()", {expr = true})
+-- imap("<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]], { expr = true })
+-- imap("<C-space>", "coc#refresh()", { expr = true })
 -- nmap("<leader>rn", "<Plug>(coc-rename)")

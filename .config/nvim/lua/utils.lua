@@ -1,6 +1,6 @@
 local api = vim.api
 
-function create_augroups(definitions)
+function Create_augroups(definitions)
   for group_name, definition in pairs(definitions) do
     api.nvim_command("augroup " .. group_name)
     api.nvim_command("autocmd!")
