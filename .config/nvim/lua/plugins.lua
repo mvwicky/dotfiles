@@ -43,6 +43,7 @@ require("lazy").setup({
   "kevinoid/vim-jsonc",
   "vim-python/python-syntax",
   "fladson/vim-kitty",
+  "NoahTheDuke/vim-just",
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
