@@ -1,6 +1,7 @@
 local fn = vim.fn
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+local loop = vim.uv or vim.loop
+if not loop.fs_stat(lazypath) then
   fn.system({
     "git",
     "clone",
@@ -73,10 +74,10 @@ require("lazy").setup({
   "raimondi/delimitmate",
   "tpope/vim-commentary",
   "tpope/vim-surround",
-  "kyazdani42/nvim-web-devicons",
+  "nvim-tree/nvim-web-devicons",
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { { "kyazdani42/nvim-web-devicons" } },
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
     config = function()
       require("lualine").setup({
         -- options = { theme = "gruvbox-baby" },
@@ -92,16 +93,23 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "javascript", "typescript", "markdown", "markdown_inline" },
+        ensure_installed = {
+          "javascript",
+          "typescript",
+          "markdown",
+          "markdown_inline",
+          "lua",
+        },
         highlight = { enable = true },
-        indent = { enable = true },
+        -- indent = { enable = true },
         sync_install = false,
       })
     end,
-    build = function()
-      local ts_update = require("nvin-treesitter.install").update({ with_sync = true })
-      ts_update()
-    end,
+    build = ":TSUpdate",
+    -- build = function()
+    --   local ts_update = require("nvin-treesitter.install").update({ with_sync = true })
+    --   ts_update()
+    -- end,
   },
   {
     "VonHeikemen/lsp-zero.nvim",
@@ -124,4 +132,11 @@ require("lazy").setup({
       { "L3MON4D3/LuaSnip" }, -- Required
     },
   },
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
+  },
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
 })
