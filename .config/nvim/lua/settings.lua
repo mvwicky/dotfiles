@@ -1,3 +1,5 @@
+local Utils = require("utils")
+
 HOME = os.getenv("HOME")
 
 vim.opt.termguicolors = true
@@ -79,7 +81,6 @@ vim.opt.foldlevelstart = 10
 -- }}}
 
 -- AutoGroups {{{
-require("utils")
 
 vim.cmd([[
   augroup vimrcEx
@@ -100,7 +101,9 @@ vim.cmd([[
   augroup END
 ]])
 
-local prettier_exts = {
+local prettier_globs = vim.tbl_map(function(v)
+  return "*." .. v
+end, {
   "js",
   "jsx",
   "mjs",
@@ -113,17 +116,9 @@ local prettier_exts = {
   "vue",
   "yaml",
   "html",
-}
-local prettier_globs = {}
-for _, ext in ipairs(prettier_exts) do
-  table.insert(prettier_globs, "*." .. ext)
-end
+})
 
-Create_augroups({
-  bufwritepre = {
-    "BufWritePre " .. table.concat(prettier_globs, ",") .. " PrettierAsync",
-    "BufWritePre *.vim :call <SID>StripTrailingWhitespaces()",
-  },
+Utils.create_augroups({
   filetypes = {
     "FileType text setlocal textwidth=78",
     "FileType Makefile setlocal noexpandtab",
@@ -137,6 +132,24 @@ Create_augroups({
     [[FileType json syntax match Comment +\/\/.\+$+]],
   },
 })
+
+local bufwritepre = vim.api.nvim_create_augroup("bufwritepre", {})
+vim.api.nvim_create_autocmd(
+  { "BufWritePre" },
+  { group = bufwritepre, pattern = prettier_globs, command = "PrettierAsync" }
+)
+
+-- local fts = vim.api.nvim_create_augroup("filetypes", {})
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+--   pattern = "Makefile",
+--   group = fts,
+--   callback = function(opts)
+--     vim.print(opts)
+--     vim.opt_local.expandtab = false
+--     vim.opt_local.colorcolumn = 40
+--   end,
+-- })
+
 -- }}}
 
 vim.g.mapleader = ","
