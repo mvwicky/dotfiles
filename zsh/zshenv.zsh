@@ -9,33 +9,38 @@ export LC_NUMERIC=en_US.UTF-8
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_RUNTIME_DIR="$HOME/Library/Caches/TemporaryItems"
 
-export EDITOR=nvim
 export PYENV_ROOT="$HOME/.pyenv"
-export NVIM_LOG_FILE="$HOME/.local/nvim/share/log"
-# export CARGO_BUILD_JOBS=1
+export NVIM_LOG_FILE="$HOME/.local/share/nvim/nvim.log"
+
+export GOPATH="$XDG_DATA_HOME"/go
 
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin/flutter/bin:$PATH"
 export PATH="$HOME/.pub-cache/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$PATH:$HOME/.poetry/bin"
 
 export BUNDLEFILE="$HOME/Dropbox/config/Brewfile"
 export HOMEBREW_BUNDLE_FILE=$BUNDLEFILE
+export HOMEBREW_CLEANUP_MAX_AGE_DAYS=60
+# export HOMEBREW_BOOTSNAP=1
+export HOMEBREW_DISPLAY_INSTALL_TIMES=1
+export HOMEBREW_NO_ENV_HINTS=1
+export EGET_CONFIG="$XDG_CONFIG_HOME/eget.toml"
 
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
-# export NVM_LAZY_LOAD="${NVM_LAZY_LOAD:-true}"
 export NVM_LAZY_LOAD_EXTRA_COMMANDS=('cd')
 
 export MYPYPATH="$HOME/Dropbox/Code/Stubs"
 
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="g _"
 
-export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgrep/.ripgreprc"
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/ripgreprc"
+export APPS="/Applications"
 export APP_SUPPORT="$HOME/Library/Application Support"
 export SUBL_DATA="$APP_SUPPORT/Sublime Text 3"
 
@@ -45,9 +50,28 @@ export DENO_INSTALL="$XDG_DATA_HOME/deno"
 
 export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/pycache"
 
-# export LESS='-R -Ps?P%Pb:.\:'
 export BAT_PAGER='less -RXF -Ps?P%Pb:.\:'
+# export LESS='-R -Ps?P%Pb:.\:'
 # export BAT_PAGER='less -FXRm'
+
+export PYLINTHOME="${XDG_CACHE_HOME}"/pylint
+export ANDROID_HOME="$XDG_DATA_HOME"/android
+export PLATFORMIO_CORE_DIR="$XDG_DATA_HOME"/platformio
+export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME"/bundle
+export BUNDLE_USER_CACHE="$XDG_CACHE_HOME"/bundle
+export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
+
+export REDISCLI_HISTFILE="${XDG_CACHE_HOME}/rediscli_history"
+export HISTFILE="${XDG_STATE_HOME}/zsh/history"
+export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
 
 # shellcheck disable=SC2034
 DROPBOX_ZSH="${HOME}/Dropbox/config/zsh"
+
+# See: https://github.com/pyenv/pyenv/tree/master/plugins/python-build
+# export PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto'
+# export PYTHON_CFLAGS='--march-native -mtune=native'

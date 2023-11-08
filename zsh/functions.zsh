@@ -2,10 +2,6 @@
 
 ZSH_FOLDER="${HOME}/Dropbox/config/zsh"
 
-info() {
-  printf "\r  [ \033[00;34m..\033[0m ] %s\n" "$1"
-}
-
 has() {
   type "$1" &> /dev/null
 }
@@ -197,18 +193,26 @@ __dofind() {
   fi
 }
 
-ls_DS() {
-  local dir=${1:-$PWD}
-  __dofind "$dir" -type f -name '*.DS_Store' -ls
+ls_pattern() {
+  local pattern=${1:-}
+  local startdir=${2:-}
+  if [[ -z $pattern || -z $startdir ]]; then
+    echo "ls_pattern <pattern> <startdir>" >&2
+    return 1
+  fi
+  __dofind "$startdir" -type f -name "$pattern" -exec eza -la '{}' \+
 }
+
+ls_DS() {
+  ls_pattern '*.DS_Store' "${1:-$PWD}"
+}
+
 del_DS() {
-  local dir=${1:-$PWD}
-  __dofind "$dir" -type f -name '*.DS_Store' -ls -delete
+  __dofind "${1:-$PWD}" -type f -name '*.DS_Store' -ls -delete
 }
 
 findpyc() {
-  local dir=${1:-$PWD}
-  __dofind "$dir" -name '*.pyc' -ls
+  ls_pattern '*.pyc' "${1:-$PWD}"
 }
 
 delpyc() {
@@ -216,7 +220,22 @@ delpyc() {
   __dofind "$dir" -name '*.pyc' -ls -delete
 }
 
+trashpyc() {
+  local dir=${1:-$PWD}
+  __dofind "$dir" -name '*.pyc' -ls -exec trash '{}' \+
+}
+
 ls_pkgs() {
   local dir="${1:-$PWD}/node_modules"
   __dofind "$dir" -type f -name package.json
+}
+
+merge_and_prune() {
+  local pr=${1:-}
+  if [[ -z $pr ]]; then
+    echo "merge_and_prune <pr>" >&2
+    return 1
+  fi
+  gh pr merge "$pr" --squash --delete-branch
+  git fetch --prune
 }

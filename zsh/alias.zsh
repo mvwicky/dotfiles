@@ -4,8 +4,8 @@ alias dj="poetry run python manage.py"
 alias p="poetry"
 alias py="python"
 alias pym="python manage.py"
-alias pup='pip install -U pip setuptools wheel'
-alias pupx='pip install -U pip setuptools wheel pipx'
+alias pup='python -m pip install -U pip setuptools wheel'
+alias pupx='python -m pip install -U pip setuptools wheel pipx'
 alias pip-old='pip list --outdated'
 alias pold='poetry show --outdated'
 alias sm='smerge $PWD'
@@ -18,15 +18,16 @@ alias st='git status'
 
 alias yas="yarn --silent"
 alias yc="yarn config"
+alias ygui="yarn global upgrade-interactive"
+alias cdygdir='cd "$(yg dir)"'
 alias pa="poetry add"
-alias pad="poetry add --dev"
-alias prg="ps -exf | rg --context=0 --no-stats"
+# alias prg="ps -exf | rg --context=0 --no-stats"
 
 alias ycount="yarn --silent list --depth 0 --json | jq '[.data.trees[].name] | length'"
-if command -v exa 1> /dev/null 2>&1; then
-  alias l="exa -lah"
-  alias ll="exa -lah"
-  alias lg="exa -lah --git"
+if command -v eza 1> /dev/null 2>&1; then
+  alias l="eza -lah"
+  alias ll="eza -lah"
+  alias lg="eza -lah --git"
 else
   alias l="ls -lah"
   alias ll="ls -lah"
@@ -47,3 +48,5 @@ alias batt='bat --terminal-width=$(tput cols)'
 alias yupl='yarn upgrade -L'
 alias yg='yarn global'
 alias g='git'
+alias tra='trash'
+alias activate-venv='source .venv/bin/activate'
