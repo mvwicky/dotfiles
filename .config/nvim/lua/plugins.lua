@@ -65,6 +65,7 @@ require("lazy").setup({
       "scss",
       "typescript",
       "typescriptreact",
+      "yaml",
     },
   },
   {

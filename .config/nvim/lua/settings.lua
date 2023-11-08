@@ -154,7 +154,7 @@ vim.api.nvim_create_autocmd(
 
 vim.g.mapleader = ","
 
-PYENV_ROOT = os.getenv("PYENV_ROOT")
+PYENV_ROOT = os.getenv("PYENV_ROOT") or HOME .. "/.pyenv"
 vim.g.python_host_prog = PYENV_ROOT .. "/versions/neovim2/bin/python"
 vim.g.python3_host_prog = PYENV_ROOT .. "/versions/neovim/bin/python"
 
