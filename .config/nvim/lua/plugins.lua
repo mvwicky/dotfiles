@@ -14,15 +14,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- {
-  --   "luisiacc/gruvbox-baby",
-  --   branch = "main",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd([[colorscheme gruvbox-baby]])
-  --   end,
-  -- },
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -33,12 +24,10 @@ require("lazy").setup({
     end,
   },
   "sheerun/vim-polyglot",
-  -- { "HerringtonDarkholme/yats.vim", ft = { "typescript" } },
   { "rust-lang/rust.vim", ft = { "rust" } },
   { "ekalinin/dockerfile.vim", ft = { "dockerfile" } },
   "glench/vim-jinja2-syntax",
   { "cespare/vim-toml", ft = { "toml" } },
-  "dag/vim-fish",
   "vim-scripts/django.vim",
   "pangloss/vim-javascript",
   "kevinoid/vim-jsonc",
@@ -138,13 +127,7 @@ require("lazy").setup({
       -- LSP Support
       { "neovim/nvim-lspconfig" }, -- Required
       { "williamboman/mason.nvim" }, -- Optional
-      {
-        "williamboman/mason-lspconfig.nvim",
-        -- config = function()
-        --   require("mason-lspconfig").setup({ ensure_installed = { "tsserver" } })
-        -- end,
-      }, -- Optional
-
+      { "williamboman/mason-lspconfig.nvim" }, -- Optional
       -- Autocompletion
       { "hrsh7th/nvim-cmp" }, -- Required
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
