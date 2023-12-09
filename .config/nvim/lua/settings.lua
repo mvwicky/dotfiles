@@ -133,12 +133,6 @@ Utils.create_augroups({
   },
 })
 
-local bufwritepre = vim.api.nvim_create_augroup("bufwritepre", {})
-vim.api.nvim_create_autocmd(
-  { "BufWritePre" },
-  { group = bufwritepre, pattern = prettier_globs, command = "PrettierAsync" }
-)
-
 -- local fts = vim.api.nvim_create_augroup("filetypes", {})
 -- vim.api.nvim_create_autocmd({ "FileType" }, {
 --   pattern = "Makefile",
@@ -171,13 +165,8 @@ vim.g.gruvbox_number_column = "bg1"
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "hard"
 
-vim.g.shfmt_extra_args = "-i 2"
-
 vim.g.javascript_plugin_jsdoc = 1
 
-vim.g.airline_theme = "gruvbox"
-
-vim.g.coc_global_extensions = { "coc-tsserver", "coc-json", "coc-yaml", "coc-pyright" }
 -- }}}
 
 vim.g.gruvbox_baby_background_color = "hard"

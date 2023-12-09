@@ -51,21 +51,41 @@ require("lazy").setup({
     opts = { indent = { char = { "|", "¦", "┆", "┊" } } },
   },
   {
-    "prettier/vim-prettier",
-    build = "yarn install --frozen-lockfile --production",
-    ft = {
-      "css",
-      "html",
-      "htmldjango",
-      "javascript",
-      "javascriptreact",
-      "json",
-      "jsonc",
-      "markdown",
-      "scss",
-      "typescript",
-      "typescriptreact",
-      "yaml",
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        "<leader>f",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        css = { { "prettierd", "prettier" } },
+        html = { { "prettierd", "prettier" } },
+        htmldjango = { { "prettierd", "prettier" } },
+        javascript = { { "prettierd", "prettier" } },
+        javascriptreact = { { "prettierd", "prettier" } },
+        json = { { "prettierd", "prettier" } },
+        jsonc = { { "prettierd", "prettier" } },
+        lua = { "stylua" },
+        markdown = { { "prettierd", "prettier" } },
+        scss = { { "prettierd", "prettier" } },
+        typescript = { { "prettierd", "prettier" } },
+        typescriptreact = { { "prettierd", "prettier" } },
+        yaml = { { "prettierd", "prettier" } },
+      },
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+      },
     },
   },
   {
@@ -81,7 +101,6 @@ require("lazy").setup({
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
     config = function()
       require("lualine").setup({
-        -- options = { theme = "gruvbox-baby" },
         options = { theme = "tokyonight" },
         sections = {
           lualine_x = { "encoding", "fileformat", "filetype" },
