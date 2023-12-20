@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+import argparse
+import asyncio
+import json
+import os
+import shutil
+import time
+from asyncio import subprocess
+from pathlib import Path
+from typing import Any, List, NamedTuple, Optional, Sequence
+
+
+class OutdatedPackage(NamedTuple):
+    name: str
+    version: str
+    latest_version: str
+    latest_filetype: str
+
+
+class Args(NamedTuple):
+    packages: List[str]
+    exclude: Optional[List[str]]
+    extra_excludes: Optional[List[str]]
+
+
+DEFAULT_EXCLUDES: List[str] = ["pip", "setuptools", "wheel"]
+
+PIPX = shutil.which("pipx")
+
+PIPX_HOME: Path
+if "PIPX_HOME" in os.environ:
+    PIPX_HOME = Path(os.environ["PIPX_HOME"]).resolve()
+else:
+    PIPX_HOME = Path.home() / ".local" / "pipx"
+
+VENVS_DIR = PIPX_HOME / "venvs"
+
+
+def pipx_package(arg: str) -> str:
+    pkg_dir = VENVS_DIR / arg
+    if not pkg_dir.is_dir():
+        raise argparse.ArgumentTypeError(f"No package named {arg!r} found.")
+    return arg
+
+
+async def pipx_run(*args, **kwargs) -> subprocess.Process:
+    kw = {"stdout": subprocess.PIPE}
+    kw.update(kwargs)
+    args = [str(e) for e in args]
+    proc = await asyncio.create_subprocess_exec(PIPX, *args, **kw)
+    return proc
+
+
+def get_exclude_args(excludes: Sequence[str]) -> List[str]:
+    return [f"--exclude={e}" for e in excludes]
+
+
+def format_output(pkg: str, pip_output: Sequence[dict]):
+    print(pkg, end=" ")
+    if not pip_output:
+        print("All up to date.")
+        return
+    print("")
+    _pkgs = (OutdatedPackage(**elem) for elem in pip_output)
+    packages = {pkg.name: pkg for pkg in _pkgs}
+    cols = 3
+    lines = [["Package", "Current", "Latest"]]
+    for p in packages.values():
+        lines.append([p.name, p.version, p.latest_version])
+    widths = (max(map(len, (line[i] for line in lines))) for i in range(cols))
+    row_fmt = " | ".join("{{{i}:{w}}}".format(i=i, w=w) for i, w in enumerate(widths))
+    for line in lines:
+        print(row_fmt.format(*line))
+
+
+def get_pipx_args(pkg: str, excludes: Sequence[str]) -> List[str]:
+    ex_args = get_exclude_args(excludes)
+    return ["runpip", pkg, "list", "--format=json", "--outdated"] + ex_args
+
+
+async def get_outdated(pkg: str, excludes: Sequence[str]) -> Any:
+    proc = await pipx_run(*get_pipx_args(pkg, excludes))
+    stdout, _ = await proc.communicate()
+    return json.loads(stdout)
+
+
+def all_pkgs() -> List[str]:
+    return [el.name for el in VENVS_DIR.iterdir() if el.is_dir()]
+
+
+def parse_args() -> Args:
+    parser = argparse.ArgumentParser(description="List outdated pipx packages.")
+    parser.add_argument("packages", nargs="*", default=[], type=pipx_package)
+    parser.add_argument("-e", "--exclude", action="append")
+    parser.add_argument("-a", "--extra-excludes", action="append")
+    return Args(**vars(parser.parse_args()))
+
+
+async def main():
+    args = parse_args()
+    excludes = args.exclude or DEFAULT_EXCLUDES.copy()
+    if args.extra_excludes:
+        excludes.extend(args.extra_excludes)
+    excludes.sort()
+    packages = sorted(args.packages or all_pkgs())
+    tasks = {
+        pkg: asyncio.create_task(get_outdated(pkg, excludes), name=pkg)
+        for pkg in packages
+    }
+    for pkg in tasks:
+        task = tasks[pkg]
+        await task
+        output = task.result()
+        format_output(pkg, output)
+        print("")
+
+
+if __name__ == "__main__":
+    start = time.perf_counter()
+    asyncio.run(main())
+    elapsed = time.perf_counter() - start
+    print(f"\nElapsed: {elapsed:.3f}s")

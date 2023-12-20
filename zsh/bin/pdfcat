@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+usage() {
+  echo "usage: $(basename "$0") <output_file> <input_file> [<input_file>...]"
+}
+
+output_file=${1:-}
+if [[ -z $output_file ]]; then
+  usage
+  exit 1
+fi
+shift 1
+
+if [ "$#" -lt 1 ]; then
+  echo "Input file(s) required"
+  usage
+  exit 1
+fi
+
+pdfsettings="/${PDFSETTINGS:-"screen"}"
+
+set -x
+gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE="$output_file" -dPDFSETTINGS="$pdfsettings" -dBATCH "$@"
+set +x

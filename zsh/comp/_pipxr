@@ -1,0 +1,24 @@
+#compdef pipxr
+
+
+__basename() {
+  local tmp
+  tmp=${1%"${1##*[!/]}"}
+  tmp=${tmp##*/}
+  tmp=${tmp%"${2/"$tmp"/}"}
+  printf '%s\n' "${tmp:-/}"
+}
+
+
+_pipxr_completion() {
+  local pipxhome=${PIPX_HOME:-$HOME/.local/pipx}
+  local venvdir="$pipxhome/venvs"
+  local -a packages
+  for elem in $venvdir/*; do
+    [ -d "$elem" ] || continue
+    packages+="$(__basename "$elem")"
+  done
+
+  _describe 'command' packages
+}
+_pipxr_completion "$@"

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+debug=${PIPXR_DEBUG:-}
+
+pdebug() {
+  local msg=${1:-}
+  if [[ -n $debug && -n $msg ]]; then
+    printf "%s\n" "$msg"
+  fi
+}
+
+usage() {
+  local indent="  "
+  printf "usage: %s <package> [OPTIONS...]\n\n" "$(basename "$0")" >&2
+  printf "%sRun the pipx installed package with [OPTIONS...]\n" "$indent" >&2
+  exit 1
+}
+
+bindir=${PIPX_BIN_DIR:-$HOME/.local/bin}
+package=${1:-}
+if [[ -z $package ]]; then
+  usage
+fi
+exepath="$bindir/$package"
+if [[ -L $exepath ]]; then
+  exepath="$(readlink "$exepath")"
+fi
+if [[ ! -x $exepath ]]; then
+  echo "$package does not exist." >&2
+  exit 1
+fi
+shift 1
+cmd="$exepath $*"
+
+pdebug "$cmd"
+eval "${cmd}"

@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""Find node packages that have duplicates.
+
+Example:
+========
+node_modules/
+    <pkg>/
+        node_modules/
+            <dep>
+    <dep>
+
+<dep> is a duplicate.
+"""
+from __future__ import annotations
+
+import json
+import os.path
+import shutil
+from collections import defaultdict, deque
+from collections.abc import Iterable
+from pathlib import Path
+from pprint import pprint
+
+TERM_SIZE = shutil.get_terminal_size()
+
+
+def dir_is_package(path: Path) -> bool:
+    pkg_json = path / "package.json"
+    return pkg_json.is_file()
+
+
+def _get_possibles(start: Path) -> Iterable[Path]:
+    return (e for e in start.iterdir() if e.is_dir() and not e.name.startswith("."))
+
+
+def find_packages(path: Path) -> list[tuple[Path, str]]:
+    node_dir = path / "node_modules"
+    if not node_dir.is_dir():
+        return []
+    # top_level_pkgs: set[str] = set()
+    pkgs: list[tuple[Path, str]] = []
+    dirs = deque(_get_possibles(node_dir))
+    while dirs:
+        d = dirs.popleft()
+        if d.name.startswith("@"):
+            dirs.extendleft(_get_possibles(d))
+        else:
+            pkg_file = d / "package.json"
+            if pkg_file.is_file():
+                pkg_data = json.loads(pkg_file.read_bytes())
+                pkgs.append((d, pkg_data["name"]))
+                pkgs.extend(find_packages(d))
+    return pkgs
+
+
+def main():
+    cwd = Path.cwd()
+    pkgs = find_packages(cwd)
+    seen: str[str] = set()
+    n_pkgs = len(pkgs)
+    dups: dict[str, list[str]] = defaultdict(list)
+    for pkg_path, pkg in pkgs:
+        if pkg in seen:
+            dups[pkg].append(os.path.relpath(pkg_path, cwd))
+        seen.add(pkg)
+    pprint(dict(dups), width=TERM_SIZE.columns // 2)
+    print(n_pkgs)
+
+
+if __name__ == "__main__":
+    main()

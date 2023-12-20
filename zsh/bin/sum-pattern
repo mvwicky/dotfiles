@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+import argparse
+import math
+import os
+from pathlib import Path
+from typing import Union
+
+UNITS = ("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+_largest_idx = len(UNITS) - 1
+
+
+def natsize(size: Union[float, int], fmt: str = "{0:.2f}") -> str:
+    """Format a number as a human readable size.
+
+    Args:
+        size: A size in bytes.
+        fmt: A format string.
+
+    Examples:
+        >>> natsize(1224, "{0:.1f}")
+        '1.2 kB'
+        >>> natsize(0.5)
+        '0.50 B'
+    """
+    size = size * (-1 if size < 0 else 1)
+    if size < 1:
+        return " ".join((fmt.format(size), UNITS[0]))
+    exp = min(math.floor(math.log10(size) / 3), _largest_idx)
+    size = size / 1000 ** exp
+    return " ".join((fmt.format(size), UNITS[exp]))
+
+
+def get_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="sum-pattern")
+    parser.add_argument("pattern", nargs="+")
+    parser.add_argument("-c", "--cwd", default=".", help="The start directory.")
+    parser.add_argument(
+        "--not-recursive",
+        action="store_true",
+        help="Don't traverse directories",
+    )
+    return parser
+
+
+def main():
+    args = get_parser().parse_args()
+    cwd = Path(args.cwd).resolve()
+    total_size = 0
+    func = cwd.glob if args.not_recursive else cwd.rglob
+    print(cwd, func.__name__)
+    rows = []
+    for pattern in args.pattern:
+        for p in func(pattern):
+            size = os.path.getsize(p)
+            total_size += size
+            rows.append((natsize(size, "{0:.1f}"), p))
+            # sz = natsize(size, "{0:.1f}")
+            # print(f"{sz:{width}} {p}")
+            # print(natsize(size, "{0:.1f}"), p)
+    width = max(len(s) for s, _ in rows)
+    for sz, path in rows:
+        print(f"{sz:{width}} | {path}")
+    print(width)
+    print(natsize(total_size), len(rows))
+
+
+if __name__ == "__main__":
+    main()

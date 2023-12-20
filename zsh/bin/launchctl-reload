@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+__basename() {
+  local tmp
+  tmp=${1%"${1##*[!/]}"}
+  tmp=${tmp##*/}
+  tmp=${tmp%"${2/"$tmp"/}"}
+  printf '%s\n' "${tmp:-/}"
+}
+
+config_path=${1:-}
+if [[ -z $config_path ]]; then
+  echo "usage: $(__basename "$0" "") <config>"
+  exit 1
+fi
+
+if [[ ! -f $config_path ]]; then
+  if [[ -f "$HOME/Library/LaunchAgents/$config_path" ]]; then
+    config_path="$HOME/Library/LaunchAgents/$config_path"
+  else
+    echo "Unable to find configuration $config_path"
+    exit 1
+  fi
+fi
+
+echo "Config: $config_path"
+echo "Unloading."
+launchctl unload "$config_path"
+
+echo "Loading."
+launchctl load "$config_path"

@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+import argparse
+import os
+
+
+def directory(value: str):
+    p = os.path.realpath(value)
+    if not os.path.isdir(p):
+        raise argparse.ArgumentTypeError("Must be a directory.")
+    return p
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Find all used node versions (from .nvmrc and .node-version files)."
+    )
+    parser.add_argument(
+        "roots", metavar="ROOT", nargs="*", default=[os.getcwd()], type=directory
+    )
+    parser.add_argument(
+        "-i", "--ignore", dest="ignores", action="append", default=["node_modules"]
+    )
+    return parser.parse_args()
+
+
+def is_version_file(name: str) -> bool:
+    return name in {".node-version", ".nvmrc"}
+
+
+def is_ignored(name: str, ignores: set) -> bool:
+    for ignored in ignores:
+        if ignored in name:
+            return True
+    return False
+
+
+def walk(start: str, seen: dict, ignores: set):
+    for root, _, files in os.walk(start):
+        if is_ignored(root, ignores):
+            continue
+        for file in filter(is_version_file, files):  # type: str
+            path = os.path.join(root, file)
+            with open(path, "rt") as f:
+                version = f.read().strip()
+                seen.setdefault(version, set()).add(root)
+
+
+def main():
+    args = parse_args()
+    roots, ignores = args.roots, set(args.ignores)
+    print(f"Ignoring {ignores}")
+    seen = {}
+    for root in roots:
+        print("Checking {0}".format(root))
+        walk(root, seen, ignores)
+
+    for key in sorted(seen):
+        paths = sorted(seen[key])
+        print(f"{key} ({len(paths)}):")
+        for path in paths:
+            print(f"\t- {path}")
+
+
+if __name__ == "__main__":
+    main()

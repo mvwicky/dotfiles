@@ -9,7 +9,6 @@ alias pupx='python -m pip install -U pip setuptools wheel pipx'
 alias pip-old='pip list --outdated'
 alias pold='poetry show --outdated'
 alias sm='smerge $PWD'
-alias nvm-ls='nvm ls --no-alias'
 
 alias ga="git add"
 alias gp="git push --verbose"
@@ -21,7 +20,6 @@ alias yc="yarn config"
 alias ygui="yarn global upgrade-interactive"
 alias cdygdir='cd "$(yg dir)"'
 alias pa="poetry add"
-# alias prg="ps -exf | rg --context=0 --no-stats"
 
 alias ycount="yarn --silent list --depth 0 --json | jq '[.data.trees[].name] | length'"
 if command -v eza 1> /dev/null 2>&1; then

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+__dirname() {
+  local tmp=${1:-.}
+  [[ $tmp != *[!/]* ]] && {
+    printf '\n'
+    return
+  }
+  tmp=${tmp%%"${tmp##*[!/]}"}
+  [[ $tmp != */* ]] && {
+    printf '.\n'
+    return
+  }
+  tmp=${tmp%/*}
+  tmp=${tmp%%"${tmp##*[!/]}"}
+  printf '%s\n' "${tmp:-/}"
+}
+
+__basename() {
+  local tmp
+  tmp=${1%"${1##*[!/]}"}
+  tmp=${tmp##*/}
+  tmp=${tmp%"${2/"$tmp"/}"}
+  printf '%s\n' "${tmp:-/}"
+}
+
+file=${1:-}
+if [[ -z $file ]]; then
+  echo "usage: $(basename "$0") <file> [output-file]"
+  exit 1
+fi
+
+if [[ ! -f $file ]]; then
+  echo "File not found."
+  exit 1
+fi
+
+output_file=${2:-}
+if [[ -z $output_file ]]; then
+  output_file="$(__dirname "$file")/$(__basename "$file" ".pdf")-opt.pdf"
+  echo "$output_file"
+fi
+
+pdfsettings="/ebook"
+set -x
+gs -dNOPAUSE -sDEVICE=pdfwrite -SOUTPUTFILE="$output_file" -dPDFSETTINGS="$pdfsettings" -dBATCH -dQUIET "$file"
+set +x

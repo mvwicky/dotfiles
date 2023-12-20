@@ -20,9 +20,6 @@ COMPLETION_WAITING_DOTS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
 
-export NVIM_COC_LOG_LEVEL=info
-export NVIM_COC_LOG_FILE="$HOME/logs/nvim-coc.log"
-
 __has() {
   type "$1" &> /dev/null
 }
@@ -52,22 +49,22 @@ source "$brew_prefix/opt/antigen/share/antigen/antigen.zsh"
 antigen init "$HOME/.antigenrc"
 
 # Init pyenv
-if command -v pyenv 1> /dev/null 2>&1; then
+if __has pyenv; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
 export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
 
-if [[ -n $DROPBOX_ZSH ]]; then
-  dropbox_func="$DROPBOX_ZSH/functions.zsh"
-  dropbox_alias="$DROPBOX_ZSH/alias.zsh"
+if [[ -n $ZSH_FOLDER ]]; then
+  funcs="$ZSH_FOLDER/functions.zsh"
+  aliases_file="$ZSH_FOLDER/alias.zsh"
   # Load functions and aliases
-  test -f "$dropbox_func" && source "$dropbox_func"
-  test -f "$dropbox_alias" && source "$dropbox_alias"
-  unset dropbox_func
-  unset dropbox_alias
-  export DROPBOX_ZSH
+  test -f "$funcs" && source "$funcs"
+  test -f "$aliases_file" && source "$aliases_file"
+  unset funcs
+  unset aliases_file
+  export ZSH_FOLDER
 fi
 
 if [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ]]; then
@@ -87,6 +84,7 @@ if __has luarocks; then
   eval "$(luarocks path --no-bin)"
 fi
 
+# shellcheck disable=SC2155
 export GPG_TTY="$(tty)"
 
 # Wasmer

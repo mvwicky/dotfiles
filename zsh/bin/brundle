@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+bundlefile="${1:-$BUNDLEFILE}"
+if [[ ! -f $bundlefile ]]; then
+  echo "usage: $(basename "$0") <Brewfile>"
+  return 1
+fi
+brew bundle --file="$bundlefile"

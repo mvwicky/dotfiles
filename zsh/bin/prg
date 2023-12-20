@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+processes="$(ps -eo 'pid ppid command')"
+if [[ $# != 0 ]]; then
+  processes="$(echo "$processes" | rg --no-config -Fi "$@")"
+fi
+
+echo "$processes" |
+  rg --no-config -Fv "${BASH_SOURCE[0]}" |
+  rg --no-config --color=auto '^\s*[[:digit:]]+'

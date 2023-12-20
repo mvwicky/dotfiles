@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+import argparse
+import math
+import os
+from typing import NamedTuple, Union
+
+
+class Args(NamedTuple):
+    root: str
+    verbose: int
+    delete: bool
+
+
+UNITS = ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+
+
+def natsize(num: Union[float, int], fmt: str = "{0:.2f}") -> str:
+    is_neg = num < 0
+    num = num * (-1 if is_neg else 1)
+    if num < 1:
+        return " ".join([fmt.format(num), UNITS[0]])
+    exp = min(math.floor(math.log10(num) / 3), len(UNITS) - 1)
+    num = num / 1000 ** exp
+    return " ".join([fmt.format(num), UNITS[exp]])
+
+
+def directory(value: str):
+    p = os.path.realpath(value)
+    if not os.path.isdir(p):
+        raise argparse.ArgumentTypeError("Must be a directory.")
+    return p
+
+
+def parse_args() -> Args:
+    parser = argparse.ArgumentParser(description="Find the total size of .pyc files.")
+    parser.add_argument("root", default=os.getcwd(), type=directory)
+    parser.add_argument("--verbose", "-v", action="count", default=0)
+    parser.add_argument("--delete", "-d", action="store_true")
+    return Args(**vars(parser.parse_args()))
+
+
+WIDTH = 15
+
+
+def sumpyc():
+    args = parse_args()
+    start, verbosity = args.root, args.verbose
+    n, total = 0, 0
+    print("{0:>{2}} | {1}".format("Root", start, WIDTH))
+    for root, _, files in os.walk(start):
+        for file in files:
+            if file.endswith(".pyc"):
+                n += 1
+                path = os.path.join(root, file)
+                size = os.path.getsize(path)
+                total += size
+                if verbosity:
+                    rel = os.path.relpath(path, start)
+                    print("{0:>{2}} | {1}".format(natsize(size), rel, WIDTH))
+
+    lines = [("Num Files", str(n)), ("Total Size", natsize(total))]
+    fmt = "{{0:>{0}}} | {{1:{1}}}"
+    widths = [WIDTH, WIDTH]
+    row_fmt = fmt.format(*widths)
+    if verbosity:
+        print("")
+    for line in lines:
+        print(row_fmt.format(*line))
+
+
+if __name__ == "__main__":
+    sumpyc()

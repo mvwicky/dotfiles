@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+bold=$(tput bold)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+reset=$(tput sgr0)
+
+pipargs=(list --outdated --exclude pip --exclude setuptools --exclude wheel)
+
+__dir_cts() {
+  local directory=${1:-}
+  shopt -s nullglob
+  local cts=("$directory/"*)
+  shopt -u nullglob
+  echo "${cts[@]}"
+}
+
+__outdated_one() {
+  local pkg=${1:-}
+  if [[ -z $pkg ]]; then
+    return 1
+  fi
+  printf "%s%s%s" "$bold$yellow" "$pkg" "$reset"
+  local output
+  output="$(pipx runpip "$pkg" "${pipargs[@]}")"
+  if [[ -n $output ]]; then
+    printf "\n%s\n" "$output"
+  else
+    echo " ${green}All up to date$reset"
+  fi
+}
+
+__outdated_full() {
+  local pipxhome=${PIPX_HOME:-$HOME/.local/pipx}
+  local venvsdir="$pipxhome/venvs"
+  declare -a venvnames
+  IFS=' ' read -ra venvnames <<< "$(__dir_cts "$venvsdir")"
+  local name
+  local output
+  for e in "${venvnames[@]}"; do
+    name="$(basename "$e")"
+    __outdated_one "$name"
+    echo ""
+  done
+}
+
+package=${1:-}
+if [[ -z $package ]]; then
+  __outdated_full
+else
+  __outdated_one "$package"
+fi

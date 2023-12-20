@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+pwd_base="$(basename "$PWD")"
+
+__get_global() {
+  local global_version
+  global_version=$(pyenv global)
+  printf '%s\n' "$global_version"
+}
+
+usage() {
+  echo "usage: $(basename "$0") [version] [prefix]" >&2
+  cat << EOF >&2
+
+  Create a virtual environment with <version> named <prefix>-<version>
+  If unspecified \`version\` with be the global python version ($(__get_global)).
+  If unspecified, \`prefix\` will take the name of the current working directory ($pwd_base).
+EOF
+}
+
+version=${1:-}
+if [[ $version = '--help' || $version = '-h' ]]; then
+  usage
+  exit 0
+fi
+
+if [[ -z $version ]]; then
+  version=$(__get_global)
+fi
+
+prefix=${2:-$pwd_base}
+if [[ -z $version || -z $prefix ]]; then
+  usage
+  exit 1
+fi
+
+echo "pyenv virtualenv $version ${prefix}-${version}"
+pyenv virtualenv "$version" "${prefix}-${version}"

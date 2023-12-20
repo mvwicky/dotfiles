@@ -17,7 +17,8 @@ function _pip_completion() {
 compctl -K _pip_completion pip
 
 export PATH="$HOME/bin/yarn/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="${CARGO_HOME:-$HOME/.cargo}/bin:$PATH"
+# export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.nimble/bin:$PATH"
 
 if [[ -f /usr/local/bin/nvim ]]; then
@@ -41,19 +42,8 @@ if __has sccache; then
   export RUSTC_WRAPPER=sccache
 fi
 
-if [[ -n $DROPBOX_ZSH ]]; then
-  if [[ -d "$DROPBOX_ZSH/bin" ]]; then
-    export PATH="$DROPBOX_ZSH/bin:$PATH"
+if [[ -n $ZSH_FOLDER ]]; then
+  if [[ -d "$ZSH_FOLDER/bin" ]]; then
+    export PATH="$ZSH_FOLDER/bin:$PATH"
   fi
 fi
-
-# export _ZO_EXCLUDE_DIRS="$HOME/.misc"
-
-# if __has bat; then
-#   export HOMEBREW_BAT=1
-#   bat_config_path="$HOME/.config/bat/config"
-#   if [[ -f $bat_config_path ]]; then
-#     export HOMEBREW_BAT_CONFIG_PATH="$bat_config_path"
-#   fi
-#   unset bat_config_path
-# fi

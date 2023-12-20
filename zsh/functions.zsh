@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ZSH_FOLDER="${HOME}/Dropbox/config/zsh"
+ZSH_FOLDER="${HOME}/Developer/GitHub/dotfiles/zsh"
 
 has() {
   type "$1" &> /dev/null
@@ -132,7 +132,7 @@ function pout() {
   yarn outdated
 }
 
-CUSTOM_COMP="${ZSH_FOLDER}/zshcomp"
+CUSTOM_COMP="${ZSH_FOLDER}/comp"
 
 add_completion() {
   local completions_dir=${2:-${CUSTOM_COMP}}
@@ -140,10 +140,12 @@ add_completion() {
     echo_stderr "Unable to find completions dir $completions_dir"
     return 1
   fi
-  if command -v "$1" 1> /dev/null 2>&1; then
+  if has "$1"; then
     if [[ ! -f "${completions_dir}/_$1" ]]; then
       $1 completions zsh > "${completions_dir}/_$1"
     fi
+  else
+    true
   fi
 }
 

@@ -71,7 +71,8 @@ export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
 
 # shellcheck disable=SC2034
 DROPBOX_ZSH="${HOME}/Dropbox/config/zsh"
-
+# shellcheck disable=SC2034
+ZSH_FOLDER="${HOME}/Developer/GitHub/dotfiles/zsh"
 # See: https://github.com/pyenv/pyenv/tree/master/plugins/python-build
 # export PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto'
 # export PYTHON_CFLAGS='--march-native -mtune=native'

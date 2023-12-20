@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import argparse
+import os
+import shlex
+import subprocess
+import sys
+import threading as th
+import time
+from contextlib import suppress
+from dataclasses import dataclass, field
+from math import fabs
+from typing import IO, Literal, NamedTuple, Optional, TextIO
+
+
+class Args(NamedTuple):
+    delay: float
+    cmd: str
+    continue_on_err: bool
+
+
+_plat_st = sys.platform.startswith
+
+MSYS2 = _plat_st("win") and ("GCC" in sys.version)
+APP_ENGINE = "APPENGINE_RUNTIME" in os.environ and "Development/" in os.environ.get(
+    "SERVER_SOFTWARE", ""
+)
+WIN = _plat_st("win") and not APP_ENGINE and not MSYS2
+
+
+@dataclass
+class InlineTimer(object):
+    prefix: str = field(default="", repr=False)
+    precision: int = 2
+    step: float = 0.001
+    start_time: float = field(default=0.0, repr=False)
+    stream: TextIO = field(default=sys.stdout, repr=False)
+    stop_event: th.Event = field(default_factory=th.Event, init=False, repr=False)
+    thread: Optional[th.Thread] = field(default=None, init=False, repr=False)
+
+    @staticmethod
+    def _get_time() -> float:
+        return time.perf_counter()
+
+    @property
+    def elapsed(self) -> float:
+        return self._get_time() - self.start_time
+
+    def start(self) -> None:
+        self.stop_event.clear()
+        self.thread = th.Thread(target=self.run, daemon=True)
+        self.thread.start()
+
+    def stop(self) -> None:
+        if self.thread is not None:
+            self.stop_event.set()
+            self.thread.join()
+            self.thread = None
+
+    def run(self) -> None:
+        if self.thread is None:
+            return
+        self.start_time = self._get_time()
+        while not self.stop_event.is_set():
+            self.write_time()
+
+    def write_time(self):
+        n = self.stream.write(self.prefix)
+        n += self.stream.write(f"{fabs(self.elapsed):.{self.precision}f}")
+        self.stream.flush()
+        time.sleep(self.step)
+        self.stream.write("\b" * n)
+
+    def __enter__(self) -> "InlineTimer":
+        self.start()
+        return self
+
+    def __exit__(self, *_) -> Literal[False]:
+        self.stop()
+        return False
+
+
+def sleep_with_timer(sleep_time: float, prefix: str = "") -> None:
+    timer = InlineTimer(prefix)
+    with timer:
+        while timer.elapsed < sleep_time:
+            pass
+    timer.stream.write("\n")
+
+
+def isatty(stream: IO) -> bool:
+    try:
+        return stream.isatty()
+    except Exception:
+        return False
+
+
+def clear() -> None:
+    if not isatty(sys.stdout):
+        return
+    if WIN:
+        os.system("cls")
+    else:
+        sys.stdout.write("\033[2J\033[1;1H")
+
+
+def get_args() -> Args:
+    parser = argparse.ArgumentParser("repeat-cmd")
+    parser.add_argument(
+        "-d", "--delay", type=float, default="5", help="Time between calls."
+    )
+    parser.add_argument(
+        "-c",
+        "--continue",
+        dest="continue_on_err",
+        action="store_true",
+        help="Don't exit if command fails.",
+    )
+
+    parser.add_argument("cmd")
+    return Args(**vars(parser.parse_args()))
+
+
+def main_loop(args: Args) -> int:
+    cmd = shlex.split(args.cmd)
+    with suppress(KeyboardInterrupt):
+        while True:
+            p = subprocess.run(cmd)
+            if not args.continue_on_err and p.returncode:
+                return p.returncode
+            sleep_with_timer(args.delay)
+
+    return 0
+
+
+def main() -> int:
+    args = get_args()
+    return main_loop(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
