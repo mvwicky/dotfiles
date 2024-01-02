@@ -1,0 +1,15 @@
+{
+  "html": {
+    "filters": "html, c",
+    "snippets": {
+      "forloop": "{% for $1 in $2 %}\n\t$3\n{% endfor %}"
+    }
+  },
+  "djt": {
+    "extends": "html",
+    "profile": "html",
+    "snippets": {
+      "forloop": "{% for $1 in $2 %} $3 {% endfor %}"
+    }
+  }
+}
