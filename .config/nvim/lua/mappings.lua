@@ -26,17 +26,15 @@ nmap("k", "gk")
 nmap("gV", "`[v`]")
 
 -- Edit ZSHRC
-nmap("<leader>ez", ":tabe ~/.zshrc<CR>")
+-- nmap("<leader>ez", ":tabe ~/.zshrc<CR>")
 -- Unhighlight everything
-nmap("<leader>no", ":noh<CR>")
-nmap("<leader><space>", ":noh<CR>")
+vim.keymap.set("n", "<leader>no", "<cmd>:noh<cr>")
+vim.keymap.set("n", "<leader><space>", "<cmd>:noh<cr>")
 -- nmap("<leader>f", ":NERDTreeToggle<CR>")
 -- nmap("<leader>u", ":GundoToggle<CR>")
 -- nmap("<leader>d", ":IndentBlanklineToggle<CR>")
 
-nmap("<leader>ff", "<cmd>Telescope find_files<cr>")
-nmap("<leader>tt", ":TroubleToggle<CR>")
-
--- imap("<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]], { expr = true })
--- imap("<C-space>", "coc#refresh()", { expr = true })
--- nmap("<leader>rn", "<Plug>(coc-rename)")
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("n", "<leader>tt", "<cmd>:TroubleToggle<cr>")

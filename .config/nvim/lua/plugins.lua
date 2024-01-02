@@ -91,9 +91,7 @@ require("lazy").setup({
     config = function()
       require("lualine").setup({
         options = { theme = "tokyonight" },
-        sections = {
-          lualine_x = { "encoding", "fileformat", "filetype" },
-        },
+        sections = { lualine_x = { "encoding", "fileformat", "filetype" } },
       })
     end,
   },
@@ -115,10 +113,6 @@ require("lazy").setup({
       })
     end,
     build = ":TSUpdate",
-    -- build = function()
-    --   local ts_update = require("nvin-treesitter.install").update({ with_sync = true })
-    --   ts_update()
-    -- end,
   },
   {
     "VonHeikemen/lsp-zero.nvim",
