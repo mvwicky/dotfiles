@@ -1,8 +1,8 @@
-# Starship Shell Configuration
+# Starship Configuration
 # https://starship.rs/config/
 
 add_newline = false
-command_timeout = 650
+command_timeout = 850
 
 [aws]
 disabled = true
@@ -14,38 +14,28 @@ error_symbol = "[✘](bold red)"
 disabled = true
 
 [directory]
-truncation_length = 4
+truncation_length = 3
 fish_style_pwd_dir_length = 1
 
 [git_branch]
-truncation_length = 6
+truncation_length = 7
 
 [git_status]
+disabled = false
 modified = "[!$count](underline bright-purple)"
 staged = "[+$count](underline bright-green)"
 untracked = "[?$count](underline blue)"
 renamed = "[»$count](bold cyan)"
 deleted = "[✘$count](bold underline fg:197)"
 
-[hostname]
-disabled = false
-ssh_only = true
-
 [java]
 disabled = true
-
-[line_break]
-disabled = false
 
 [memory_usage]
 disabled = true
 threshold = 50
 
-[nodejs]
-disabled = false
-
 [package]
-disabled = false
 display_private = true
 
 [python]
@@ -58,8 +48,5 @@ disabled = true
 [time]
 disabled = false
 style = "bold yellow"
-format = "[\\[$time\\]](bold yellow) "
-time_format = "%j"  # Day of the year
-
-[username]
-show_always = false
+format = "[\\[$time\\]]($style) "
+time_format = "%j" # Day of the year
