@@ -38,7 +38,6 @@ fi
 
 if __has sccache; then
   export SCCACHE_CACHE_SIZE="2G"
-  # export SCCACHE_REDIS='redis://127.0.0.1:6379/10'
   export RUSTC_WRAPPER=sccache
 fi
 

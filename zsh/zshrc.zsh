@@ -34,24 +34,23 @@ if __has brew; then
   done
 fi
 
-ASDF_DIR="$HOME/.local/asdf"
-if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
-  export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/.asdfrc"
-  export ASDF_DATA_DIR=$ASDF_DIR
-  . "$ASDF_DIR/asdf.sh"
+# ASDF_DIR="$HOME/.local/asdf"
+# if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
+#   export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/.asdfrc"
+#   export ASDF_DATA_DIR=$ASDF_DIR
+#   . "$ASDF_DIR/asdf.sh"
 
-  fpath+="$ASDF_DIR/completions"
-fi
+#   fpath+="$ASDF_DIR/completions"
+# fi
 
 export ADOTDIR="$XDG_DATA_HOME/antigen"
-
 source "$brew_prefix/opt/antigen/share/antigen/antigen.zsh"
 antigen init "$HOME/.antigenrc"
 
 # Init pyenv
 if __has pyenv; then
   eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
+  # eval "$(pyenv virtualenv-init -)"
 fi
 
 export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
@@ -80,12 +79,12 @@ if [[ -f "${HOME}/startup.py" ]]; then
   export PYTHONSTARTUP="${HOME}/startup.py"
 fi
 
-if __has luarocks; then
-  eval "$(luarocks path --no-bin)"
-fi
+# if __has luarocks; then
+#   eval "$(luarocks path --no-bin)"
+# fi
 
 # shellcheck disable=SC2155
-export GPG_TTY="$(tty)"
+# export GPG_TTY="$(tty)"
 
 # Wasmer
 export WASMER_DIR="/Users/michael/.wasmer"

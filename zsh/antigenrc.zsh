@@ -8,10 +8,9 @@ antigen bundle httpie
 antigen bundle npm
 antigen bundle yarn
 antigen bundle ripgrep
-antigen bundle docker
-antigen bundle docker-compose
+# antigen bundle docker
+# antigen bundle docker-compose
 
-# antigen bundle lukechilds/zsh-nvm
 antigen bundle zsh-users/zsh-completions
 # antigen bundle zsh-users/zsh-autosuggestions
 # antigen bundle djui/alias-tips
