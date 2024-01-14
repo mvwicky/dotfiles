@@ -28,10 +28,10 @@ require("lazy").setup({
   { "ekalinin/dockerfile.vim", ft = { "dockerfile" } },
   "glench/vim-jinja2-syntax",
   { "cespare/vim-toml", ft = { "toml" } },
-  "vim-scripts/django.vim",
+  { "vim-scripts/django.vim", event = { "BufEnter *.djt", "BufEnter *.html" } },
   "pangloss/vim-javascript",
   "kevinoid/vim-jsonc",
-  "vim-python/python-syntax",
+  { "vim-python/python-syntax", ft = { "python" } },
   "fladson/vim-kitty",
   "NoahTheDuke/vim-just",
   {
@@ -127,6 +127,8 @@ require("lazy").setup({
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "hrsh7th/cmp-buffer" },
       { "L3MON4D3/LuaSnip" }, -- Required
+      { "saadparwaiz1/cmp_luasnip" },
+      { "rafamadriz/friendly-snippets" },
     },
   },
   {
@@ -135,5 +137,5 @@ require("lazy").setup({
       require("gitsigns").setup()
     end,
   },
-  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 })

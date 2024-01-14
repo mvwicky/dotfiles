@@ -172,4 +172,3 @@ vim.g.javascript_plugin_jsdoc = 1
 vim.g.gruvbox_baby_background_color = "hard"
 vim.g.gruvbox_baby_telescope_theme = 1
 vim.opt.background = "dark"
--- vim.cmd([[colorscheme gruvbox-baby]])

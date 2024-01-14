@@ -34,7 +34,11 @@ vim.keymap.set("n", "<leader><space>", "<cmd>:noh<cr>")
 -- nmap("<leader>u", ":GundoToggle<CR>")
 -- nmap("<leader>d", ":IndentBlanklineToggle<CR>")
 
+-- Telescope Mappings
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+-- Trouble
 vim.keymap.set("n", "<leader>tt", "<cmd>:TroubleToggle<cr>")
