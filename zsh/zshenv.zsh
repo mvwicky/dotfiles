@@ -27,7 +27,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export BUNDLEFILE="$HOME/Dropbox/config/Brewfile"
 export HOMEBREW_BUNDLE_FILE=$BUNDLEFILE
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=60
-# export HOMEBREW_BOOTSNAP=1
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ENV_HINTS=1
 export EGET_CONFIG="$XDG_CONFIG_HOME/eget.toml"
@@ -54,20 +53,24 @@ export BAT_PAGER='less -RXF -Ps?P%Pb:.\:'
 # export LESS='-R -Ps?P%Pb:.\:'
 # export BAT_PAGER='less -FXRm'
 
-export PYLINTHOME="${XDG_CACHE_HOME}"/pylint
+export PYLINTHOME="$XDG_CACHE_HOME"/pylint
 export ANDROID_HOME="$XDG_DATA_HOME"/android
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export RYE_HOME="$XDG_DATA_HOME"/rye
+
 export PLATFORMIO_CORE_DIR="$XDG_DATA_HOME"/platformio
 export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME"/bundle
 export BUNDLE_USER_CACHE="$XDG_CACHE_HOME"/bundle
 export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
-export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
-export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 
 export REDISCLI_HISTFILE="${XDG_CACHE_HOME}/rediscli_history"
 export HISTFILE="${XDG_STATE_HOME}/zsh/history"
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
+
+export PATH="$RYE_HOME/shims:$PATH"
 
 # shellcheck disable=SC2034
 DROPBOX_ZSH="${HOME}/Dropbox/config/zsh"
