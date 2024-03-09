@@ -13,6 +13,24 @@ if not loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local prettier_ft_names = {
+  "css",
+  "html",
+  "htmldjango",
+  "javascript",
+  "javascriptreact",
+  "json",
+  "jsonc",
+  "markdown",
+  "scss",
+  "typescript",
+  "yaml",
+}
+local prettier_fts = {}
+for i, v in ipairs(prettier_ft_names) do
+  prettier_fts[v] = { { "prettierd", "prettier" } }
+end
+
 require("lazy").setup({
   {
     "folke/tokyonight.nvim",
@@ -54,22 +72,13 @@ require("lazy").setup({
       },
     },
     opts = {
-      formatters_by_ft = {
-        css = { { "prettierd", "prettier" } },
-        html = { { "prettierd", "prettier" } },
-        htmldjango = { { "prettierd", "prettier" } },
-        javascript = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        json = { { "prettierd", "prettier" } },
-        jsonc = { { "prettierd", "prettier" } },
+      formatters_by_ft = vim.tbl_extend("force", prettier_fts, {
         lua = { "stylua" },
-        markdown = { { "prettierd", "prettier" } },
-        scss = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
-        yaml = { { "prettierd", "prettier" } },
-      },
-      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+        python = { "ruff_fix", "ruff_format" },
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+      }),
+      format_on_save = { timeout_ms = 1000, lsp_fallback = true },
       formatters = {
         shfmt = {
           prepend_args = { "-i", "2" },

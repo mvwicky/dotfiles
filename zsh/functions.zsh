@@ -145,7 +145,7 @@ add_completion() {
       $1 completions zsh > "${completions_dir}/_$1"
     fi
   else
-    true
+    echo_stderr "Unknown command $1"
   fi
 }
 
