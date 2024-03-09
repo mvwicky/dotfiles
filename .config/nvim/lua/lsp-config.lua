@@ -4,7 +4,7 @@ lsp.on_attach(function(client, bufnr)
 end)
 require("mason").setup({})
 require("mason-lspconfig").setup({
-  ensure_installed = { "tsserver", "pyright", "jsonls" },
+  ensure_installed = { "eslint", "jsonls", "pyright", "tsserver" },
   handlers = {
     lsp.default_setup,
     lua_ls = function()
