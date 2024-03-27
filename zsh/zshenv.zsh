@@ -16,6 +16,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export NVIM_LOG_FILE="$HOME/.local/share/nvim/nvim.log"
 
 export GOPATH="$XDG_DATA_HOME"/go
+export DENO_INSTALL_ROOT="$XDG_DATA_HOME"/deno
 
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/bin:$PATH"
@@ -23,6 +24,7 @@ export PATH="$HOME/.pub-cache/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$DENO_INSTALL_ROOT/bin:$PATH"
 
 export BUNDLEFILE="$HOME/Dropbox/config/Brewfile"
 export HOMEBREW_BUNDLE_FILE=$BUNDLEFILE
