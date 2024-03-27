@@ -1,0 +1,18 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+      - id: check-executables-have-shebangs
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v0.20.0
+    hooks:
+      - id: stylua-github
+  # - repo: https://github.com/syntaqx/git-hooks
+  #   rev: v0.0.18
+  #   hooks:
+  #     - id: shfmt
