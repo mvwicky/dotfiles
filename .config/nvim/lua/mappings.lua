@@ -25,6 +25,11 @@ nmap("k", "gk")
 -- Highlight last inserted text
 nmap("gV", "`[v`]")
 
+-- First Tab
+vim.keymap.set("n", "tf", "<cmd>:tabfirst<cr>", { desc = "Go to first tab" })
+-- Last Tab
+vim.keymap.set("n", "tl", "<cmd>:tablast<cr>", { desc = "Go to last tab" })
+
 -- Edit ZSHRC
 -- nmap("<leader>ez", ":tabe ~/.zshrc<CR>")
 -- Unhighlight everything
