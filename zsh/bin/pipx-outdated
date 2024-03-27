@@ -11,6 +11,10 @@ reset=$(tput sgr0)
 
 pipargs=(list --outdated --exclude pip --exclude setuptools --exclude wheel)
 
+eecho() {
+  echo "$@" >&2
+}
+
 __dir_cts() {
   local directory=${1:-}
   shopt -s nullglob
@@ -24,13 +28,13 @@ __outdated_one() {
   if [[ -z $pkg ]]; then
     return 1
   fi
-  printf "%s%s%s" "$bold$yellow" "$pkg" "$reset"
+  printf "%s%s%s" "$bold$yellow" "$pkg" "$reset" >&2
   local output
   output="$(pipx runpip "$pkg" "${pipargs[@]}")"
   if [[ -n $output ]]; then
-    printf "\n%s\n" "$output"
+    printf "\n%s\n" "$output" >&2
   else
-    echo " ${green}All up to date$reset"
+    echo " ${green}All up to date$reset" >&2
   fi
 }
 
@@ -44,7 +48,7 @@ __outdated_full() {
   for e in "${venvnames[@]}"; do
     name="$(basename "$e")"
     __outdated_one "$name"
-    echo ""
+    eecho ""
   done
 }
 

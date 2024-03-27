@@ -14,7 +14,7 @@ __basename() {
 
 config_path=${1:-}
 if [[ -z $config_path ]]; then
-  echo "usage: $(__basename "$0" "") <config>"
+  echo "usage: $(__basename "$0" "") <config>" >&2
   exit 1
 fi
 
@@ -22,14 +22,14 @@ if [[ ! -f $config_path ]]; then
   if [[ -f "$HOME/Library/LaunchAgents/$config_path" ]]; then
     config_path="$HOME/Library/LaunchAgents/$config_path"
   else
-    echo "Unable to find configuration $config_path"
+    echo "Unable to find configuration $config_path" >&2
     exit 1
   fi
 fi
 
-echo "Config: $config_path"
-echo "Unloading."
+echo "Config: $config_path" >&2
+echo "Unloading." >&2
 launchctl unload "$config_path"
 
-echo "Loading."
+echo "Loading." >&2
 launchctl load "$config_path"

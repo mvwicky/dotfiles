@@ -6,9 +6,9 @@ IFS=$'\n\t'
 
 declare outdated
 if outdated=$(brew outdated); then
-  echo "$outdated"
-  echo "brew upgrade"
+  echo "$outdated" >&2
+  echo "brew upgrade" >&2
   brew upgrade
 else
-  echo "Nothing to upgrade"
+  echo "Nothing to upgrade" >&2
 fi

@@ -30,19 +30,19 @@ __basename() {
 
 file=${1:-}
 if [[ -z $file ]]; then
-  echo "usage: $(basename "$0") <file> [output-file]"
+  echo "usage: $(basename "$0") <file> [output-file]" >&2
   exit 1
 fi
 
 if [[ ! -f $file ]]; then
-  echo "File not found."
+  echo "File not found." >&2
   exit 1
 fi
 
 output_file=${2:-}
 if [[ -z $output_file ]]; then
   output_file="$(__dirname "$file")/$(__basename "$file" ".pdf")-opt.pdf"
-  echo "$output_file"
+  echo "$output_file" >&2
 fi
 
 pdfsettings="/ebook"

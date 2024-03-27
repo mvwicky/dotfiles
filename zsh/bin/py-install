@@ -4,6 +4,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+eecho() {
+  echo "$@" >&2
+}
+
 brewssl=$(brew --prefix openssl)
 brewrl=$(brew --prefix readline)
 xcinc=$(xcrun --show-sdk-path)/usr/include
@@ -11,9 +15,9 @@ xcinc=$(xcrun --show-sdk-path)/usr/include
 cppflags="-I$brewrl/include ${CPPFLAGS:-}"
 cflags="-I${brewssl}/include -I${brewrl}/include -I$xcinc -O2 ${CFLAGS:-}"
 ldflags="-L${brewssl}/lib -L${brewrl}/lib ${LDFLAGS:-}"
-echo "CPPFLAGS=$cppflags"
-echo "CFLAGS=$cflags"
-echo "LDFLAGS=$ldflags"
+eecho "CPPFLAGS=$cppflags"
+eecho "CFLAGS=$cflags"
+eecho "LDFLAGS=$ldflags"
 
 makename="make"
 if type gmake &> /dev/null; then

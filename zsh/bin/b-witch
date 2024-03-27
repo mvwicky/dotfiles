@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 cmd=${1:-}
 if [[ -z $cmd ]]; then
-  echo "usage: $(basename "$0") <cmd>"
+  echo "usage: $(basename "$0") <cmd>" >&2
   exit 1
 fi
 

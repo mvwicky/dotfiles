@@ -9,7 +9,7 @@ debug=${PIPXR_DEBUG:-}
 pdebug() {
   local msg=${1:-}
   if [[ -n $debug && -n $msg ]]; then
-    printf "%s\n" "$msg"
+    printf "%s\n" "$msg" >&2
   fi
 }
 

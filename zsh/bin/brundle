@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 bundlefile="${1:-$BUNDLEFILE}"
 if [[ ! -f $bundlefile ]]; then
-  echo "usage: $(basename "$0") <Brewfile>"
+  echo "usage: $(basename "$0") <Brewfile>" >&2
   return 1
 fi
 brew bundle --file="$bundlefile"
