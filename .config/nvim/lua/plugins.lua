@@ -50,7 +50,7 @@ require("lazy").setup({
   { "pangloss/vim-javascript", ft = { "javascript", "javascriptreact" } },
   { "vim-python/python-syntax", ft = { "python" } },
   "fladson/vim-kitty",
-  { "NoahTheDuke/vim-just", event = { "BufEnter justfile", "BufEnter .justfile" } },
+  { "NoahTheDuke/vim-just" },
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
@@ -100,9 +100,7 @@ require("lazy").setup({
     },
     config = function()
       require("neo-tree").setup({
-        filesystem = {
-          hijack_netrw_behavior = "open_default",
-        },
+        filesystem = { hijack_netrw_behavior = "open_default" },
       })
     end,
   },
