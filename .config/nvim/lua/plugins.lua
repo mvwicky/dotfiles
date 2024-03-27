@@ -126,8 +126,10 @@ require("lazy").setup({
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
+          "bash",
           "javascript",
           "typescript",
+          "html",
           "markdown",
           "markdown_inline",
           "lua",
