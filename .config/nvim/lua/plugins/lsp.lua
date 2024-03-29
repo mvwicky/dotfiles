@@ -8,19 +8,6 @@ return {
       vim.g.lsp_zero_extend_cmd = 0
       vim.g.lsp_zero_extend_lspconfig = 0
     end,
-    dependencies = {
-      -- LSP Support
-      { "neovim/nvim-lspconfig" }, -- Required
-      { "williamboman/mason.nvim" }, -- Optional
-      { "williamboman/mason-lspconfig.nvim" }, -- Optional
-      -- Autocompletion
-      { "hrsh7th/nvim-cmp" }, -- Required
-      { "hrsh7th/cmp-nvim-lsp" }, -- Required
-      { "hrsh7th/cmp-buffer" },
-      { "L3MON4D3/LuaSnip" }, -- Required
-      { "saadparwaiz1/cmp_luasnip" },
-      { "rafamadriz/friendly-snippets" },
-    },
   },
   {
     "williamboman/mason.nvim",
