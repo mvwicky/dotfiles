@@ -1,6 +1,5 @@
 vim.g.mapleader = ","
 
-require("plugins")
-require("settings")
-require("lsp-config")
-require("mappings")
+require("config.lazy")
+require("config.options")
+require("config.mappings")
