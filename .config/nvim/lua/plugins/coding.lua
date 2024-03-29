@@ -46,7 +46,7 @@ return {
       },
     },
   },
-  { "raimondi/delimitmate", event = "VeryLazy" },
-  { "tpope/vim-commentary", event = "VeryLazy" },
-  { "tpope/vim-surround", event = "VeryLazy" },
+  { "raimondi/delimitmate", event = { "BufReadPre", "BufNewFile" } },
+  { "tpope/vim-commentary", event = { "BufReadPre", "BufNewFile" } },
+  { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
 }
