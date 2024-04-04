@@ -37,6 +37,7 @@ return {
         python = { "ruff_fix", "ruff_format" },
         sh = { "shfmt" },
         bash = { "shfmt" },
+        rust = { "rustfmt" },
       }),
       format_on_save = { timeout_ms = 1000, lsp_fallback = true },
       formatters = {

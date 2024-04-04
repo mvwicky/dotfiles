@@ -63,7 +63,14 @@ return {
         lsp_z.default_keymaps({ buffer = bufnr })
       end)
       require("mason-lspconfig").setup({
-        ensure_installed = { "eslint", "html", "jsonls", "pyright", "tsserver" },
+        ensure_installed = {
+          "eslint",
+          "html",
+          "jsonls",
+          "pyright",
+          "rust_analyzer",
+          "tsserver",
+        },
         handlers = {
           lsp_z.default_setup,
           lua_ls = function()
