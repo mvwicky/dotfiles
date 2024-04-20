@@ -50,4 +50,5 @@ return {
   { "raimondi/delimitmate", event = { "BufReadPre", "BufNewFile" } },
   { "tpope/vim-commentary", event = { "BufReadPre", "BufNewFile" } },
   { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
+  { "folke/persistence.nvim", opts = {}, event = "BufReadPre" },
 }

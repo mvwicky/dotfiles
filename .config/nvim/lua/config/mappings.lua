@@ -30,8 +30,26 @@ vim.keymap.set("n", "tf", "<cmd>:tabfirst<cr>", { desc = "Go to first tab" })
 -- Last Tab
 vim.keymap.set("n", "tl", "<cmd>:tablast<cr>", { desc = "Go to last tab" })
 
--- Edit ZSHRC
--- nmap("<leader>ez", ":tabe ~/.zshrc<CR>")
 -- Unhighlight everything
 vim.keymap.set("n", "<leader>no", "<cmd>:noh<cr>")
 vim.keymap.set("n", "<leader><space>", "<cmd>:noh<cr>")
+
+-- persistence
+vim.keymap.set(
+  "n",
+  "<leader>qs",
+  [[<cmd>lua require("persistence").load()<cr>]],
+  { desc = "Restore session for the current directory" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>ql",
+  [[<cmd>lua require("persistence").load({ last = true })<cr>]],
+  { desc = "Restore the last session" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>qd",
+  [[<cmd>lua require("persistence").stop()<cr>]],
+  { desc = "Stop persistence." }
+)
