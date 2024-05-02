@@ -2,18 +2,21 @@ local prettier_ft_names = {
   "css",
   "html",
   "htmldjango",
-  "javascript",
-  "javascriptreact",
   "json",
   "jsonc",
   "markdown",
   "scss",
-  "typescript",
   "yaml",
 }
+local prettier_eslint_fts =
+  { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+local prettiers = { "prettierd", "prettier" }
 local prettier_fts = {}
 for i, v in ipairs(prettier_ft_names) do
-  prettier_fts[v] = { { "prettierd", "prettier" } }
+  prettier_fts[v] = { prettiers }
+end
+for i, v in ipairs(prettier_eslint_fts) do
+  prettier_fts[v] = { "eslint_d", prettiers }
 end
 
 return {
