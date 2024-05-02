@@ -21,4 +21,8 @@ return {
     end,
     build = ":TSUpdate",
   },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    event = { "BufReadPre", "BufNewFile" },
+  },
 }
