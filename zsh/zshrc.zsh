@@ -66,11 +66,11 @@ if [[ -n $ZSH_FOLDER ]]; then
   export ZSH_FOLDER
 fi
 
-if [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ]]; then
+if __has fzf; then
   if __has fd; then
     export FZF_CTRL_T_COMMAND="fd --hidden --follow --exclude '.git'"
   fi
-  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+  eval "$(fzf --zsh)"
 fi
 
 eval "$(direnv hook zsh)"
@@ -95,6 +95,8 @@ export NODE_VERSIONS="$NVM_DIR/versions/node"
 export NODE_REPL_HISTORY="$XDG_CACHE_HOME/.node_repl_history"
 export NODE_REPL_HISTORY_SIZE=2000
 export TS_NODE_HISTORY="$XDG_CACHE_HOME/.ts_node_repl_history"
+
+export FNM_COREPACK_ENABLED="true"
 
 eval "$(fnm env --use-on-cd)"
 
