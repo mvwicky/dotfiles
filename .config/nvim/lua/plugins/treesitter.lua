@@ -24,5 +24,8 @@ return {
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     event = { "BufReadPre", "BufNewFile" },
+    enabled = function()
+      return not vim.version.ge({ 0, 10, 0 }, vim.version())
+    end,
   },
 }

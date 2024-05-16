@@ -51,7 +51,13 @@ return {
     },
   },
   { "raimondi/delimitmate", event = { "BufReadPre", "BufNewFile" } },
-  { "tpope/vim-commentary", event = { "BufReadPre", "BufNewFile" } },
+  {
+    "tpope/vim-commentary",
+    event = { "BufReadPre", "BufNewFile" },
+    enabled = function()
+      return not vim.version.ge({ 0, 10, 0 }, vim.version())
+    end,
+  },
   { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
   { "folke/persistence.nvim", opts = {}, event = "BufReadPre" },
 }
