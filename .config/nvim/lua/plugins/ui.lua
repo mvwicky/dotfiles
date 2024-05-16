@@ -52,7 +52,10 @@ return {
     },
     config = function()
       require("neo-tree").setup({
-        filesystem = { hijack_netrw_behavior = "open_default" },
+        filesystem = {
+          hijack_netrw_behavior = "open_default",
+          filtered_items = { always_show = { ".gitignore" } },
+        },
       })
     end,
     lazy = false,
