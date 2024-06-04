@@ -19,9 +19,14 @@ return {
     event = "InsertEnter",
     dependencies = {
       { "hrsh7th/cmp-buffer" },
-      { "L3MON4D3/LuaSnip" }, -- Required
+      {
+        {
+          "L3MON4D3/LuaSnip",
+          build = vim.fn.has("win32") ~= 0 and "make install_jsregexp" or nil,
+          dependencies = { "rafamadriz/friendly-snippets" },
+        },
+      },
       { "saadparwaiz1/cmp_luasnip" },
-      { "rafamadriz/friendly-snippets" },
     },
     config = function()
       local lsp_z = require("lsp-zero")

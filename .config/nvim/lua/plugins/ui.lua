@@ -31,7 +31,7 @@ return {
         function()
           require("telescope.builtin").buffers()
         end,
-        desc = "Telescope bufffers",
+        desc = "Telescope buffers",
       },
       {
         "<leader>fh",
