@@ -87,10 +87,10 @@ return {
   },
   {
     "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
+    opts = {},
+    cnd = "Trouble",
     keys = {
-      { "<leader>tt", "<cmd>:TroubleToggle<cr>" },
+      { "<leader>tt", "<cmd>:Trouble diagnostics toggle<cr>" },
     },
   },
 }
