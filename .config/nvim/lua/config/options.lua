@@ -118,15 +118,16 @@ end, {
   "html",
 })
 
+local two_tab_fts =
+  "typescript,javascript,typescriptreact,javascriptreact,json,jsonc,yaml,markdown"
 Utils.create_augroups({
   filetypes = {
     "FileType text setlocal textwidth=78",
-    "FileType Makefile setlocal noexpandtab",
+    "FileType Makefile,gitconfig setlocal noexpandtab",
     "FileType python setlocal colorcolumn=88",
-    "FileType gitconfig setlocal noexpandtab",
-    "FileType typescript,javascript,json,jsonc,yaml,markdown setlocal colorcolumn=80",
-    "FileType typescript,javascript,json,jsonc,yaml,markdown setlocal shiftwidth=2",
-    "FileType typescript,javascript,json,jsonc,yaml,markdown setlocal softtabstop=2",
+    "FileType " .. two_tab_fts .. " setlocal colorcolumn=80",
+    "FileType " .. two_tab_fts .. " setlocal shiftwidth=2",
+    "FileType " .. two_tab_fts .. " setlocal softtabstop=2",
     "FileType zsh,sh,bash setlocal softtabstop=2",
     "FileType zsh,sh,bash setlocal shiftwidth=2",
     [[FileType json syntax match Comment +\/\/.\+$+]],
