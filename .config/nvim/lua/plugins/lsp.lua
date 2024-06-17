@@ -75,6 +75,7 @@ return {
           "pyright",
           "rust_analyzer",
           "tsserver",
+          "ruff",
         },
         handlers = {
           lsp_z.default_setup,
