@@ -54,6 +54,7 @@ return {
   {
     "tpope/vim-commentary",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     enabled = function()
       return not vim.version.ge({ 0, 10, 0 }, vim.version())
     end,

@@ -6,12 +6,18 @@ return {
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
           "bash",
-          "javascript",
-          "typescript",
+          "css",
           "html",
+          "javascript",
+          "json",
+          "jsonc",
+          "lua",
           "markdown",
           "markdown_inline",
-          "lua",
+          "python",
+          "scss",
+          "tsx",
+          "typescript",
           "vimdoc",
         },
         highlight = { enable = true },
@@ -20,12 +26,5 @@ return {
       })
     end,
     build = ":TSUpdate",
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    event = { "BufReadPre", "BufNewFile" },
-    enabled = function()
-      return not vim.version.ge({ 0, 10, 0 }, vim.version())
-    end,
   },
 }
