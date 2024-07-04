@@ -53,3 +53,11 @@ vim.keymap.set(
   [[<cmd>lua require("persistence").stop()<cr>]],
   { desc = "Stop persistence." }
 )
+
+-- Neogen
+vim.keymap.set(
+  "n",
+  "<leader>nf",
+  [[<cmd>lua require("neogen").generate()<cr>]],
+  { desc = "Generate annotations", noremap = true, silent = true }
+)
