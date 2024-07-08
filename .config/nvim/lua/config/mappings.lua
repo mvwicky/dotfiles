@@ -35,24 +35,18 @@ vim.keymap.set("n", "<leader>no", "<cmd>:noh<cr>")
 vim.keymap.set("n", "<leader><space>", "<cmd>:noh<cr>")
 
 -- persistence
-vim.keymap.set(
-  "n",
-  "<leader>qs",
-  [[<cmd>lua require("persistence").load()<cr>]],
-  { desc = "Restore session for the current directory" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>ql",
-  [[<cmd>lua require("persistence").load({ last = true })<cr>]],
-  { desc = "Restore the last session" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>qd",
-  [[<cmd>lua require("persistence").stop()<cr>]],
-  { desc = "Stop persistence." }
-)
+vim.keymap.set("n", "<leader>qs", function()
+  require("persistence").load()
+end, { desc = "Restore session for the current directory" })
+vim.keymap.set("n", "<leader>qS", function()
+  require("persistence").select()
+end, { desc = "Select a session to load" })
+vim.keymap.set("n", "<leader>ql", function()
+  require("persistence").load({ last = true })
+end, { desc = "Restore the last session" })
+vim.keymap.set("n", "<leader>qd", function()
+  require("persistence").stop()
+end, { desc = "Stop persistence." })
 
 -- Neogen
 vim.keymap.set(

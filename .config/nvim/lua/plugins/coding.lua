@@ -60,6 +60,6 @@ return {
     end,
   },
   { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
-  { "folke/persistence.nvim", opts = {}, event = "BufReadPre" },
+  { "folke/persistence.nvim", opts = { need = 2 }, event = "BufReadPre" },
   { "danymat/neogen", config = true, event = { "BufReadPre", "BufNewFile" } },
 }
