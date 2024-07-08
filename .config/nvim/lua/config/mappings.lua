@@ -3,20 +3,20 @@ local Utils = require("utils")
 local nmap = Utils.nmap
 local imap = Utils.imap
 
+local default_options = { noremap = true, silent = true }
+
 Utils.generic_map("", "Q", "gq") -- Don't use Ex mode, use Q for formatting
 
 --[[ CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 so that you can undo CTRL-U after inserting a line break. --]]
 imap("<C-U>", "<C-G>u<C-U>")
 
--- Go to beginning of the line
-nmap("B", "^")
--- Go to the end of the line
-nmap("E", "$")
+vim.keymap.set("n", "B", "^", Utils.map_options({ desc = "Go to beginning of line." }))
+vim.keymap.set("n", "E", "$", Utils.map_options({ desc = "Go to end of line." }))
 
 -- Disable default beginning/end keys
-nmap("^", "<nop>")
-nmap("$", "<nop>")
+vim.keymap.set("n", "^", "<nop>", Utils.default_map_options)
+vim.keymap.set("n", "$", "<nop>", Utils.default_map_options)
 
 -- Move down by visual line
 nmap("j", "gj")
@@ -49,9 +49,6 @@ vim.keymap.set("n", "<leader>qd", function()
 end, { desc = "Stop persistence." })
 
 -- Neogen
-vim.keymap.set(
-  "n",
-  "<leader>nf",
-  [[<cmd>lua require("neogen").generate()<cr>]],
-  { desc = "Generate annotations", noremap = true, silent = true }
-)
+vim.keymap.set("n", "<leader>nf", function()
+  require("neogen").generate()
+end, { desc = "Generate annotations", noremap = true, silent = true })

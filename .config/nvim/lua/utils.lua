@@ -1,6 +1,16 @@
 local api = vim.api
 
+---@class MapOptions
+---@field noremap? boolean
+---@field silent? boolean
+---@field expr? boolean
+---@field buffer? boolean|number
+---@field remap? boolean
+---@field desc? string
+
 local M = {}
+
+M.default_map_options = { noremap = true, silent = true }
 
 function M.create_augroups(definitions)
   for group_name, definition in pairs(definitions) do
@@ -14,17 +24,17 @@ function M.create_augroups(definitions)
   end
 end
 
-function M.generic_map(mode, shortcut, command, options)
+---@param options? MapOptions
+---@return MapOptions
+function M.map_options(options)
   if options == nil then
     options = {}
   end
-  if options.noremap == nil then
-    options.noremap = true
-  end
-  if options.silent == nil then
-    options.silent = true
-  end
-  api.nvim_set_keymap(mode, shortcut, command, options)
+  return vim.tbl_extend("force", M.default_map_options, options)
+end
+
+function M.generic_map(mode, shortcut, command, options)
+  api.nvim_set_keymap(mode, shortcut, command, M.map_options(options))
 end
 
 function M.nmap(shortcut, command, options)
