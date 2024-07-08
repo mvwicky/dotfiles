@@ -8,7 +8,7 @@ vim.opt.hidden = true
 vim.opt.updatetime = 300
 vim.opt.backspace = "indent,eol,start"
 vim.opt.autoread = true -- Reload if current file is changed
-vim.opt.modelines = 2 -- First to lines can be modelines
+vim.opt.modelines = 2 -- First two lines can be modelines
 vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.opt.whichwrap = { ["<"] = true, [">"] = true, ["[]"] = true }
 
