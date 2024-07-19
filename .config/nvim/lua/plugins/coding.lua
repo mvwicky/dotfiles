@@ -10,13 +10,12 @@ local prettier_ft_names = {
 }
 local prettier_eslint_fts =
   { "javascript", "javascriptreact", "typescript", "typescriptreact" }
-local prettiers = { "prettierd", "prettier" }
 local prettier_fts = {}
 for i, v in ipairs(prettier_ft_names) do
-  prettier_fts[v] = { prettiers }
+  prettier_fts[v] = { "prettierd" }
 end
 for i, v in ipairs(prettier_eslint_fts) do
-  prettier_fts[v] = { "eslint_d", prettiers }
+  prettier_fts[v] = { "eslint_d", "prettierd" }
 end
 
 return {
@@ -42,6 +41,7 @@ return {
         bash = { "shfmt" },
         rust = { "rustfmt" },
       }),
+      default_format_options = { lsp_format = "fallback" },
       format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
       formatters = {
         shfmt = {
