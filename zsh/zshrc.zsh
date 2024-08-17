@@ -24,7 +24,7 @@ __has() {
   type "$1" &> /dev/null
 }
 
-brew_prefix="/usr/local"
+brew_prefix="/opt/homebrew"
 if __has brew; then
   brew_completions=("$brew_prefix/share/zsh/site-functions" "$brew_prefix/share/zsh-completions" "$brew_prefix/opt/curl/share/zsh/site-functions")
   for d in "${brew_completions[@]}"; do

@@ -16,14 +16,13 @@ function _pip_completion() {
 }
 compctl -K _pip_completion pip
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export PATH="$HOME/bin/yarn/bin:$PATH"
 export PATH="${CARGO_HOME:-$HOME/.cargo}/bin:$PATH"
 # export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.nimble/bin:$PATH"
 
-if [[ -f /usr/local/bin/nvim ]]; then
-  export EDITOR='/usr/local/bin/nvim'
-fi
 
 export PYENV_VIRTUALENV_VERBOSE_ACTIVATE=1
 
@@ -45,4 +44,9 @@ if [[ -n $ZSH_FOLDER ]]; then
   if [[ -d "$ZSH_FOLDER/bin" ]]; then
     export PATH="$ZSH_FOLDER/bin:$PATH"
   fi
+fi
+
+
+if [[ -f "/opt/homebrew/bin/nvim" ]]; then
+  export EDITOR="/opt/homebrew/bin/nvim"
 fi
