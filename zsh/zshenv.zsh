@@ -26,7 +26,7 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$DENO_INSTALL_ROOT/bin:$PATH"
 
-export BUNDLEFILE="$HOME/Dropbox/config/Brewfile"
+export BUNDLEFILE="$HOME/Developer/GitHub/dotfiles/Brewfile"
 export HOMEBREW_BUNDLE_FILE=$BUNDLEFILE
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=60
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
