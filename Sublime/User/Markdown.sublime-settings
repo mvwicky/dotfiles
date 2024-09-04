@@ -1,0 +1,15 @@
+{
+	"draw_centered": false,
+	"extensions":
+	[
+	],
+	"rulers":
+	[
+		90,
+		120
+	],
+	"spell_check": true,
+	"spelling_selector": "text - markup.raw",
+	"word_wrap": true,
+	"wrap_width": 120
+}

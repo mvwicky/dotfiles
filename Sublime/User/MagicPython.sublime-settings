@@ -1,0 +1,5 @@
+{
+    "extensions": ["pyi",
+    ],
+    "indent_to_bracket": false,
+}

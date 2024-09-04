@@ -1,0 +1,6 @@
+{
+    "extensions": ["markdown"],
+    "spell_check": true,
+    "spelling_selector": "meta.paragraph.markdown, meta.link.reference.def.footnote.markdown-extra",
+    "word_wrap": false
+}

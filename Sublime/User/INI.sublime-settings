@@ -1,0 +1,7 @@
+{
+	"extensions":
+	[
+		".coveragerc",
+		".flake8"
+	]
+}

@@ -1,0 +1,189 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - psqlrc
+scope: source.psqlrc
+
+variables:
+  onoff: '\b(on|off)\b'
+  metastart: '^\\'
+  sp: '(S\+?)?'
+  nums: '\b(-)?[0-9.]+\b'
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: numbers
+    - include: bool
+    - include: strings
+    - include: all_meta_commands
+
+  all_meta_commands:
+    - include: unary_meta_commands
+    - include: bool_meta_commands
+    - include: meta_commands
+
+  unary_meta_commands:
+    - match: '{{metastart}}(a|conninfo|copyright|reset|quit|errverbose|gdesc|gexec|H|html|p(rint)?|q(uit)?|r(eset)?|t|;)$'
+      scope: keyword.control.psqlrc
+
+  bool_meta_commands:
+    - match: '{{metastart}}timing\b'
+      scope: keyword.control.psqlrc
+
+  meta_commands:
+    - match: '{{metastart}}pset\b'
+      scope: keyword.control.psqlrc
+      push: inside_pset
+    - match: '{{metastart}}(un)?set\b'
+      scope: keyword.control.psqlrc
+      push: inside_set
+    - match: '{{metastart}}x(?: (on|off|auto))?'
+      scope: keyword.control.psqlrc
+      captures:
+        1: constant.language.boolean.psqlrc
+    - match: '{{metastart}}d(S\+|aS?|A([afop])?\+?|b\+?|c(\+?)?|config\+?|C\+?|dS?|D{{sp}}|dp|[Eimstv]{{sp}}|e[stuw]\+?|f[anptwS+]?|F[dpt]?\+?|g{{sp}}|l\+?|[LnoO]{{sp}}|p(S|[itn+])?|rds|rgS?|R[ps]\+?|[Tu]{{sp}}|x\+?|X|y\+?)?\b'
+      scope: keyword.control.psqlrc
+    # Fallback
+    - match: '{{metastart}}(bind|c|connect|C|cd|copy|crosstabview|echo|ef|encoding|ev|f|g|getenv|gset|gx|h(elp)?|i(nclude)?|if|elif|else|endif|ir|include_relative|(l|list\+?)|lo_(export|import|unlink)|lo_list\+?|o(ut)?|password|prompt|qecho|s|setenv|s[fv]\+?|T|w(rite)?|warn|x|zS?|!|\?)\b'
+      scope: keyword.control.psqlrc
+
+  inside_pset:
+    - match: '(border|columns|pager_min_lines)'
+      scope: variable.parameter.psqlrc
+      push:
+        - include: numbers
+        - match: $\n?
+          pop: true
+    - match: 'format'
+      scope: variable.parameter.psqlrc
+      push:
+        - match: '\b(aligned|asciidoc|csv|html|latex|latex-longtable|troff-ms|unaligned|wrapped)\b'
+          scope: constant.language.psqlrc
+          pop: true
+        - match: $\n?
+          pop: true
+    - match: 'linestyle'
+      scope: variable.parameter.psqlrc
+      push:
+        - match: '\b(ascii|old-ascii|unicode)\b'
+          scope: constant.language.psqlrc
+          pop: true
+        - match: $\n?
+          pop: true
+    - match: '(footer|numericlocale|tuples_only|t)'
+      scope: variable.parameter.psqlrc
+      push:
+        - include: bool
+        - match: $\n?
+          pop: true
+    - match: 'unicode_(border|columns|header)_linestyle'
+      scope: variable.parameter.psqlrc
+      push:
+        - match: '\b(single|double)\b'
+          scope: constant.language.psqlrc
+          pop: true
+        - match: $\n?
+          pop: true
+    - match: 'xheader_width'
+      scope: variable.parameter.psqlrc
+      push:
+        - include: numbers
+        - match: '\b(full|column|page)\b'
+          scope: constant.language.psqlrc
+        - match: $\n?
+          pop: true
+    - match: '(pager|expanded|x)'
+      scope: variable.parameter.psqlrc
+      push:
+        - include: bool
+        - match: 'always'
+          scope: constant.language.boolean.psqlrc
+        - match: $\n?
+          pop: true
+    - match: '(csv_fieldsep|fieldsep|fieldsep_zero|null|recordsep|recordsep_zero|tableattr|T|title|C)'  # Fallback
+      scope: variable.parameter.psqlrc
+    - match: $\n?
+      pop: true
+
+  inside_set:
+    - match: '(AUTOCOMMIT|HISTFILE|QUIET)'
+      scope: constant.language.psqlrc
+    - match: 'PROMPT(1|2|3)'  # TODO: Some escape value highlighting
+      scope: constant.language.psqlrc
+      push:
+        - meta_content_scope: string.quoted.single.psqlrc
+        - match: '(%[Mm>n/~#pRxlw])'
+          scope: constant.character.escape.psqlrc
+        - match: $\n?
+          pop: true
+    - match: 'HISTSIZE'
+      scope: constant.language.psqlrc
+      push:
+        - include: numbers
+        - match: $\n?
+          pop: true
+    - match: 'VERBOSITY'
+      scope: constant.language.psqlrc
+      push:
+        - match: '(default|verbose|terse|sqlstate)'
+          scope: constant.language.psqlrc
+        - match: $\n?
+          pop: true
+    - match: 'COMP_KEYWORD_CASE'
+      scope: constant.language.psqlrc
+      push:
+        - match: '(preserve-)?(lower|upper)'
+          scope: constant.language.psqlrc
+        - match: $\n?
+          pop: true
+    - match: 'ON_ERROR_ROLLBACK'
+      scope: constant.language.psqlrc
+      push:
+        - match: '(on|off|interactive)'
+          scope: constant.language.psqlrc
+          pop: true
+        - match: $\n?
+          pop: true
+    - include: strings
+    - include: numbers
+    - match: $\n?
+      pop: true
+
+
+  numbers:
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.psqlrc
+
+  bool:
+    - match: '{{onoff}}'
+      scope: constant.language.boolean.psqlrc
+
+  strings:
+    - match: ''''
+      scope: punctuation.definition.string.begin.psqlrc
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.psqlrc
+    - match: '\.'
+      scope: constant.character.escape.psqlrc
+    - match: ''''
+      scope: punctuation.definition.string.end.psqlrc
+      pop: true
+
+  comments:
+    - match: '--'
+      scope: punctuation.definition.comment.psqlrc
+      push:
+        - meta_scope: comment.line.double-dash.psqlrc
+        - match: $\n?
+          pop: true

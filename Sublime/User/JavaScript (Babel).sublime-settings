@@ -1,0 +1,6 @@
+{
+    "extensions": ["js"],
+    "draw_centered": false,
+    "rulers": [88],
+    "tab_size": 2
+}

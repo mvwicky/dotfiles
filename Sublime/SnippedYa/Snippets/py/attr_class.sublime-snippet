@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+@attr.s(slots=True, auto_attribs=True)
+class ${1:ClassName}(object):
+	${0:pass}
+]]></content>
+    <tabTrigger>attr_class</tabTrigger>
+    <scope>source.python</scope>
+</snippet>

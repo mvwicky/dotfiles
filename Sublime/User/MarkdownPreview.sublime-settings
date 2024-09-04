@@ -1,0 +1,5 @@
+{
+	"parser": "markdown",
+	"enabled_parsers": ["markdown"],
+	"strip_yaml_front_matter": true
+}

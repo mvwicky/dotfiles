@@ -1,0 +1,12 @@
+{
+	"extensions":
+	[
+		".ebignore",
+		".prettierignore",
+		".slugignore",
+		".dockerignore",
+		".ignore",
+		".rgignore",
+		".tokeignore",
+	],
+}

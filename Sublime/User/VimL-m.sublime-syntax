@@ -1,0 +1,71 @@
+%YAML 1.2
+---
+name: VimL-Mod
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - vim
+  - .vimrc
+scope: source.viml-mod
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: keywords
+    - include: numbers
+    - include: support_function
+    - include: support_type
+
+  keywords:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: \b(if|while|for|try|return|throw|end(if|for|while|try)?|au(g|group)|else(if|)?|do|in|catch|finally|:)\b
+      scope: keyword.control.viml-mod
+
+  support_function:
+    - match: \b(set(local|global)?|let|command|filetype|colorscheme|\w*map|\w*a(b|brev)?|syn(tax|)?|exe(c|cute)?|ec(ho|)?|au(tocmd|)?)\b
+      scope: support.function.viml-mod
+
+  support_type:
+    - match: <.*?>
+      scope: support.type.viml-mod
+
+  numbers:
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.integer
+    - match: \b0x[0-9a-f]+
+      scope: constant.numeric.hex
+
+  strings:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character.
+    - match: '"'
+      scope: punctuation.definition.string.begin.example-c
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.example-c
+    - match: '\.'
+      scope: constant.character.escape.example-c
+    - match: '"'
+      scope: punctuation.definition.string.end.example-c
+      pop: true
+
+  comments:
+    # Comments begin with a '"' and finish at the end of the line.
+    - match: ^\s*(").*$
+      scope: comment.line.quotes.viml-mod
+      captures:
+        1: punctuation.definition.comment.viml-mod
+    - match: (?!\$)(")(?!\{).*$\n?
+      scope: comment.line.quotes.viml-mod
+      captures:
+        1: punctuation.definition.comment.viml-mod

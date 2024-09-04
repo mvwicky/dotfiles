@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+path("${1:Base}/", views.${2:Model}List.as_view(), name="$1-list"),
+path("$1/<int:pk>/", views.$2Detail.as_view(), name="$1-detail"),
+]]></content>
+    <tabTrigger>reg</tabTrigger>
+    <scope>source.python</scope>
+</snippet>

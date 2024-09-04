@@ -1,0 +1,307 @@
+[
+	{ "keys": ["ctrl+tab"], "command": "next_view" },
+	{ "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+	{
+		"keys": ["home"],
+		"command": "move_to",
+		"args": { "to": "bol", "extend": false }
+	},
+	{
+		"keys": ["home"],
+		"command": "move_to",
+		"args": { "to": "bof", "extend": false },
+		"context": [
+			{ "key": "selection_empty", "operator": "equal", "operand": true },
+			{
+				"key": "preceding_text",
+				"operator": "regex_match",
+				"operand": "^"
+			}
+		]
+	},
+	{
+		"keys": ["end"],
+		"command": "move_to",
+		"args": { "to": "eol", "extend": false }
+	},
+	{
+		"keys": ["end"],
+		"command": "move_to",
+		"args": { "to": "eof", "extend": false },
+		"context": [
+			{ "key": "selection_empty", "operator": "equal", "operand": true },
+			{
+				"key": "following_text",
+				"operator": "regex_match",
+				"operand": "$"
+			}
+		]
+	},
+	{
+		"keys": ["shift+home"],
+		"command": "move_to",
+		"args": { "to": "bol", "extend": true }
+	},
+	{
+		"keys": ["shift+end"],
+		"command": "move_to",
+		"args": { "to": "eol", "extend": true }
+	},
+	{ "keys": ["ctrl+shift+p"], "command": "get_selection_scope" },
+	{
+		"keys": ["ctrl+shift+l"],
+		"command": "insert_snippet",
+		"args": { "contents": "_(${0:$SELECTION})" },
+		"context": [
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "source.python"
+			}
+		]
+	},
+	{
+		"keys": ["super+k", "super+-"],
+		"command": "insert_snippet",
+		"args": { "contents": "_(${0:$SELECTION})" },
+		"context": [
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "source.python"
+			}
+		]
+	},
+	{
+		"keys": ["ctrl+shift+l"],
+		"command": "emmet_rename_tag",
+		"context": [
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "text.html"
+			}
+		]
+	},
+	// {
+	// 	"keys": ["super+shift+c"],
+	// 	"command": "isort_python",
+	// 	"context": [
+	// 		{
+	// 			"key": "selector",
+	// 			"operator": "equal",
+	// 			"operand": "source.python"
+	// 		}
+	// 	]
+	// },
+	{
+		"keys": ["super+k", "n"],
+		"command": "sublime_linter_goto_error",
+		"args": { "direction": "next", "wrap": true }
+	},
+	{
+		"keys": ["ctrl+alt+h"],
+		"command": "bh_key",
+		"args": {
+			"no_outside_adj": null,
+			"no_block_mode": null,
+			"lines": true,
+			"plugin": {
+				"type": ["__all__"],
+				"command": "bh_modules.bracketselect",
+				"args": { "select": "left" }
+			}
+		}
+	},
+	{
+		"keys": ["ctrl+alt+l"],
+		"command": "bh_key",
+		"args": {
+			"no_outside_adj": null,
+			"no_block_mode": null,
+			"lines": true,
+			"plugin": {
+				"type": ["__all__"],
+				"command": "bh_modules.bracketselect",
+				"args": { "select": "right" }
+			}
+		}
+	},
+	{
+		"keys": ["alt+shift+l"],
+		"command": "reveal_in_side_bar"
+	},
+	{
+		"keys": ["ctrl+shift+forward_slash"],
+		"command": "toggle_comment",
+		"args": { "block": true }
+	},
+	{
+		"keys": ["ctrl+shift+forward_slash"],
+		"command": "insert_snippet",
+		"args": { "name": "Packages/Djaneiro/html/comment.sublime-snippet" },
+		"context": [
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "text.html.django"
+			}
+		]
+	},
+	{
+		"keys": ["super+t"],
+		"command": "noop"
+	},
+	{
+		"keys": ["super+shift+r"],
+		"command": "show_panel",
+		"args": { "panel": "replace", "reverse": false }
+	},
+	{
+		"keys": ["ctrl+shift+c"],
+		"command": "color_helper",
+		"args": { "mode": "color_picker" }
+	},
+	{
+		"keys": ["f2"],
+		"command": "lsp_symbol_rename",
+		"context": [
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "source.python"
+			}
+		]
+	},
+	{
+		"keys": ["ctrl+shift+,"],
+		"command": "edit_syntax_settings"
+	},
+	{
+		"keys": ["super+k", "super+t"],
+		"command": "select_color_scheme"
+	},
+	{
+		"keys": ["`"],
+		"command": "insert_snippet",
+		"args": { "contents": "`${0:$SELECTION}`" },
+		"context": [
+			{
+				"key": "setting.auto_match_enabled",
+				"operator": "equal",
+				"operand": true
+			},
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "source.python comment"
+			}
+		]
+	},
+	{
+		"keys": ["`"],
+		"command": "insert_snippet",
+		"args": { "contents": "`${0:$SELECTION}`" },
+		"context": [
+			{
+				"key": "setting.auto_match_enabled",
+				"operator": "equal",
+				"operand": true
+			},
+			{
+				"key": "selector",
+				"operator": "equal",
+				"operand": "source.python string.quoted.docstring"
+			}
+		]
+	},
+	{
+		"keys": ["ctrl+shift+o"],
+		"command": "insert_snippet",
+		"args": { "contents": "“${0:$SELECTION}”" }
+	},
+	{
+		"keys": ["super+k", "super+'"],
+		"command": "insert_snippet",
+		"args": { "contents": "“${0:$SELECTION}”" }
+	},
+	{
+		"keys": ["super+k", "super+o"],
+		"command": "toggle_show_open_files"
+	},
+	{
+		"keys": ["super+k", "super+shift+t"],
+		"command": "title_case"
+	},
+	{
+		"keys": ["super+k", "super+s"],
+		"command": "tabs_extra_sort",
+		"args": {
+			"group": 0,
+			"reverse": false,
+			"sort_by": "TabsExtra.sort.name"
+		}
+	},
+	{
+		"keys": ["super+k", "super+p"],
+		"command": "tabs_extra_sort",
+		"args": {
+			"group": 0,
+			"reverse": false,
+			"sort_by": "TabsExtra.sort.path"
+		}
+	},
+	{
+		"keys": ["super+k", "ctrl+shift+p"],
+		"command": "toggle_selection_scope"
+	},
+	{
+		"keys": ["ctrl+shift+`"],
+		"command": "lsp_toggle_server_panel"
+	},
+	{
+		"keys": ["f8"],
+		"command": "lsp_goto_diagnostic",
+		"args": { "uri": "$view_uri" }
+	},
+	{
+		"keys": ["shift+f8"],
+		"command": "lsp_goto_diagnostic"
+	},
+	{
+		"keys": ["ctrl+f12"],
+		"command": "lsp_symbol_declaration"
+	},
+	{
+		"keys": ["super+k", "super+c"],
+		"command": "lsp_code_actions",
+		"context": [
+			{
+				"key": "lsp.session_with_capability",
+				"operand": "codeActionProvider"
+			}
+		]
+	},
+	{
+		"keys": ["f12"],
+		"command": "lsp_symbol_definition",
+		"args": {
+			"side_by_side": false,
+			"force_group": true,
+			"fallback": false,
+			"group": -1
+		},
+		"context": [
+			{
+				"key": "lsp.session_with_capability",
+				"operand": "definitionProvider"
+			},
+			{ "key": "auto_complete_visible", "operand": false }
+		]
+	},
+	{
+		"keys": ["super+k", "n"],
+		"command": "lsp_next_diagnostic",
+		"context": [{ "key": "setting.lsp_active" }]
+	}
+]

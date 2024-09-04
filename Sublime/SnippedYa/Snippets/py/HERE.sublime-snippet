@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[HERE: Path = Path(__file__).resolve().parent]]></content>
+    <tabTrigger>pathhere</tabTrigger>
+    <scope>source.python - string</scope>
+</snippet>

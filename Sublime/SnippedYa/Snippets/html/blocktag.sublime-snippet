@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[{% $1 $2 %}${3:$SELECTION}{% end$1 %}]]></content>
+    <tabTrigger>tags</tabTrigger>
+    <scope>text.html.django</scope>
+</snippet>

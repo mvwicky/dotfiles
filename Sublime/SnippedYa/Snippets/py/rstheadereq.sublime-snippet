@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[${1:Header}
+${1/./=/g}
+${2:Text}
+]]></content>
+    <tabTrigger>rstheadereq</tabTrigger>
+    <scope>source.python string.quoted.docstring.multi | text.restructuredtext</scope>
+    <description>reStructuredText Header with equals (rstheader)</description>
+</snippet>

@@ -1,0 +1,11 @@
+[
+    {
+        "caption": "New Python File",
+        "command": "new_python_file"
+    },
+    {
+        "caption": "New Python Package",
+        "command": "new_python_package"
+    },
+    { "caption": "Copy Packages Path", "command": "copy_packages_path" }
+]

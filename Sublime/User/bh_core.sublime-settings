@@ -1,0 +1,9 @@
+{
+    "debug_enable": false,
+    "show_in_minimap": true,
+    "high_visibility_enabled_by_default": false,
+    "high_visibility_style": "outline",
+    "search_threshold": 12500,
+    "show_bracket_popup_always": false,
+    "gutter_icons": true
+}

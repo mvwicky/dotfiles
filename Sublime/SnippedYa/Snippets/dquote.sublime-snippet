@@ -1,0 +1,6 @@
+<snippet>
+<content><![CDATA[“${0:$SELECTION}”]]></content>
+    <tabTrigger>dquote</tabTrigger>
+    <description>Insert double quotes.</description>
+    <scope>source, text</scope>
+</snippet>

@@ -1,0 +1,13 @@
+// GitGutter Settings - User
+{
+    "show_status_bar_text": false,
+    "show_in_minimap": 1.5,
+    "theme": "Default.gitgutter-theme",
+    "line_annotation_text": [
+        "{{ line_author_mail }} ({{ line_author_age }}) → ",
+        "{{ line_summary|truncate(30) }}"
+    ],
+    "debounce_delay": 1500,
+    "line_annotation_ignore_whitespace": false,
+    "diff_algorithm": "minimal"
+}

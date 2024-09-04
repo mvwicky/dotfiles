@@ -1,0 +1,8 @@
+<snippet>
+    <content>
+        <![CDATA[<!-- prettier-ignore -->]]>
+    </content>
+    <tabTrigger>ignore</tabTrigger>
+    <scope>text.html</scope>
+    <description>HTML Prettier Ignore</description>
+</snippet>

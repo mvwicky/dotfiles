@@ -1,0 +1,8 @@
+<snippet>
+    <content>
+        <![CDATA[<!-- @prettier -->]]>
+    </content>
+    <tabTrigger>prettier</tabTrigger>
+    <scope>text.html</scope>
+    <description>HTML Prettier Pragma</description>
+</snippet>

@@ -1,0 +1,8 @@
+{
+	"extensions":
+	[
+		"njk",
+		"jinja"
+	],
+	"tab_size": 2
+}

@@ -1,0 +1,16 @@
+{
+    "menu_layout": [
+        "sort",
+        "close",
+        "sticky",
+        "open",
+        "clone",
+        "save",
+        "delete",
+        "rename",
+        "reveal",
+        "path",
+        "revert"
+    ],
+    "fallback_focus": "left"
+}

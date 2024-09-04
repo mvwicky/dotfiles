@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[loop = asyncio.get_running_loop()]]></content>
+    <tabTrigger>loop</tabTrigger>
+    <scope>source.python</scope>
+</snippet>

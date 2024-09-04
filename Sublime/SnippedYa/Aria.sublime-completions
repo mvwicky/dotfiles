@@ -1,0 +1,6 @@
+{
+    "scope": "text.html meta.attribute_with_value",
+    "completions": [
+        {"trigger": "aria-lab", "contents": "aria-label"}
+    ]
+}

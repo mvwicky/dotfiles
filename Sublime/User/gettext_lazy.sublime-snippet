@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+from django.utils.translation import gettext_lazy as _
+]]></content>
+	<tabTrigger>lazy</tabTrigger>
+	<!-- <description>Optionally, insert a description here</description> -->
+	<scope>source.python</scope>
+</snippet>

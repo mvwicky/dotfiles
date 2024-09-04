@@ -1,0 +1,11 @@
+[
+    {
+        "caption": "Show Scope Under Cursor(s)",
+        "mnemonic": "S",
+        "id": "show",
+        "command": "get_selection_scope"
+    },
+    {
+        "id": "clipboard"
+    }
+]

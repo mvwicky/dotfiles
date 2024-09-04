@@ -1,0 +1,12 @@
+// Settings in here override those in "LSP-yaml/LSP-yaml.sublime-settings"
+
+{
+    "settings": {
+        "yaml.schemas": {
+            "https://squidfunk.github.io/mkdocs-material/schema.json": [
+                "**/mkdocs.yml",
+                "**/mkdocs.yaml"
+            ]
+        }
+    }
+}

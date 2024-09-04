@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[# pragma: no cover]]></content>
+    <tabTrigger>nocover</tabTrigger>
+    <scope>source.python</scope>
+</snippet>

@@ -1,0 +1,6 @@
+// These settings override both User and Default settings for the TypeScript syntax
+{
+    "tab_size": 2,
+    "enable_typescript_language_service": false,
+    "enable_language_service_for_javascript": false
+}

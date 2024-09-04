@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+def ${1:get}(self, request: HttpRequest, *args: Any, **kwargs: Any):
+    ${0:return super().${2:$1}(request, *args, **kwargs)}
+]]></content>
+    <tabTrigger>vmeth</tabTrigger>
+    <scope>source.python - string</scope>
+</snippet>

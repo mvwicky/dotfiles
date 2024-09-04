@@ -1,0 +1,63 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Django Templates
+file_extensions:
+  - html
+scope: text.html.django
+contexts:
+  main:
+    - match: "{% comment %}"
+      push:
+        - meta_scope: comment.block.django
+        - match: "{% endcomment %}"
+          pop: true
+    - match: "{#"
+      push:
+        - meta_scope: comment.line.number-sign.django
+        - match: "(#})|\n"
+          pop: true
+    - match: "{{"
+      captures:
+        0: entity.tag.tagbraces.django
+      push:
+        - meta_scope: storage.type.variable.django
+        - match: "}}"
+          captures:
+            0: entity.tag.tagbraces.django
+          pop: true
+        - include: template_filter
+    - match: "{%"
+      captures:
+        0: entity.tag.tagbraces.django
+      push:
+        - meta_scope: storage.type.templatetag.django
+        - match: "%}"
+          captures:
+            0: entity.tag.tagbraces.django
+          pop: true
+        - include: template_tag
+        - include: template_filter
+    - include: scope:text.html.basic
+  template_filter:
+    - match: (add|addslashes|capfirst|center|cut|date|default|default_if_none|dictsort|dictsortreversed|divisibleby|escape|escapejs|filesizeformat|first|fix_ampersands|floatformat|force_escape|get_digit|iriencode|join|last|json_script|length|length_is|linebreaks|linebreaksbr|linenumbers|ljust|lower|make_list|phone2numeric|pluralize|pprint|random|removetags|rjust|safe|safeseq|slice|slugify|stringformat|striptags|time|timesince|timeutil|title|truncatewords|truncatewords_html|unordered_list|upper|urlencode|urlize|urlizetrunc|wordcount|wordwrap|yesno|apnumber|intcomma|intword|naturalday|ordinal|STATIC_PREFIX|money_format)\b
+      scope: keyword.control.filter.django
+    - match: ':"|"'
+      push:
+        - meta_scope: storage.type.attr.django
+        - match: '"'
+          pop: true
+    - match: ':\''|\'''
+      push:
+        - meta_scope: storage.type.attr.django
+        - match: \'
+          pop: true
+    - match: \|
+      scope: string.unquoted.filter-pipe.django
+    - match: "[a-zA-Z0-9_.]+"
+      scope: string.unquoted.tag-string.django
+  template_tag:
+    - match: \b(autoescape|endautoescape|block|endblock|blocktrans|endblocktrans|trans|plural|debug|extends|filter|firstof|for|empty|endfor|if|elif|else|endif|include|ifchanged|endifchanged|ifequal|endifequal|ifnotequal|endifnotequal|load|from|low|regroup|ssi|spaceless|endspaceless|templatetag|widthratio|with|endwith|csrf_token|cycle|url|verbatim|endverbatim|lorem|thumbnail|endthumbnail|get_static_prefix|container|endcontainer|row|endrow|header|endheader|cell|endcell|emaillink|par|endpar)\b
+      scope: keyword.control.tag-name.django
+    - match: \b(and|or|not|in|by|as)\b
+      scope: keyword.operator.django

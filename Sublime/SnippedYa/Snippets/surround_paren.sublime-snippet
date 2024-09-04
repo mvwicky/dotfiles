@@ -1,0 +1,6 @@
+<snippet>
+<content><![CDATA[$1(${2:$SELECTION})]]></content>
+    <tabTrigger>psurround</tabTrigger>
+    <description>Surround selected with parentheses (like function args).</description>
+    <scope>source</scope>
+</snippet>

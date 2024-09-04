@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+class ${1:Name}Emailer(BaseHTMLEmailer):
+    inner_template_name = "$4.djt"
+
+    def __init__(self, ${2:model}_inst: ${3:Model} = None, $2_pk: int = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.$2: $3 = instance_from($3, $2_inst, $2_pk)
+
+        ]]></content>
+    <tabTrigger>newemailer</tabTrigger>
+    <scope>source.python - string</scope>
+</snippet>

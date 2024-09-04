@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "Convert Color: Convert between color formats.",
+        "command": "convert_color"
+    },
+    {
+        "caption": "Set Log Commands: Enable or disable command logging.",
+        "command": "set_log_commands"
+    },
+    {
+        "caption": "Set Log Input: Enable or disable input logging.",
+        "command": "set_log_input"
+    }
+]

@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=\$'\n\t']]></content>
+    <tabTrigger>strict</tabTrigger>
+    <description>Enable "strict mode" for bash.</description>
+    <scope>source.shell</scope>
+</snippet>

@@ -1,0 +1,10 @@
+{
+	"scope": "source.python",
+	"completions": [
+		{ "trigger": "log", "contents": "logger.${1:info}($2)" },
+		{
+			"trigger": "logger",
+			"contents": "logger = logging.getLogger(__name__)"
+		}
+	]
+}

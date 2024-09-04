@@ -1,0 +1,11 @@
+<snippet>
+    <content><![CDATA[SHELL:=bash
+.ONESHELL:
+.SHELLFLAGS:=-eu -o pipefail -c
+.DELETE_ON_ERROR:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules]]></content>
+    <tabTrigger>pre</tabTrigger>
+    <description>Some default settings/flags for Makefiles.</description>
+    <scope>source.makefile</scope>
+</snippet>

@@ -1,0 +1,24 @@
+{
+    "debug": false,
+    "auto_format_on_save": true,
+    "custom_file_extensions": [
+        "config",
+        "sublime-build",
+        "sublime-commands",
+        "sublime-keymap",
+        "sublime-menu",
+        "sublime-project",
+        "sublime-settings",
+        "sublime-color-scheme",
+        "sublime-theme",
+        "sublime-syntax",
+        "sublime-completions",
+        "yaml",
+        "djt",
+        "YAML-tmLanguage",
+        "jsonc"
+    ],
+    "auto_format_on_save_excludes": ["*.html", "*.djt", "*.sublime-syntax"],
+    "max_file_size_limit": 100000,
+    "disable_prettier_cursor_offset": true
+}

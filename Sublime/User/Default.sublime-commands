@@ -1,0 +1,34 @@
+[
+    {
+        "caption": "Preferences: Anaconda Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/Anaconda/Anaconda.sublime-settings",
+            "default": "// Anaconda Settings - User\n{\n\t$0\n}\n"
+        }
+    },
+    {
+        "caption": "Preferences: Sublack Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/sublack/sublack.sublime-settings",
+            "default": "// Sublack Settings - User\n{\n\t$0\n}\n"
+        }
+    },
+    {
+        "caption": "Preferences: Color Helper Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/ColorHelper/color_helper.sublime-settings",
+            "default": "// ColorHelper Settings - User\n{\n\t$0\n}\n"
+        }
+    },
+    {
+        "caption": "Preferences: Scope Hunter Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/ScopeHunter/scope_hunter.sublime-settings",
+            "default": "// ScopeHunter Settings - User\n{\n\t$0\n}\n"
+        }
+    }
+]

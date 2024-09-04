@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[{% feather "$1" %}]]></content>
+    <tabTrigger>feather</tabTrigger>
+    <scope>text.html.django</scope>
+</snippet>

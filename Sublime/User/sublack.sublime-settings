@@ -1,0 +1,8 @@
+{
+	"black_on_save": false,
+	"black_command": "/users/michael/.local/bin/black",
+	"black_log": "info",
+	"black_use_blackd": true,
+	"black_blackd_autostart": false,
+	"black_target_version": ["py310"]
+}

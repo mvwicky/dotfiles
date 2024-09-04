@@ -1,0 +1,7 @@
+{
+    "debug": true,
+    "extent_line_char": true,
+    "extent_points": true,
+    "selectors": true,
+    "styling": true
+}

@@ -1,0 +1,13 @@
+[
+    { "caption": "-", "id": "end" },
+    {
+        "caption": "New Python Package",
+        "command": "new_python_package",
+        "args": { "dirs": [] }
+    },
+    {
+        "caption": "New Python File",
+        "command": "new_python_file",
+        "args": { "paths": [] }
+    }
+]

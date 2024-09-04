@@ -1,0 +1,11 @@
+{
+	"extensions":
+	[
+		".tern-project",
+		".anaconda",
+		"json",
+		"jsonc",
+	],
+	"tab_size": 2,
+	"word_wrap": true,
+}

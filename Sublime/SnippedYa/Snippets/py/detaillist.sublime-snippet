@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[
+class ${1:Model}List(generics.ListCreateAPIView):
+    queryset = ${1:Model}.objects.all()
+    serializer_class = ${1:Model}Serializer
+
+
+class ${1:Model}Detail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ${1:Model}.objects.all()
+    serializer_class = ${1:Model}Serializer
+]]></content>
+    <tabTrigger>det</tabTrigger>
+    <scope>source.python</scope>
+</snippet>

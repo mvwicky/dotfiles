@@ -1,0 +1,8 @@
+{
+    "anaconda_linting": false,
+    "jsonserver_debug": false,
+    "jsonserver_debug_port": 9999,
+    "auto_python_builder_enabled": false,
+    "complete_parameters": false,
+    "disable_anaconda_completion": false
+}

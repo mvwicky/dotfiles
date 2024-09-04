@@ -1,0 +1,53 @@
+// SublimeLinter Settings - User
+{
+    "linters": {
+        "flake8": {
+            "args": ["--stdin-display-name", "${file:stdin}"],
+            "lint_mode": "load_save",
+            "selector": "source.python",
+            "executable": "$HOME/.local/bin/flake8",
+            "disable": true
+        },
+        "mypy": {
+            "lint_mode": "manual",
+            "disable": true,
+            "args": ["--ignore-missing-imports", "--show-traceback"],
+            "selector": "source.python"
+        },
+        "shellcheck": {
+            "args": ["-x"],
+            "excludes": ["*/.zsh*"]
+        },
+        "pylint": {
+            "disable": true
+        },
+        "sublime-syntax": {
+            "lint_mode": "background",
+            "selector": "source.yaml-tmlanguage, source.yaml.sublime.syntax"
+        },
+        "yamllint": {
+            "executable": "$HOME/.local/bin/yamllint",
+            "excludes": ["*/Procfile"],
+            "lint_mode": "load_save"
+        }
+    },
+    "show_panel_on_save": "never",
+    "debug": false,
+    "statusbar.messages_template": "{code} - {message}",
+    "statusbar.show_active_linters": true,
+    "no_column_highlights_line": true,
+    "styles": [
+        {
+            "scope": "region.yellowish markup.warning.sublime_linter",
+            "types": ["warning"]
+        },
+        {
+            "priority": 1,
+            "icon": "dot",
+            "mark_style": "outline",
+            "scope": "region.redish markup.error.sublime_linter"
+        }
+    ],
+    "highlights.demote_scope": "comment",
+    "highlights.demote_while_editing": "some_ws"
+}

@@ -1,0 +1,6 @@
+{
+    "extensions": ["djt"],
+    "tab_size": 2,
+    "ensure_newline_at_eof_on_save": false,
+    "word_wrap": true
+}

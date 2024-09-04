@@ -1,0 +1,9 @@
+{
+    "settings.linting": false,
+    "log_level": "WARNING",
+    "settings.highlight_styles": [
+        "DRAW_NO_FILL",
+        "DRAW_NO_OUTLINE",
+        "HIDE_ON_MINIMAP"
+    ]
+}

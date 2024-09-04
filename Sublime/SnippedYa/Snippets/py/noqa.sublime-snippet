@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[# noqa: ${1:F401}]]></content>
+    <tabTrigger>noqa</tabTrigger>
+    <scope>source.python</scope>
+</snippet>
