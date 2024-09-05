@@ -132,9 +132,9 @@ def get_packages_path():
     subl_args = ["subl", "--command", "copy_packages_path"]
     print("Running: `", " ".join(subl_args), "`", sep="")
     subprocess.run(subl_args, check=True)
-    pbpaste_args = ['pbpaste']
+    pbpaste_args = ["pbpaste"]
     print("Running: `", " ".join(pbpaste_args), "`", sep="")
-    pbpaste_cmd = subprocess.run(['pbpaste'], check=True, text=True)
+    pbpaste_cmd = subprocess.run(["pbpaste"], check=True, text=True)
     return pbpaste_cmd.stdout
 
 
