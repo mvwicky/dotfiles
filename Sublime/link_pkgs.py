@@ -5,26 +5,21 @@ import os
 import stat
 from argparse import ArgumentParser, ArgumentTypeError
 from collections.abc import Iterable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple, TypeVar
+from typing import NamedTuple, Self, TypeVar
 
 HERE: Path = Path(__file__).resolve().parent
 
 _P = TypeVar("_P", Path, str, bytes)
 
 
-class PathType(object):
-    def __init__(
-        self,
-        exists: bool = False,
-        dir_okay: bool = True,
-        file_okay: bool = True,
-        resolve: bool = False,
-    ):
-        self.exists = exists
-        self.dir_okay = dir_okay
-        self.file_okay = file_okay
-        self.resolve = resolve
+@dataclass(slots=True)
+class PathType:
+    exists: bool = True
+    dir_okay: bool = True
+    file_okay: bool = True
+    resolve: bool = False
 
     def __call__(self, value: str) -> Path:
         p = Path(value)
@@ -61,7 +56,7 @@ class Args(NamedTuple):
     packages: Path
 
     @classmethod
-    def from_parser(cls: type["Args"], parser: ArgumentParser) -> "Args":
+    def from_parser(cls: type[Self], parser: ArgumentParser) -> Self:
         return cls(**vars(parser.parse_args()))
 
     def dirs(self) -> list[Path]:
