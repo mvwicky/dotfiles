@@ -1,1 +1,7 @@
-include = ["Sublime/link_pkgs.py"]
+include = [
+  "Sublime/link_pkgs.py",
+  "zsh/bin/pipx-outdated-py",
+  "Sublime/SnippedYa/bootstrap_four.py",
+  "Sublime/SnippedYa/tools.py",
+  "Sublime/CreateThings/**/*.py",
+]
