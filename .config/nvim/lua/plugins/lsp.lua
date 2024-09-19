@@ -74,7 +74,7 @@ return {
           "jsonls",
           "pyright",
           "rust_analyzer",
-          "tsserver",
+          "ts_ls",
           "ruff",
         },
         handlers = {
@@ -84,6 +84,13 @@ return {
             require("lspconfig").lua_ls.setup(lua_opts)
           end,
         },
+      })
+      --Enable (broadcasting) snippet capability for completion
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      require("lspconfig").jsonls.setup({
+        capabilities = capabilities,
       })
     end,
   },
