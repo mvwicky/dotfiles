@@ -3,7 +3,7 @@
 ZSH_FOLDER="${HOME}/Developer/GitHub/dotfiles/zsh"
 
 has() {
-  type "$1" &> /dev/null
+  type "$1" &>/dev/null
 }
 
 echo_stderr() {
@@ -57,7 +57,7 @@ add_alias() {
   if [[ -n ${name} && -n ${cmd} ]]; then
     local a="alias ${name}='${cmd}'"
     echo_stderr "${a} >> ${alias_file}"
-    echo "${a}" >> "${alias_file}"
+    echo "${a}" >>"${alias_file}"
     return 0
   else
     echo_stderr "usage: add_alias <name> <command>"
@@ -142,7 +142,7 @@ add_completion() {
   fi
   if has "$1"; then
     if [[ ! -f "${completions_dir}/_$1" ]]; then
-      $1 completions zsh > "${completions_dir}/_$1"
+      $1 completions zsh >"${completions_dir}/_$1"
     fi
   else
     echo_stderr "Unknown command $1"
@@ -152,7 +152,7 @@ add_completion() {
 fpath+=${CUSTOM_COMP}
 
 _echo() {
-  command printf %s\\n "$*" 2> /dev/null
+  command printf %s\\n "$*" 2>/dev/null
 }
 
 _nvm_version_file() {
@@ -240,4 +240,15 @@ merge_and_prune() {
   fi
   gh pr merge "$pr" --squash --delete-branch
   git fetch --prune
+}
+
+make_pg_dump() {
+  local ddir=${1:-"$HOME/tmp/pgdump"}
+  local bup_name
+  bup_name="$ddir/postgres_dump_$(date -I).sql.gz"
+  echo "$bup_name"
+  set -x
+  pg_dumpall --quote-all-identifiers | time pigz -9 >"$bup_name"
+  set +x
+  eza -lah "$bup_name"
 }
