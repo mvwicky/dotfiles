@@ -10,31 +10,35 @@ echo_stderr() {
   echo "$@" >&2
 }
 
+print_and_execute() {
+  # shellcheck disable=SC2145
+  echo "+ $@" >&2
+  "$@"
+}
+
 man() {
   # Shows pretty `man` page.
   local reset
   reset="$(tput sgr0)"
+  local bold
+  bold="$(tput bold)"
+  local red
+  red="$(tput setaf 1)"
+  local green
+  green="$(tput setaf 2)"
+  local yellow
+  yellow="$(tput setaf 3)"
+  local blue
+  blue="$(tput setaf 4)"
+  local uline
+  uline="$(tput smul)"
   env \
-    LESS_TERMCAP_mb="$(
-      tput bold
-      tput setaf 1
-    )" \
-    LESS_TERMCAP_md="$(
-      tput bold
-      tput setaf 1
-    )" \
+    LESS_TERMCAP_mb="$bold$red" \
+    LESS_TERMCAP_md="$bold$red" \
     LESS_TERMCAP_me="$reset" \
-    LESS_TERMCAP_so="$(
-      tput bold
-      tput setaf 3
-      tput setab 4
-    )" \
+    LESS_TERMCAP_so="$bold$yellow$blue" \
     LESS_TERMCAP_se="$reset" \
-    LESS_TERMCAP_us="$(
-      tput bold
-      tput smul
-      tput setaf 2
-    )" \
+    LESS_TERMCAP_us="$bold$uline$green" \
     LESS_TERMCAP_ue="$reset" \
     LESS_TERMCAP_mr="$(tput rev)" \
     LESS_TERMCAP_mh="$(tput dim)" \
@@ -247,8 +251,6 @@ make_pg_dump() {
   local bup_name
   bup_name="$ddir/postgres_dump_$(date -I).sql.gz"
   echo "$bup_name"
-  set -x
-  pg_dumpall --quote-all-identifiers | time pigz -9 >"$bup_name"
-  set +x
+  print_and_execute time pg_dumpall --quote-all-identifiers | print_and_execute time pigz -9 >"$bup_name"
   eza -lah "$bup_name"
 }
