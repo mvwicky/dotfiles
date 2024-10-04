@@ -131,11 +131,6 @@ hupfile() {
   return $?
 }
 
-function pout() {
-  poetry show --outdated
-  yarn outdated
-}
-
 CUSTOM_COMP="${ZSH_FOLDER}/comp"
 
 add_completion() {
@@ -217,7 +212,7 @@ del_DS() {
   __dofind "${1:-$PWD}" -type f -name '*.DS_Store' -ls -delete
 }
 
-findpyc() {
+lspyc() {
   ls_pattern '*.pyc' "${1:-$PWD}"
 }
 
