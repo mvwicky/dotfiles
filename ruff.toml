@@ -1,7 +1,8 @@
 include = [
-  "Sublime/link_pkgs.py",
-  "zsh/bin/pipx-outdated-py",
-  "Sublime/SnippedYa/bootstrap_four.py",
-  "Sublime/SnippedYa/tools.py",
-  "Sublime/CreateThings/**/*.py",
+  "./Sublime/CreateThings/**/*.py",
+  "./Sublime/SnippedYa/bootstrap_four.py",
+  "./Sublime/SnippedYa/tools.py",
+  "./Sublime/link_pkgs.py",
+  "./install.py",
+  "./zsh/bin/pipx-outdated-py"
 ]
