@@ -69,6 +69,8 @@ export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 
+export PSQLRC="$XDG_CONFIG_HOME"/pg/psqlrc
+
 export REDISCLI_HISTFILE="${XDG_CACHE_HOME}/rediscli_history"
 export HISTFILE="${XDG_STATE_HOME}/zsh/history"
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
