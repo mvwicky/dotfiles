@@ -154,38 +154,6 @@ _echo() {
   command printf %s\\n "$*" 2>/dev/null
 }
 
-_nvm_version_file() {
-  local _path
-  _path="$(nvm_find_up '.nvmrc')"
-  if [ -e "${_path}/.nvmrc" ]; then
-    _echo "${_path}/.nvmrc"
-  else
-    _path="$(nvm_find_up '.node-version')"
-    if [ -e "${_path}/.node-version" ]; then
-      _echo "${_path}/.node-version"
-    fi
-  fi
-}
-
-load-nvmrc() {
-  local node_version
-  node_version="$(nvm version)"
-  local nvmrc_path
-  nvmrc_path="$(_nvm_version_file)"
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version
-    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    nvm use default
-  fi
-}
-
 __dofind() {
   if has gfind; then
     gfind "$@"
