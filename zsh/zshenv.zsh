@@ -74,6 +74,7 @@ export PSQLRC="$XDG_CONFIG_HOME"/pg/psqlrc
 export REDISCLI_HISTFILE="${XDG_CACHE_HOME}/rediscli_history"
 export HISTFILE="${XDG_STATE_HOME}/zsh/history"
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
+export PYTHON_HISTORY="$XDG_STATE_HOME"/python_history
 
 export PATH="$RYE_HOME/shims:$PATH"
 
