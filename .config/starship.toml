@@ -11,14 +11,16 @@ disabled = true
 error_symbol = "[✘](bold red)"
 
 [cmd_duration]
-disabled = true
+# disabled = true
+# min_time = 250
+show_milliseconds = true
 
 [directory]
 truncation_length = 3
 fish_style_pwd_dir_length = 1
 
 [git_branch]
-truncation_length = 7
+truncation_length = 12
 
 [git_status]
 disabled = false
