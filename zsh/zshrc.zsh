@@ -12,8 +12,8 @@ setopt hist_expire_dups_first
 setopt hist_reduce_blanks
 
 HISTFILE="${XDG_STATE_HOME}/zsh/history"
-HISTSIZE=25000
-SAVEHIST=25000
+HISTSIZE=50000
+SAVEHIST=50000
 HYPHEN_INSENSITIVE="false"
 ENABLE_CORRECTION="false"
 COMPLETION_WAITING_DOTS="true"
@@ -21,7 +21,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
 
 __has() {
-  type "$1" &> /dev/null
+  type "$1" &>/dev/null
 }
 
 brew_prefix="/opt/homebrew"
@@ -92,9 +92,9 @@ export WASMER_DIR="/Users/michael/.wasmer"
 
 export NODE_VERSION_PREFIX=""
 export NODE_VERSIONS="$NVM_DIR/versions/node"
-export NODE_REPL_HISTORY="$XDG_CACHE_HOME/.node_repl_history"
+export NODE_REPL_HISTORY="$XDG_CACHE_HOME/node_repl_history"
 export NODE_REPL_HISTORY_SIZE=2000
-export TS_NODE_HISTORY="$XDG_CACHE_HOME/.ts_node_repl_history"
+export TS_NODE_HISTORY="$XDG_CACHE_HOME/ts_node_repl_history"
 
 export FNM_COREPACK_ENABLED="true"
 
