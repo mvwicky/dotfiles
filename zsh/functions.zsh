@@ -11,8 +11,7 @@ echo_stderr() {
 }
 
 print_and_execute() {
-  # shellcheck disable=SC2145
-  echo "+ $@" >&2
+  echo "+" "$@" >&2
   "$@"
 }
 
@@ -205,8 +204,8 @@ merge_and_prune() {
     echo "merge_and_prune <pr>" >&2
     return 1
   fi
-  gh pr merge "$pr" --squash --delete-branch
-  git fetch --prune
+  print_and_execute gh pr merge "$pr" --squash --delete-branch
+  print_and_execute git fetch --prune
 }
 
 make_pg_dump() {
