@@ -11,7 +11,7 @@
 -- limit paging
 \pset pager off
 -- replace nulls
-\pset null NULL
+\pset null '[NULL]'
 \pset linestyle unicode
 \pset border 2
 
