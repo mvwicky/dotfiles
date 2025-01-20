@@ -207,12 +207,3 @@ merge_and_prune() {
   print_and_execute gh pr merge "$pr" --squash --delete-branch
   print_and_execute git fetch --prune
 }
-
-make_pg_dump() {
-  local ddir=${1:-"$HOME/tmp/pgdump"}
-  local bup_name
-  bup_name="$ddir/postgres_dump_$(date -I).sql.gz"
-  echo "$bup_name"
-  print_and_execute time pg_dumpall --quote-all-identifiers | print_and_execute time pigz -9 >"$bup_name"
-  eza -lah "$bup_name"
-}
