@@ -14,8 +14,8 @@ _ruff() {
     fi
 
     local context curcontext="$curcontext" state line
-    _arguments "${_arguments_options[@]}" \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+    _arguments "${_arguments_options[@]}" : \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -37,7 +37,7 @@ _ruff() {
         curcontext="${curcontext%:*:*}:ruff-command-$line[1]:"
         case $line[1] in
             (check)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--output-format=[Output serialization format for violations. The default serialization format is "full"]:OUTPUT_FORMAT:(concise full json json-lines junit grouped github gitlab pylint rdjson azure sarif)' \
 '-o+[Specify file to write the linter output to (default\: stdout)]:OUTPUT_FILE:_files' \
 '--output-file=[Specify file to write the linter output to (default\: stdout)]:OUTPUT_FILE:_files' \
@@ -848,6 +848,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -909,6 +910,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -916,6 +919,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -983,6 +987,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -990,6 +995,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -1809,6 +1815,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -1870,6 +1877,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -1877,6 +1886,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -1944,6 +1954,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -1951,6 +1962,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -2770,6 +2782,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -2831,6 +2844,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -2838,6 +2853,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -2905,6 +2921,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -2912,6 +2929,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -3731,6 +3749,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -3792,6 +3811,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -3799,6 +3820,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -3866,6 +3888,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -3873,6 +3896,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -3886,10 +3910,10 @@ TRY300\:"try-consider-else"
 TRY301\:"raise-within-try"
 TRY400\:"error-instead-of-exception"
 TRY401\:"verbose-log-message"))' \
-'*--per-file-ignores=[List of mappings from file pattern to code to exclude]:PER_FILE_IGNORES: ' \
-'*--extend-per-file-ignores=[Like \`--per-file-ignores\`, but adds additional ignores on top of those already specified]:EXTEND_PER_FILE_IGNORES: ' \
-'*--exclude=[List of paths, used to omit files and/or directories from analysis]:FILE_PATTERN: ' \
-'*--extend-exclude=[Like --exclude, but adds additional files and directories on top of those already excluded]:FILE_PATTERN: ' \
+'*--per-file-ignores=[List of mappings from file pattern to code to exclude]:PER_FILE_IGNORES:_default' \
+'*--extend-per-file-ignores=[Like \`--per-file-ignores\`, but adds additional ignores on top of those already specified]:EXTEND_PER_FILE_IGNORES:_default' \
+'*--exclude=[List of paths, used to omit files and/or directories from analysis]:FILE_PATTERN:_default' \
+'*--extend-exclude=[Like --exclude, but adds additional files and directories on top of those already excluded]:FILE_PATTERN:_default' \
 '*--fixable=[List of rule codes to treat as eligible for fix. Only applicable when fix itself is enabled (e.g., via \`--fix\`)]:RULE_CODE:((ALL\:"all rules"
 F\:"Pyflakes"
 C90\:"mccabe"
@@ -4696,6 +4720,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -4757,6 +4782,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -4764,6 +4791,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -4831,6 +4859,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -4838,6 +4867,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -5657,6 +5687,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -5718,6 +5749,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -5725,6 +5758,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -5792,6 +5826,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -5799,6 +5834,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -6618,6 +6654,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -6679,6 +6716,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -6686,6 +6725,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -6753,6 +6793,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -6760,6 +6801,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -7579,6 +7621,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -7640,6 +7683,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -7647,6 +7692,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -7714,6 +7760,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -7721,6 +7768,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -7734,12 +7782,12 @@ TRY300\:"try-consider-else"
 TRY301\:"raise-within-try"
 TRY400\:"error-instead-of-exception"
 TRY401\:"verbose-log-message"))' \
-'--line-length=[Set the line-length for length-associated rules and automatic formatting]:LINE_LENGTH: ' \
-'--dummy-variable-rgx=[Regular expression matching the name of dummy variables]:DUMMY_VARIABLE_RGX: ' \
+'--line-length=[Set the line-length for length-associated rules and automatic formatting]:LINE_LENGTH:_default' \
+'--dummy-variable-rgx=[Regular expression matching the name of dummy variables]:DUMMY_VARIABLE_RGX:_default' \
 '--cache-dir=[Path to the cache directory]:CACHE_DIR:_files' \
 '--stdin-filename=[The name of the file when passing it through stdin]:STDIN_FILENAME:_files' \
-'*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION: ' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION:_default' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '--fix[Apply fixes to resolve lint violations. Use \`--no-fix\` to disable or \`--unsafe-fixes\` to include unsafe fixes]' \
 '--no-fix[]' \
 '--unsafe-fixes[Include fixes that may not retain the original intent of the code. Use \`--no-unsafe-fixes\` to disable]' \
@@ -7780,9 +7828,9 @@ TRY401\:"verbose-log-message"))' \
 && ret=0
 ;;
 (rule)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '()--all[Explain all rules]' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
@@ -8540,6 +8588,7 @@ PLW0131\:"named-expr-without-context"
 PLW0133\:"useless-exception-statement"
 PLW0177\:"nan-comparison"
 PLW0211\:"bad-staticmethod-argument"
+PLW0244\:"redefined-slots-in-subclass"
 PLW0245\:"super-without-brackets"
 PLW0406\:"import-self"
 PLW0602\:"global-variable-not-assigned"
@@ -8601,6 +8650,8 @@ UP042\:"replace-str-enum"
 UP043\:"unnecessary-default-type-args"
 UP044\:"non-pep646-unpack"
 UP045\:"non-pep604-annotation-optional"
+UP046\:"non-pep695-generic-class"
+UP047\:"non-pep695-generic-function"
 FURB101\:"read-whole-file"
 FURB103\:"write-whole-file"
 FURB105\:"print-empty-string"
@@ -8608,6 +8659,7 @@ FURB110\:"if-exp-instead-of-or-operator"
 FURB113\:"repeated-append"
 FURB116\:"f-string-number-format"
 FURB118\:"reimplemented-operator"
+FURB122\:"for-loop-writes"
 FURB129\:"readlines-in-for"
 FURB131\:"delete-full-slice"
 FURB132\:"check-and-remove-from-set"
@@ -8675,6 +8727,7 @@ RUF040\:"invalid-assert-message-literal-argument"
 RUF041\:"unnecessary-nested-literal"
 RUF043\:"pytest-raises-ambiguous-pattern"
 RUF046\:"unnecessary-cast-to-int"
+RUF047\:"needless-else"
 RUF048\:"map-int-version-parsing"
 RUF049\:"dataclass-enum"
 RUF051\:"if-key-in-dict-del"
@@ -8682,6 +8735,7 @@ RUF052\:"used-dummy-variable"
 RUF055\:"unnecessary-regular-expression"
 RUF056\:"falsy-dict-get-fallback"
 RUF057\:"unnecessary-round"
+RUF058\:"starmap-zip"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF200\:"invalid-pyproject-toml"
@@ -8698,9 +8752,9 @@ TRY401\:"verbose-log-message"))' \
 && ret=0
 ;;
 (config)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8710,13 +8764,205 @@ _arguments "${_arguments_options[@]}" \
 '--isolated[Ignore all configuration files]' \
 '-h[Print help]' \
 '--help[Print help]' \
-'::option -- Config key to show:' \
+'::option -- Config key to show:((cache-dir\:"A path to the cache directory."
+extend\:"A path to a local \`pyproject.toml\` file to merge into this configuration. User home directory and environment variables will be expanded."
+output-format\:"The style in which violation messages should be formatted\: \`'\''full'\''\` (default) (shows source), \`'\''concise'\''\`, \`'\''grouped'\''\` (group messages by file), \`'\''json'\''\` (machine-readable), \`'\''junit'\''\` (machine-readable XML), \`'\''github'\''\` (GitHub Actions annotations), \`'\''gitlab'\''\` (GitLab CI code quality report), \`'\''pylint'\''\` (Pylint text format) or \`'\''azure'\''\` (Azure Pipeline logging commands)."
+fix\:"Enable fix behavior by-default when running \`ruff\` (overridden by the \`--fix\` and \`--no-fix\` command-line flags). Only includes automatic fixes unless \`--unsafe-fixes\` is provided."
+unsafe-fixes\:"Enable application of unsafe fixes. If excluded, a hint will be displayed when unsafe fixes are available. If set to false, the hint will be hidden."
+fix-only\:"Like \[\`fix\`\](#fix), but disables reporting on leftover violation. Implies \[\`fix\`\](#fix)."
+show-fixes\:"Whether to show an enumeration of all fixed lint violations (overridden by the \`--show-fixes\` command-line flag)."
+required-version\:"Enforce a requirement on the version of Ruff, to enforce at runtime. If the version of Ruff does not meet the requirement, Ruff will exit with an error."
+preview\:"Whether to enable preview mode. When preview mode is enabled, Ruff will use unstable rules, fixes, and formatting."
+exclude\:"A list of file patterns to exclude from formatting and linting."
+extend-exclude\:"A list of file patterns to omit from formatting and linting, in addition to those specified by \[\`exclude\`\](#exclude)."
+extend-include\:"A list of file patterns to include when linting, in addition to those specified by \[\`include\`\](#include)."
+force-exclude\:"Whether to enforce \[\`exclude\`\](#exclude) and \[\`extend-exclude\`\](#extend-exclude) patterns, even for paths that are passed to Ruff explicitly. Typically, Ruff will lint any paths passed in directly, even if they would typically be excluded. Setting \`force-exclude = true\` will cause Ruff to respect these exclusions unequivocally."
+include\:"A list of file patterns to include when linting."
+respect-gitignore\:"Whether to automatically exclude files that are ignored by \`.ignore\`, \`.gitignore\`, \`.git/info/exclude\`, and global \`gitignore\` files. Enabled by default."
+builtins\:"A list of builtins to treat as defined references, in addition to the system builtins."
+namespace-packages\:"Mark the specified directories as namespace packages. For the purpose of module resolution, Ruff will treat those directories and all their subdirectories as if they contained an \`__init__.py\` file."
+target-version\:"The minimum Python version to target, e.g., when considering automatic code upgrades, like rewriting type annotations. Ruff will not propose changes using features that are not available in the given version."
+src\:"The directories to consider when resolving first- vs. third-party imports."
+line-length\:"The line length to use when enforcing long-lines violations (like \`E501\`) and at which \`isort\` and the formatter prefers to wrap lines."
+indent-width\:"The number of spaces per indentation level (tab)."
+lint\:"Configures how Ruff checks your code."
+lint.allowed-confusables\:"A list of allowed '\''confusable'\'' Unicode characters to ignore when enforcing \`RUF001\`, \`RUF002\`, and \`RUF003\`."
+lint.dummy-variable-rgx\:"A regular expression used to identify '\''dummy'\'' variables, or those which should be ignored when enforcing (e.g.) unused-variable rules. The default expression matches \`_\`, \`__\`, and \`_var\`, but not \`_var_\`."
+lint.extend-ignore\:"A list of rule codes or prefixes to ignore, in addition to those specified by \`ignore\`."
+lint.extend-select\:"A list of rule codes or prefixes to enable, in addition to those specified by \[\`select\`\](#lint_select)."
+lint.extend-fixable\:"A list of rule codes or prefixes to consider fixable, in addition to those specified by \[\`fixable\`\](#lint_fixable)."
+lint.external\:"A list of rule codes or prefixes that are unsupported by Ruff, but should be preserved when (e.g.) validating \`# noqa\` directives. Useful for retaining \`# noqa\` directives that cover plugins not yet implemented by Ruff."
+lint.fixable\:"A list of rule codes or prefixes to consider fixable. By default, all rules are considered fixable."
+lint.ignore\:"A list of rule codes or prefixes to ignore. Prefixes can specify exact rules (like \`F841\`), entire categories (like \`F\`), or anything in between."
+lint.extend-safe-fixes\:"A list of rule codes or prefixes for which unsafe fixes should be considered safe."
+lint.extend-unsafe-fixes\:"A list of rule codes or prefixes for which safe fixes should be considered unsafe."
+lint.ignore-init-module-imports\:"Avoid automatically removing unused imports in \`__init__.py\` files. Such imports will still be flagged, but with a dedicated message suggesting that the import is either added to the module'\''s \`__all__\` symbol, or re-exported with a redundant alias (e.g., \`import os as os\`)."
+lint.logger-objects\:"A list of objects that should be treated equivalently to a \`logging.Logger\` object."
+lint.select\:"A list of rule codes or prefixes to enable. Prefixes can specify exact rules (like \`F841\`), entire categories (like \`F\`), or anything in between."
+lint.explicit-preview-rules\:"Whether to require exact codes to select preview rules. When enabled, preview rules will not be selected by prefixes — the full code of each preview rule will be required to enable the rule."
+lint.task-tags\:"A list of task tags to recognize (e.g., '\''TODO'\'', '\''FIXME'\'', '\''XXX'\'')."
+lint.typing-modules\:"A list of modules whose exports should be treated equivalently to members of the \`typing\` module."
+lint.unfixable\:"A list of rule codes or prefixes to consider non-fixable."
+lint.flake8-annotations\:"Options for the \`flake8-annotations\` plugin."
+lint.flake8-annotations.mypy-init-return\:"Whether to allow the omission of a return type hint for \`__init__\` if at least one argument is annotated."
+lint.flake8-annotations.suppress-dummy-args\:"Whether to suppress \`ANN000\`-level violations for arguments matching the '\''dummy'\'' variable regex (like \`_\`)."
+lint.flake8-annotations.suppress-none-returning\:"Whether to suppress \`ANN200\`-level violations for functions that meet either of the following criteria\:"
+lint.flake8-annotations.allow-star-arg-any\:"Whether to suppress \`ANN401\` for dynamically typed \`*args\` and \`**kwargs\` arguments."
+lint.flake8-annotations.ignore-fully-untyped\:"Whether to suppress \`ANN*\` rules for any declaration that hasn'\''t been typed at all. This makes it easier to gradually add types to a codebase."
+lint.flake8-bandit\:"Options for the \`flake8-bandit\` plugin."
+lint.flake8-bandit.hardcoded-tmp-directory\:"A list of directories to consider temporary (see \`S108\`)."
+lint.flake8-bandit.hardcoded-tmp-directory-extend\:"A list of directories to consider temporary, in addition to those specified by \[\`hardcoded-tmp-directory\`\](#lint_flake8-bandit_hardcoded-tmp-directory) (see \`S108\`)."
+lint.flake8-bandit.check-typed-exception\:"Whether to disallow \`try\`-\`except\`-\`pass\` (\`S110\`) for specific exception types. By default, \`try\`-\`except\`-\`pass\` is only disallowed for \`Exception\` and \`BaseException\`."
+lint.flake8-boolean-trap\:"Options for the \`flake8-boolean-trap\` plugin"
+lint.flake8-boolean-trap.extend-allowed-calls\:"Additional callable functions with which to allow boolean traps."
+lint.flake8-bugbear\:"Options for the \`flake8-bugbear\` plugin."
+lint.flake8-bugbear.extend-immutable-calls\:"Additional callable functions to consider '\''immutable'\'' when evaluating, e.g., the \`function-call-in-default-argument\` rule (\`B008\`) or \`function-call-in-dataclass-defaults\` rule (\`RUF009\`)."
+lint.flake8-builtins\:"Options for the \`flake8-builtins\` plugin."
+lint.flake8-builtins.builtins-ignorelist\:"Ignore list of builtins."
+lint.flake8-builtins.builtins-allowed-modules\:"List of builtin module names to allow."
+lint.flake8-comprehensions\:"Options for the \`flake8-comprehensions\` plugin."
+lint.flake8-comprehensions.allow-dict-calls-with-keyword-arguments\:"Allow \`dict\` calls that make use of keyword arguments (e.g., \`dict(a=1, b=2)\`)."
+lint.flake8-copyright\:"Options for the \`flake8-copyright\` plugin."
+lint.flake8-copyright.notice-rgx\:"The regular expression used to match the copyright notice, compiled with the \[\`regex\`\](https\://docs.rs/regex/latest/regex/) crate. Defaults to \`(?i)Copyright\\s+((?\:\\(C\\)|©)\\s+)?\\d{4}((-|,\\s)\\d{4})*\`, which matches the following\:"
+lint.flake8-copyright.author\:"Author to enforce within the copyright notice. If provided, the author must be present immediately following the copyright notice."
+lint.flake8-copyright.min-file-size\:"A minimum file size (in bytes) required for a copyright notice to be enforced. By default, all files are validated."
+lint.flake8-errmsg\:"Options for the \`flake8-errmsg\` plugin."
+lint.flake8-errmsg.max-string-length\:"Maximum string length for string literals in exception messages."
+lint.flake8-quotes\:"Options for the \`flake8-quotes\` plugin."
+lint.flake8-quotes.inline-quotes\:"Quote style to prefer for inline strings (either '\''single'\'' or '\''double'\'')."
+lint.flake8-quotes.multiline-quotes\:"Quote style to prefer for multiline strings (either '\''single'\'' or '\''double'\'')."
+lint.flake8-quotes.docstring-quotes\:"Quote style to prefer for docstrings (either '\''single'\'' or '\''double'\'')."
+lint.flake8-quotes.avoid-escape\:"Whether to avoid using single quotes if a string contains single quotes, or vice-versa with double quotes, as per \[PEP 8\](https\://peps.python.org/pep-0008/#string-quotes). This minimizes the need to escape quotation marks within strings."
+lint.flake8-self\:"Options for the \`flake8_self\` plugin."
+lint.flake8-self.ignore-names\:"A list of names to ignore when considering \`flake8-self\` violations."
+lint.flake8-self.extend-ignore-names\:"Additional names to ignore when considering \`flake8-self\` violations, in addition to those included in \[\`ignore-names\`\](#lint_flake8-self_ignore-names)."
+lint.flake8-tidy-imports\:"Options for the \`flake8-tidy-imports\` plugin"
+lint.flake8-tidy-imports.ban-relative-imports\:"Whether to ban all relative imports (\`'\''all'\''\`), or only those imports that extend into the parent module or beyond (\`'\''parents'\''\`)."
+lint.flake8-tidy-imports.banned-api\:"Specific modules or module members that may not be imported or accessed. Note that this rule is only meant to flag accidental uses, and can be circumvented via \`eval\` or \`importlib\`."
+lint.flake8-tidy-imports.banned-module-level-imports\:"List of specific modules that may not be imported at module level, and should instead be imported lazily (e.g., within a function definition, or an \`if TYPE_CHECKING\:\` block, or some other nested context)."
+lint.flake8-type-checking\:"Options for the \`flake8-type-checking\` plugin"
+lint.flake8-type-checking.strict\:"Enforce \`TC001\`, \`TC002\`, and \`TC003\` rules even when valid runtime imports are present for the same module."
+lint.flake8-type-checking.exempt-modules\:"Exempt certain modules from needing to be moved into type-checking blocks."
+lint.flake8-type-checking.runtime-evaluated-base-classes\:"Exempt classes that list any of the enumerated classes as a base class from needing to be moved into type-checking blocks."
+lint.flake8-type-checking.runtime-evaluated-decorators\:"Exempt classes and functions decorated with any of the enumerated decorators from being moved into type-checking blocks."
+lint.flake8-type-checking.quote-annotations\:"Whether to add quotes around type annotations, if doing so would allow the corresponding import to be moved into a type-checking block."
+lint.flake8-gettext\:"Options for the \`flake8-gettext\` plugin."
+lint.flake8-gettext.function-names\:"The function names to consider as internationalization calls."
+lint.flake8-gettext.extend-function-names\:"Additional function names to consider as internationalization calls, in addition to those included in \[\`function-names\`\](#lint_flake8-gettext_function-names)."
+lint.flake8-implicit-str-concat\:"Options for the \`flake8-implicit-str-concat\` plugin"
+lint.flake8-implicit-str-concat.allow-multiline\:"Whether to allow implicit string concatenations for multiline strings. By default, implicit concatenations of multiline strings are allowed (but continuation lines, delimited with a backslash, are prohibited)."
+lint.flake8-import-conventions\:"Options for the \`flake8-import-conventions\` plugin"
+lint.flake8-import-conventions.aliases\:"The conventional aliases for imports. These aliases can be extended by the \[\`extend-aliases\`\](#lint_flake8-import-conventions_extend-aliases) option."
+lint.flake8-import-conventions.extend-aliases\:"A mapping from module to conventional import alias. These aliases will be added to the \[\`aliases\`\](#lint_flake8-import-conventions_aliases) mapping."
+lint.flake8-import-conventions.banned-aliases\:"A mapping from module to its banned import aliases."
+lint.flake8-import-conventions.banned-from\:"A list of modules that should not be imported from using the \`from ... import ...\` syntax."
+lint.flake8-pytest-style\:"Options for the \`flake8-pytest-style\` plugin"
+lint.flake8-pytest-style.fixture-parentheses\:"Boolean flag specifying whether \`@pytest.fixture()\` without parameters should have parentheses. If the option is set to \`false\` (the default), \`@pytest.fixture\` is valid and \`@pytest.fixture()\` is invalid. If set to \`true\`, \`@pytest.fixture()\` is valid and \`@pytest.fixture\` is invalid."
+lint.flake8-pytest-style.parametrize-names-type\:"Expected type for multiple argument names in \`@pytest.mark.parametrize\`. The following values are supported\:"
+lint.flake8-pytest-style.parametrize-values-type\:"Expected type for the list of values rows in \`@pytest.mark.parametrize\`. The following values are supported\:"
+lint.flake8-pytest-style.parametrize-values-row-type\:"Expected type for each row of values in \`@pytest.mark.parametrize\` in case of multiple parameters. The following values are supported\:"
+lint.flake8-pytest-style.raises-require-match-for\:"List of exception names that require a match= parameter in a \`pytest.raises()\` call."
+lint.flake8-pytest-style.raises-extend-require-match-for\:"List of additional exception names that require a match= parameter in a \`pytest.raises()\` call. This extends the default list of exceptions that require a match= parameter. This option is useful if you want to extend the default list of exceptions that require a match= parameter without having to specify the entire list. Note that this option does not remove any exceptions from the default list."
+lint.flake8-pytest-style.mark-parentheses\:"Boolean flag specifying whether \`@pytest.mark.foo()\` without parameters should have parentheses. If the option is set to \`false\` (the default), \`@pytest.mark.foo\` is valid and \`@pytest.mark.foo()\` is invalid. If set to \`true\`, \`@pytest.mark.foo()\` is valid and \`@pytest.mark.foo\` is invalid."
+lint.flake8-pytest-style.warns-require-match-for\:"List of warning names that require a match= parameter in a \`pytest.warns()\` call."
+lint.flake8-pytest-style.warns-extend-require-match-for\:"List of additional warning names that require a match= parameter in a \`pytest.warns()\` call. This extends the default list of warnings that require a match= parameter."
+lint.flake8-unused-arguments\:"Options for the \`flake8-unused-arguments\` plugin"
+lint.flake8-unused-arguments.ignore-variadic-names\:"Whether to allow unused variadic arguments, like \`*args\` and \`**kwargs\`."
+lint.isort\:"Options for the \`isort\` plugin."
+lint.isort.force-wrap-aliases\:"Force \`import from\` statements with multiple members and at least one alias (e.g., \`import A as B\`) to wrap such that every line contains exactly one member. For example, this formatting would be retained, rather than condensing to a single line\:"
+lint.isort.force-single-line\:"Forces all from imports to appear on their own line."
+lint.isort.single-line-exclusions\:"One or more modules to exclude from the single line rule."
+lint.isort.combine-as-imports\:"Combines as imports on the same line. See isort'\''s \[\`combine-as-imports\`\](https\://pycqa.github.io/isort/docs/configuration/options.html#combine-as-imports) option."
+lint.isort.split-on-trailing-comma\:"If a comma is placed after the last member in a multi-line import, then the imports will never be folded into one line."
+lint.isort.order-by-type\:"Order imports by type, which is determined by case, in addition to alphabetically."
+lint.isort.force-sort-within-sections\:"Don'\''t sort straight-style imports (like \`import sys\`) before from-style imports (like \`from itertools import groupby\`). Instead, sort the imports by module, independent of import style."
+lint.isort.case-sensitive\:"Sort imports taking into account case sensitivity."
+lint.isort.force-to-top\:"Force specific imports to the top of their appropriate section."
+lint.isort.known-first-party\:"A list of modules to consider first-party, regardless of whether they can be identified as such via introspection of the local filesystem."
+lint.isort.known-third-party\:"A list of modules to consider third-party, regardless of whether they can be identified as such via introspection of the local filesystem."
+lint.isort.known-local-folder\:"A list of modules to consider being a local folder. Generally, this is reserved for relative imports (\`from . import module\`)."
+lint.isort.extra-standard-library\:"A list of modules to consider standard-library, in addition to those known to Ruff in advance."
+lint.isort.relative-imports-order\:"Whether to place '\''closer'\'' imports (fewer \`.\` characters, most local) before '\''further'\'' imports (more \`.\` characters, least local), or vice versa."
+lint.isort.required-imports\:"Add the specified import line to all files."
+lint.isort.classes\:"An override list of tokens to always recognize as a Class for \[\`order-by-type\`\](#lint_isort_order-by-type) regardless of casing."
+lint.isort.constants\:"An override list of tokens to always recognize as a CONSTANT for \[\`order-by-type\`\](#lint_isort_order-by-type) regardless of casing."
+lint.isort.variables\:"An override list of tokens to always recognize as a var for \[\`order-by-type\`\](#lint_isort_order-by-type) regardless of casing."
+lint.isort.no-lines-before\:"A list of sections that should _not_ be delineated from the previous section via empty lines."
+lint.isort.lines-after-imports\:"The number of blank lines to place after imports. Use \`-1\` for automatic determination."
+lint.isort.lines-between-types\:"The number of lines to place between '\''direct'\'' and \`import from\` imports."
+lint.isort.forced-separate\:"A list of modules to separate into auxiliary block(s) of imports, in the order specified."
+lint.isort.section-order\:"Override in which order the sections should be output. Can be used to move custom sections."
+lint.isort.default-section\:"Define a default section for any imports that don'\''t fit into the specified \[\`section-order\`\](#lint_isort_section-order)."
+lint.isort.no-sections\:"Put all imports into the same section bucket."
+lint.isort.detect-same-package\:"Whether to automatically mark imports from within the same package as first-party. For example, when \`detect-same-package = true\`, then when analyzing files within the \`foo\` package, any imports from within the \`foo\` package will be considered first-party."
+lint.isort.from-first\:"Whether to place \`import from\` imports before straight imports when sorting."
+lint.isort.length-sort\:"Sort imports by their string length, such that shorter imports appear before longer imports. For example, by default, imports will be sorted alphabetically, as in\: \`\`\`python import collections import os \`\`\`"
+lint.isort.length-sort-straight\:"Sort straight imports by their string length. Similar to \[\`length-sort\`\](#lint_isort_length-sort), but applies only to straight imports and doesn'\''t affect \`from\` imports."
+lint.isort.sections\:"A list of mappings from section names to modules."
+lint.mccabe\:"Options for the \`mccabe\` plugin."
+lint.mccabe.max-complexity\:"The maximum McCabe complexity to allow before triggering \`C901\` errors."
+lint.pep8-naming\:"Options for the \`pep8-naming\` plugin."
+lint.pep8-naming.ignore-names\:"A list of names (or patterns) to ignore when considering \`pep8-naming\` violations."
+lint.pep8-naming.extend-ignore-names\:"Additional names (or patterns) to ignore when considering \`pep8-naming\` violations, in addition to those included in \[\`ignore-names\`\](#lint_pep8-naming_ignore-names)."
+lint.pep8-naming.classmethod-decorators\:"A list of decorators that, when applied to a method, indicate that the method should be treated as a class method (in addition to the builtin \`@classmethod\`)."
+lint.pep8-naming.staticmethod-decorators\:"A list of decorators that, when applied to a method, indicate that the method should be treated as a static method (in addition to the builtin \`@staticmethod\`)."
+lint.pycodestyle\:"Options for the \`pycodestyle\` plugin."
+lint.pycodestyle.max-line-length\:"The maximum line length to allow for \[\`line-too-long\`\](https\://docs.astral.sh/ruff/rules/line-too-long/) violations. By default, this is set to the value of the \[\`line-length\`\](#line-length) option."
+lint.pycodestyle.max-doc-length\:"The maximum line length to allow for \[\`doc-line-too-long\`\](https\://docs.astral.sh/ruff/rules/doc-line-too-long/) violations within documentation (\`W505\`), including standalone comments. By default, this is set to \`null\` which disables reporting violations."
+lint.pycodestyle.ignore-overlong-task-comments\:"Whether line-length violations (\`E501\`) should be triggered for comments starting with \[\`task-tags\`\](#lint_task-tags) (by default\: '\''TODO'\'', '\''FIXME'\'', and '\''XXX'\'')."
+lint.pydocstyle\:"Options for the \`pydocstyle\` plugin."
+lint.pydocstyle.convention\:"Whether to use Google-style, NumPy-style conventions, or the \[PEP 257\](https\://peps.python.org/pep-0257/) defaults when analyzing docstring sections."
+lint.pydocstyle.ignore-decorators\:"Ignore docstrings for functions or methods decorated with the specified fully-qualified decorators."
+lint.pydocstyle.property-decorators\:"A list of decorators that, when applied to a method, indicate that the method should be treated as a property (in addition to the builtin \`@property\` and standard-library \`@functools.cached_property\`)."
+lint.pydocstyle.ignore-var-parameters\:"If set to \`true\`, ignore missing documentation for \`*args\` and \`**kwargs\` parameters."
+lint.pyflakes\:"Options for the \`pyflakes\` plugin."
+lint.pyflakes.extend-generics\:"Additional functions or classes to consider generic, such that any subscripts should be treated as type annotation (e.g., \`ForeignKey\` in \`django.db.models.ForeignKey\['\''User'\''\]\`."
+lint.pyflakes.allowed-unused-imports\:"A list of modules to ignore when considering unused imports."
+lint.pylint\:"Options for the \`pylint\` plugin."
+lint.pylint.allow-magic-value-types\:"Constant types to ignore when used as '\''magic values'\'' (see \`PLR2004\`)."
+lint.pylint.allow-dunder-method-names\:"Dunder methods name to allow, in addition to the default set from the Python standard library (see \`PLW3201\`)."
+lint.pylint.max-branches\:"Maximum number of branches allowed for a function or method body (see \`PLR0912\`)."
+lint.pylint.max-returns\:"Maximum number of return statements allowed for a function or method body (see \`PLR0911\`)"
+lint.pylint.max-args\:"Maximum number of arguments allowed for a function or method definition (see \`PLR0913\`)."
+lint.pylint.max-positional-args\:"Maximum number of positional arguments allowed for a function or method definition (see \`PLR0917\`)."
+lint.pylint.max-locals\:"Maximum number of local variables allowed for a function or method body (see \`PLR0914\`)."
+lint.pylint.max-statements\:"Maximum number of statements allowed for a function or method body (see \`PLR0915\`)."
+lint.pylint.max-public-methods\:"Maximum number of public methods allowed for a class (see \`PLR0904\`)."
+lint.pylint.max-bool-expr\:"Maximum number of Boolean expressions allowed within a single \`if\` statement (see \`PLR0916\`)."
+lint.pylint.max-nested-blocks\:"Maximum number of nested blocks allowed within a function or method body (see \`PLR1702\`)."
+lint.pyupgrade\:"Options for the \`pyupgrade\` plugin."
+lint.pyupgrade.keep-runtime-typing\:"Whether to avoid \[PEP 585\](https\://peps.python.org/pep-0585/) (\`List\[int\]\` -> \`list\[int\]\`) and \[PEP 604\](https\://peps.python.org/pep-0604/) (\`Union\[str, int\]\` -> \`str | int\`) rewrites even if a file imports \`from __future__ import annotations\`."
+lint.per-file-ignores\:"A list of mappings from file pattern to rule codes or prefixes to exclude, when considering any matching files. An initial '\''!'\'' negates the file pattern."
+lint.extend-per-file-ignores\:"A list of mappings from file pattern to rule codes or prefixes to exclude, in addition to any rules excluded by \[\`per-file-ignores\`\](#lint_per-file-ignores)."
+lint.exclude\:"A list of file patterns to exclude from linting in addition to the files excluded globally (see \[\`exclude\`\](#exclude), and \[\`extend-exclude\`\](#extend-exclude))."
+lint.pydoclint\:"Options for the \`pydoclint\` plugin."
+lint.pydoclint.ignore-one-line-docstrings\:"Skip docstrings which fit on a single line."
+lint.ruff\:"Options for the \`ruff\` plugin"
+lint.ruff.parenthesize-tuple-in-subscript\:"Whether to prefer accessing items keyed by tuples with parentheses around the tuple (see \`RUF031\`)."
+lint.ruff.extend-markup-names\:"A list of additional callable names that behave like \[\`markupsafe.Markup\`\](https\://markupsafe.palletsprojects.com/en/stable/escaping/#markupsafe.Markup)."
+lint.ruff.allowed-markup-calls\:"A list of callable names, whose result may be safely passed into \[\`markupsafe.Markup\`\](https\://markupsafe.palletsprojects.com/en/stable/escaping/#markupsafe.Markup)."
+lint.preview\:"Whether to enable preview mode. When preview mode is enabled, Ruff will use unstable rules and fixes."
+format\:"Configures the way Ruff formats your code."
+format.exclude\:"A list of file patterns to exclude from formatting in addition to the files excluded globally (see \[\`exclude\`\](#exclude), and \[\`extend-exclude\`\](#extend-exclude))."
+format.preview\:"Whether to enable the unstable preview style formatting."
+format.indent-style\:"Whether to use spaces or tabs for indentation."
+format.quote-style\:"Configures the preferred quote character for strings. The recommended options are"
+format.skip-magic-trailing-comma\:"Ruff uses existing trailing commas as an indication that short lines should be left separate. If this option is set to \`true\`, the magic trailing comma is ignored."
+format.line-ending\:"The character Ruff uses at the end of a line."
+format.docstring-code-format\:"Whether to format code snippets in docstrings."
+format.docstring-code-line-length\:"Set the line length used when formatting code snippets in docstrings."
+analyze\:"Configures Ruff'\''s \`analyze\` command."
+analyze.exclude\:"A list of file patterns to exclude from analysis in addition to the files excluded globally (see \[\`exclude\`\](#exclude), and \[\`extend-exclude\`\](#extend-exclude))."
+analyze.preview\:"Whether to enable preview mode. When preview mode is enabled, Ruff will expose unstable commands."
+analyze.direction\:"Whether to generate a map from file to files that it depends on (dependencies) or files that depend on it (dependents)."
+analyze.detect-string-imports\:"Whether to detect imports from string literals. When enabled, Ruff will search for string literals that '\''look like'\'' import paths, and include them in the import map, if they resolve to valid Python modules."
+analyze.include-dependencies\:"A map from file path to the list of Python or non-Python file paths or globs that should be considered dependencies of that file, regardless of whether relevant imports are detected."))' \
 && ret=0
 ;;
 (linter)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8729,8 +8975,8 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (clean)
-_arguments "${_arguments_options[@]}" \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+_arguments "${_arguments_options[@]}" : \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8743,8 +8989,8 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (generate-shell-completion)
-_arguments "${_arguments_options[@]}" \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+_arguments "${_arguments_options[@]}" : \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8758,15 +9004,15 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (format)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--cache-dir=[Path to the cache directory]:CACHE_DIR:_files' \
-'*--exclude=[List of paths, used to omit files and/or directories from analysis]:FILE_PATTERN: ' \
-'--line-length=[Set the line-length]:LINE_LENGTH: ' \
+'*--exclude=[List of paths, used to omit files and/or directories from analysis]:FILE_PATTERN:_default' \
+'--line-length=[Set the line-length]:LINE_LENGTH:_default' \
 '--stdin-filename=[The name of the file when passing it through stdin]:STDIN_FILENAME:_files' \
-'*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION: ' \
+'*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION:_default' \
 '--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313)' \
-'--range=[When specified, Ruff will try to only format the code in the given range. It might be necessary to extend the start backwards or the end forwards, to fully enclose a logical line. The \`<RANGE>\` uses the format \`<start_line>\:<start_column>-<end_line>\:<end_column>\`.]:RANGE: ' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'--range=[When specified, Ruff will try to only format the code in the given range. It might be necessary to extend the start backwards or the end forwards, to fully enclose a logical line. The \`<RANGE>\` uses the format \`<start_line>\:<start_column>-<end_line>\:<end_column>\`.]:RANGE:_default' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '--check[Avoid writing any formatted files back; instead, exit with a non-zero status code if any files would have been modified, and zero otherwise]' \
 '--diff[Avoid writing any formatted files back; instead, exit with a non-zero status code and the difference between the current file and how the formatted file would look like]' \
 '-n[Disable cache reads]' \
@@ -8790,8 +9036,8 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (server)
-_arguments "${_arguments_options[@]}" \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+_arguments "${_arguments_options[@]}" : \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '--preview[Enable preview mode. Use \`--no-preview\` to disable]' \
 '--no-preview[]' \
 '-v[Enable verbose logging]' \
@@ -8806,8 +9052,8 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (analyze)
-_arguments "${_arguments_options[@]}" \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+_arguments "${_arguments_options[@]}" : \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8828,11 +9074,11 @@ _arguments "${_arguments_options[@]}" \
         curcontext="${curcontext%:*:*}:ruff-analyze-command-$line[1]:"
         case $line[1] in
             (graph)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--direction=[The direction of the import map. By default, generates a dependency map, i.e., a map from file to files that it depends on. Use \`--direction dependents\` to generate a map from file to files that depend on it]:DIRECTION:((dependencies\:"Construct a map from module to its dependencies (i.e., the modules that it imports)"
 dependents\:"Construct a map from module to its dependents (i.e., the modules that import it)"))' \
 '--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313)' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '--detect-string-imports[Attempt to detect imports from string literals]' \
 '--preview[Enable preview mode. Use \`--no-preview\` to disable]' \
 '--no-preview[]' \
@@ -8849,7 +9095,7 @@ dependents\:"Construct a map from module to its dependents (i.e., the modules th
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 ":: :_ruff__analyze__help_commands" \
 "*::: :->help" \
 && ret=0
@@ -8861,11 +9107,11 @@ _arguments "${_arguments_options[@]}" \
         curcontext="${curcontext%:*:*}:ruff-analyze-help-command-$line[1]:"
         case $line[1] in
             (graph)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
         esac
@@ -8877,9 +9123,9 @@ esac
 esac
 ;;
 (version)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 '--output-format=[]:OUTPUT_FORMAT:(text json)' \
-'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION: ' \
+'*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8892,7 +9138,7 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 ":: :_ruff__help_commands" \
 "*::: :->help" \
 && ret=0
@@ -8904,39 +9150,39 @@ _arguments "${_arguments_options[@]}" \
         curcontext="${curcontext%:*:*}:ruff-help-command-$line[1]:"
         case $line[1] in
             (check)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (rule)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (config)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (linter)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (clean)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (generate-shell-completion)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (format)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (server)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (analyze)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 ":: :_ruff__help__analyze_commands" \
 "*::: :->analyze" \
 && ret=0
@@ -8948,7 +9194,7 @@ _arguments "${_arguments_options[@]}" \
         curcontext="${curcontext%:*:*}:ruff-help-analyze-command-$line[1]:"
         case $line[1] in
             (graph)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
         esac
@@ -8956,11 +9202,11 @@ _arguments "${_arguments_options[@]}" \
 esac
 ;;
 (version)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
         esac
@@ -8997,77 +9243,10 @@ _ruff__analyze_commands() {
     )
     _describe -t commands 'ruff analyze commands' commands "$@"
 }
-(( $+functions[_ruff__help__analyze_commands] )) ||
-_ruff__help__analyze_commands() {
-    local commands; commands=(
-'graph:Generate a map of Python file dependencies or dependents' \
-    )
-    _describe -t commands 'ruff help analyze commands' commands "$@"
-}
-(( $+functions[_ruff__check_commands] )) ||
-_ruff__check_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff check commands' commands "$@"
-}
-(( $+functions[_ruff__help__check_commands] )) ||
-_ruff__help__check_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help check commands' commands "$@"
-}
-(( $+functions[_ruff__clean_commands] )) ||
-_ruff__clean_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff clean commands' commands "$@"
-}
-(( $+functions[_ruff__help__clean_commands] )) ||
-_ruff__help__clean_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help clean commands' commands "$@"
-}
-(( $+functions[_ruff__config_commands] )) ||
-_ruff__config_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff config commands' commands "$@"
-}
-(( $+functions[_ruff__help__config_commands] )) ||
-_ruff__help__config_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help config commands' commands "$@"
-}
-(( $+functions[_ruff__format_commands] )) ||
-_ruff__format_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff format commands' commands "$@"
-}
-(( $+functions[_ruff__help__format_commands] )) ||
-_ruff__help__format_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help format commands' commands "$@"
-}
-(( $+functions[_ruff__generate-shell-completion_commands] )) ||
-_ruff__generate-shell-completion_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff generate-shell-completion commands' commands "$@"
-}
-(( $+functions[_ruff__help__generate-shell-completion_commands] )) ||
-_ruff__help__generate-shell-completion_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help generate-shell-completion commands' commands "$@"
-}
 (( $+functions[_ruff__analyze__graph_commands] )) ||
 _ruff__analyze__graph_commands() {
     local commands; commands=()
     _describe -t commands 'ruff analyze graph commands' commands "$@"
-}
-(( $+functions[_ruff__analyze__help__graph_commands] )) ||
-_ruff__analyze__help__graph_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff analyze help graph commands' commands "$@"
-}
-(( $+functions[_ruff__help__analyze__graph_commands] )) ||
-_ruff__help__analyze__graph_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff help analyze graph commands' commands "$@"
 }
 (( $+functions[_ruff__analyze__help_commands] )) ||
 _ruff__analyze__help_commands() {
@@ -9077,10 +9256,40 @@ _ruff__analyze__help_commands() {
     )
     _describe -t commands 'ruff analyze help commands' commands "$@"
 }
+(( $+functions[_ruff__analyze__help__graph_commands] )) ||
+_ruff__analyze__help__graph_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff analyze help graph commands' commands "$@"
+}
 (( $+functions[_ruff__analyze__help__help_commands] )) ||
 _ruff__analyze__help__help_commands() {
     local commands; commands=()
     _describe -t commands 'ruff analyze help help commands' commands "$@"
+}
+(( $+functions[_ruff__check_commands] )) ||
+_ruff__check_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff check commands' commands "$@"
+}
+(( $+functions[_ruff__clean_commands] )) ||
+_ruff__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff clean commands' commands "$@"
+}
+(( $+functions[_ruff__config_commands] )) ||
+_ruff__config_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff config commands' commands "$@"
+}
+(( $+functions[_ruff__format_commands] )) ||
+_ruff__format_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff format commands' commands "$@"
+}
+(( $+functions[_ruff__generate-shell-completion_commands] )) ||
+_ruff__generate-shell-completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff generate-shell-completion commands' commands "$@"
 }
 (( $+functions[_ruff__help_commands] )) ||
 _ruff__help_commands() {
@@ -9099,6 +9308,43 @@ _ruff__help_commands() {
     )
     _describe -t commands 'ruff help commands' commands "$@"
 }
+(( $+functions[_ruff__help__analyze_commands] )) ||
+_ruff__help__analyze_commands() {
+    local commands; commands=(
+'graph:Generate a map of Python file dependencies or dependents' \
+    )
+    _describe -t commands 'ruff help analyze commands' commands "$@"
+}
+(( $+functions[_ruff__help__analyze__graph_commands] )) ||
+_ruff__help__analyze__graph_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help analyze graph commands' commands "$@"
+}
+(( $+functions[_ruff__help__check_commands] )) ||
+_ruff__help__check_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help check commands' commands "$@"
+}
+(( $+functions[_ruff__help__clean_commands] )) ||
+_ruff__help__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help clean commands' commands "$@"
+}
+(( $+functions[_ruff__help__config_commands] )) ||
+_ruff__help__config_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help config commands' commands "$@"
+}
+(( $+functions[_ruff__help__format_commands] )) ||
+_ruff__help__format_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help format commands' commands "$@"
+}
+(( $+functions[_ruff__help__generate-shell-completion_commands] )) ||
+_ruff__help__generate-shell-completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff help generate-shell-completion commands' commands "$@"
+}
 (( $+functions[_ruff__help__help_commands] )) ||
 _ruff__help__help_commands() {
     local commands; commands=()
@@ -9109,35 +9355,35 @@ _ruff__help__linter_commands() {
     local commands; commands=()
     _describe -t commands 'ruff help linter commands' commands "$@"
 }
-(( $+functions[_ruff__linter_commands] )) ||
-_ruff__linter_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff linter commands' commands "$@"
-}
 (( $+functions[_ruff__help__rule_commands] )) ||
 _ruff__help__rule_commands() {
     local commands; commands=()
     _describe -t commands 'ruff help rule commands' commands "$@"
-}
-(( $+functions[_ruff__rule_commands] )) ||
-_ruff__rule_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff rule commands' commands "$@"
 }
 (( $+functions[_ruff__help__server_commands] )) ||
 _ruff__help__server_commands() {
     local commands; commands=()
     _describe -t commands 'ruff help server commands' commands "$@"
 }
-(( $+functions[_ruff__server_commands] )) ||
-_ruff__server_commands() {
-    local commands; commands=()
-    _describe -t commands 'ruff server commands' commands "$@"
-}
 (( $+functions[_ruff__help__version_commands] )) ||
 _ruff__help__version_commands() {
     local commands; commands=()
     _describe -t commands 'ruff help version commands' commands "$@"
+}
+(( $+functions[_ruff__linter_commands] )) ||
+_ruff__linter_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff linter commands' commands "$@"
+}
+(( $+functions[_ruff__rule_commands] )) ||
+_ruff__rule_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff rule commands' commands "$@"
+}
+(( $+functions[_ruff__server_commands] )) ||
+_ruff__server_commands() {
+    local commands; commands=()
+    _describe -t commands 'ruff server commands' commands "$@"
 }
 (( $+functions[_ruff__version_commands] )) ||
 _ruff__version_commands() {
