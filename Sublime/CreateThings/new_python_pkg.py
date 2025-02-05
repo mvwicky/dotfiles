@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import List
+from typing import Dict, List
 
 import sublime
 import sublime_plugin
@@ -14,16 +14,16 @@ def plugin_unloaded():
     for mod_name in sys.modules:
         if lib_name in mod_name:
             to_pop.append(mod_name)
-    print(to_pop)
-    [sys.modules.pop(mod) for mod in to_pop]
+    if to_pop:
+        print([sys.modules.pop(mod) for mod in to_pop])
 
 
 class LocationInputHandler(sublime_plugin.TextInputHandler):
-    def __init__(self, initial_path):
+    def __init__(self, initial_path: str):
         super().__init__()
         self.initial_path = initial_path
         if not self.initial_path.endswith(os.sep):
-            self.initial_path = "".join([self.initial_path, os.sep])
+            self.initial_path = "".join((self.initial_path, os.sep))
 
     def validate(self, text):
         return not os.path.isdir(os.path.normpath(text))
@@ -46,12 +46,21 @@ class NewPythonPackageCommand(sublime_plugin.WindowCommand):
         print(args, kwargs)
         # self.on_done(location)
 
-    def input(self, args):
+    def input(self, args: Dict[str, List[str]]):
         dirs = args.get("dirs", None)
-        if isinstance(dirs, list):
+        if dirs and isinstance(dirs, list) and isinstance(dirs[-1], str):
             path = dirs.pop()
         else:
-            path = os.path.dirname(self.window.project_file_name())
+            project_file_name = self.window.project_file_name()
+            if project_file_name:
+                path = os.path.dirname(project_file_name)
+            else:
+                view = self.window.active_view()
+                if view:
+                    file_name = view.file_name()
+                    if file_name:
+                        path = os.path.dirname(file_name)
+                return
         return LocationInputHandler(path)
 
     def on_done(self, data):

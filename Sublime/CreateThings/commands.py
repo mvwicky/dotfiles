@@ -31,12 +31,12 @@ class CopyPackagesPathCommand(sublime_plugin.ApplicationCommand):
         window = sublime.active_window()
         if window.is_status_bar_visible():
             view = window.active_view()
-            view.set_status("copy_packages", "Packages Path Copied")
-            sublime.set_timeout_async(partial(self.clear_status, view), 1000)
+            if view:
+                view.set_status("copy_packages", "Packages Path Copied")
+                sublime.set_timeout_async(partial(self.clear_status, view), 1000)
 
     def clear_status(self, view: sublime.View):
         view.erase_status("copy_packages")
-        view = None
 
 
 # class SetPythonInterpreterCommand(sublime_plugin.EventListener):

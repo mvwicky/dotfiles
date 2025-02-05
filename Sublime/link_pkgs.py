@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+
 from __future__ import annotations
 
 import os
 import stat
 from argparse import ArgumentParser, ArgumentTypeError
 from collections.abc import Iterable
-from dataclasses import dataclass
 from pathlib import Path
 from typing import NamedTuple, Self, TypeVar
 
@@ -14,8 +14,7 @@ HERE: Path = Path(__file__).resolve().parent
 _P = TypeVar("_P", Path, str, bytes)
 
 
-@dataclass(slots=True)
-class PathType:
+class PathType(NamedTuple):
     exists: bool = True
     dir_okay: bool = True
     file_okay: bool = True
@@ -124,7 +123,7 @@ def get_args():
 def get_packages_path():
     import subprocess
 
-    subl_args = ["subl", "--command", "copy_packages_path"]
+    subl_args = ["subl", "--command", "copy_packages_path", "--background"]
     print("Running: `", " ".join(subl_args), "`", sep="")
     subprocess.run(subl_args, check=True)
     pbpaste_args = ["pbpaste"]
@@ -135,7 +134,7 @@ def get_packages_path():
 
 def make_link(to_link: ToLink, force: bool, dry_run: bool):
     src, dest = to_link
-    if force and dest.exists():
+    if not dry_run and force and dest.exists():
         dest.unlink()
     if not dry_run:
         dest.symlink_to(src, target_is_directory=True)

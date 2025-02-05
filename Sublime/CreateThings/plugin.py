@@ -1,10 +1,10 @@
-import sys
 import enum
 import logging
 import logging.config
 import os
+import sys
 from pathlib import Path
-from typing import Any, List, Mapping, MutableSequence, Sequence, Tuple, Union
+from typing import Any, List, Mapping, MutableSequence, Tuple, Union
 
 import sublime
 import sublime_plugin
@@ -84,6 +84,11 @@ class TemplateOptionsInputHandler(sublime_plugin.ListInputHandler):
 
 
 class LocationInputHandler(sublime_plugin.TextInputHandler):
+    """Get file location.
+
+    TODO: Show child directories, if the current input is a directory.
+    """
+
     def __init__(self, initial_path: str):
         super().__init__()
         self.initial_path = initial_path
@@ -133,9 +138,7 @@ class LocationInputHandler(sublime_plugin.TextInputHandler):
             </style>
             {folder}{sep}{file}
         </body>
-        """.format(
-            folder=folder, sep=os.path.sep, file=file
-        )
+        """.format(folder=folder, sep=os.path.sep, file=file)
         return sublime.Html(html)
 
     def initial_selection(self) -> List[Tuple[int, int]]:
@@ -157,7 +160,7 @@ class NewPythonFileCommand(sublime_plugin.WindowCommand):
 
     def run(
         self,
-        paths: Union[Sequence[str], None] = None,
+        paths: Union[MutableSequence[str], None] = None,
         location: Union[str, None] = None,
         template_options: Union[str, None] = None,
     ):
@@ -170,7 +173,7 @@ class NewPythonFileCommand(sublime_plugin.WindowCommand):
             self.view = self.window.show_input_panel(
                 "File Name",
                 self.path,
-                self.on_path_selected,
+                self.on_path_selected,  # type: ignore
                 self.on_change,
                 self.on_cancel,
             )
@@ -198,11 +201,12 @@ class NewPythonFileCommand(sublime_plugin.WindowCommand):
                 path = os.path.dirname(path)
         else:
             view = window.active_view()
-            file_name = view.file_name()
-            if file_name is None:
-                path = os.path.dirname(window.project_file_name())
-            else:
-                path = os.path.dirname(file_name)
+            if view:
+                file_name = view.file_name()
+                if file_name is None:
+                    path = os.path.dirname(window.project_file_name() or os.getcwd())
+                else:
+                    path = os.path.dirname(file_name)
         if not path.endswith(os.sep):
             path = "".join((path, os.sep))
         return path
@@ -210,16 +214,18 @@ class NewPythonFileCommand(sublime_plugin.WindowCommand):
     def on_path_selected(self, data: str, template: Union[str, None]):
         self.clear_view()
         logger.debug("data=%r", data)
-        file = os.path.normpath(os.path.join(self.path, data))
-        if os.path.isfile(file):
-            sublime.error_message("File already exists.")
-            return
-        try:
-            options = TemplateOption[template]
-        except KeyError:
-            return
-        self.create_file(file, options)
-        self.current_path = file
+        if self.path is not None:
+            file = os.path.normpath(os.path.join(self.path, data))
+            if os.path.isfile(file):
+                sublime.error_message("File already exists.")
+                return
+            if template:
+                try:
+                    options = TemplateOption[template]
+                except KeyError:
+                    return
+                self.create_file(file, options)
+                self.current_path = file
 
     def create_file(self, file: str, template: TemplateOption):
         with open(file, "wt", encoding=self.encoding) as f:
@@ -243,5 +249,6 @@ def plugin_unloaded():
     for mod_name in sys.modules:
         if lib_name in mod_name:
             to_pop.append(mod_name)
-    print(to_pop)
-    [sys.modules.pop(mod) for mod in to_pop]
+    if to_pop:
+        print(to_pop)
+        [sys.modules.pop(mod) for mod in to_pop]

@@ -6,3 +6,8 @@ include = [
   "./install.py",
   "./zsh/bin/pipx-outdated-py"
 ]
+[lint]
+extend-select = ["I"]
+
+[lint.isort]
+known-third-party = ["sublime", "sublime_plugin"]
