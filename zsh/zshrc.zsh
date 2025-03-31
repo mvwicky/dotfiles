@@ -34,14 +34,10 @@ if __has brew; then
   done
 fi
 
-# ASDF_DIR="$HOME/.local/asdf"
-# if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
-#   export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/.asdfrc"
-#   export ASDF_DATA_DIR=$ASDF_DIR
-#   . "$ASDF_DIR/asdf.sh"
-
-#   fpath+="$ASDF_DIR/completions"
-# fi
+if __has asdf; then
+  export ASDF_DATA_DIR="$XDG_DATA_HOME"/asdf
+  export PATH="${ASDF_DATA_DIR}/shims:$PATH"
+fi
 
 export ADOTDIR="$XDG_DATA_HOME/antigen"
 source "$brew_prefix/opt/antigen/share/antigen/antigen.zsh"
