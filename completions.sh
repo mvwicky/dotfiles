@@ -57,6 +57,10 @@ if __has rye; then
   gen_completions rye rye self completion -s zsh
 fi
 
+if __has xan; then
+  gen_completions xan xan completions zsh
+fi
+
 # if __has deno; then
 #   gen_completions deno deno completions zsh
 # fi
