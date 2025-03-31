@@ -72,7 +72,7 @@ return {
           "eslint",
           "html",
           "jsonls",
-          "pyright",
+          "basedpyright",
           "rust_analyzer",
           "ts_ls",
           "ruff",
