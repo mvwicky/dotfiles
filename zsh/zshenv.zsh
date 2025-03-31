@@ -12,7 +12,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_RUNTIME_DIR="$HOME/Library/Caches/TemporaryItems"
 
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="$XDG_DATA_HOME"/pyenv
 export NVIM_LOG_FILE="$HOME/.local/share/nvim/nvim.log"
 
 export GOPATH="$XDG_DATA_HOME"/go
