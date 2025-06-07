@@ -20,15 +20,15 @@
 	"auto_complete_triggers": [
 		{
 			"characters": ".",
-			"selector": "source.python - (string.quoted.docstring | comment)",
+			"selector": "source.python - (string.quoted.docstring | comment)"
 		},
 		{
 			"characters": "\\",
-			"selector": "text.tex.latex",
+			"selector": "text.tex.latex"
 		},
 		{
 			"characters": "<",
-			"selector": "text.html",
+			"selector": "text.html"
 		}
 	],
 	"auto_complete_with_fields": true,
@@ -45,7 +45,7 @@
 	"find_selected_text": true,
 	"font_face": "Operator Mono",
 	"font_options": ["dlig", "ss01", "gray_antialias", "no_round"],
-	"font_size": 10,
+	"font_size": 8,
 	"highlight_line": true,
 	"highlight_modified_tabs": true,
 	"ignored_packages": [
@@ -56,7 +56,7 @@
 		"Rust Enhanced",
 		"SublimeLinter-flake8",
 		"Vintage",
-		"ZSH",
+		"ZSH"
 	],
 	"indent_guide_options": ["draw_normal", "draw_active"],
 	"indent_to_bracket": true,
@@ -74,8 +74,7 @@
 	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"hardware_acceleration": "opengl",
-	"python_interpreter": "/Users/michael/.pyenv/versions/3.11.7/bin/python",
 	"ignored_words": ["yaml"],
 	"ruler_style": "stippled",
-	"index_files": false,
+	"index_files": false
 }
