@@ -7,3 +7,4 @@ eget --upgrade-only boyter/scc
 eget --upgrade-only denoland/denokv
 eget --upgrade-only kristoff-it/superhtml
 eget --upgrade-only frectonz/sql-studio
+eget --upgrade-only reteps/dockerfmt
