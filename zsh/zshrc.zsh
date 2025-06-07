@@ -94,7 +94,7 @@ export TS_NODE_HISTORY="$XDG_CACHE_HOME/ts_node_repl_history"
 
 export FNM_COREPACK_ENABLED="true"
 
-eval "$(fnm env --use-on-cd)"
+eval "$(fnm env)"
 
 # tabtab source for packages
 # uninstall by removing these lines
