@@ -45,4 +45,21 @@ function M.imap(shortcut, command, options)
   M.generic_map("i", shortcut, command, options)
 end
 
+M.ts_languages = {
+  "bash",
+  "css",
+  "html",
+  "javascript",
+  "json",
+  "jsonc",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "scss",
+  "tsx",
+  "typescript",
+  "vimdoc",
+}
+
 return M

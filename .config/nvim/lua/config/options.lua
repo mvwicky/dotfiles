@@ -134,6 +134,14 @@ Utils.create_augroups({
   },
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = Utils.ts_languages,
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
 -- local fts = vim.api.nvim_create_augroup("filetypes", {})
 -- vim.api.nvim_create_autocmd({ "FileType" }, {
 --   pattern = "Makefile",

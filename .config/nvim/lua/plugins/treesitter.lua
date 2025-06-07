@@ -1,30 +1,16 @@
+local Utils = require("utils")
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
+    branch = "main",
+    lazy = false,
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "bash",
-          "css",
-          "html",
-          "javascript",
-          "json",
-          "jsonc",
-          "lua",
-          "markdown",
-          "markdown_inline",
-          "python",
-          "scss",
-          "tsx",
-          "typescript",
-          "vimdoc",
-        },
-        highlight = { enable = true },
-        indent = { enable = true },
-        sync_install = false,
-      })
+      local ts = require("nvim-treesitter")
+      ts.install(Utils.ts_languages, { summary = true })
     end,
-    build = ":TSUpdate",
+    build = function()
+      require("nvim-treesitter").update(nil, { summary = true })
+    end,
   },
 }
