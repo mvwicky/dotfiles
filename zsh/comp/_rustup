@@ -62,102 +62,6 @@ _arguments "${_arguments_options[@]}" : \
 '--help[Print help]' \
 && ret=0
 ;;
-(show)
-_arguments "${_arguments_options[@]}" : \
-'-v[Enable verbose output with rustc information for all installed toolchains]' \
-'--verbose[Enable verbose output with rustc information for all installed toolchains]' \
-'-h[Print help]' \
-'--help[Print help]' \
-":: :_rustup__show_commands" \
-"*::: :->show" \
-&& ret=0
-
-    case $state in
-    (show)
-        words=($line[1] "${words[@]}")
-        (( CURRENT += 1 ))
-        curcontext="${curcontext%:*:*}:rustup-show-command-$line[1]:"
-        case $line[1] in
-            (active-toolchain)
-_arguments "${_arguments_options[@]}" : \
-'-v[Enable verbose output with rustc information]' \
-'--verbose[Enable verbose output with rustc information]' \
-'-h[Print help]' \
-'--help[Print help]' \
-&& ret=0
-;;
-(home)
-_arguments "${_arguments_options[@]}" : \
-'-h[Print help]' \
-'--help[Print help]' \
-&& ret=0
-;;
-(profile)
-_arguments "${_arguments_options[@]}" : \
-'-h[Print help]' \
-'--help[Print help]' \
-&& ret=0
-;;
-(help)
-_arguments "${_arguments_options[@]}" : \
-":: :_rustup__show__help_commands" \
-"*::: :->help" \
-&& ret=0
-
-    case $state in
-    (help)
-        words=($line[1] "${words[@]}")
-        (( CURRENT += 1 ))
-        curcontext="${curcontext%:*:*}:rustup-show-help-command-$line[1]:"
-        case $line[1] in
-            (active-toolchain)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(home)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(profile)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(help)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-        esac
-    ;;
-esac
-;;
-        esac
-    ;;
-esac
-;;
-(update)
-_arguments "${_arguments_options[@]}" : \
-'--no-self-update[Don'\''t perform self update when running the \`rustup update\` command]' \
-'--force[Force an update, even if some components are missing]' \
-'--force-non-host[Install toolchains that require an emulator. See https\://github.com/rust-lang/rustup/wiki/Non-host-toolchains]' \
-'-h[Print help]' \
-'--help[Print help]' \
-'*::toolchain -- Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`:_default' \
-&& ret=0
-;;
-(check)
-_arguments "${_arguments_options[@]}" : \
-'-h[Print help]' \
-'--help[Print help]' \
-&& ret=0
-;;
-(default)
-_arguments "${_arguments_options[@]}" : \
-'--force-non-host[Install toolchains that require an emulator. See https\://github.com/rust-lang/rustup/wiki/Non-host-toolchains]' \
-'-h[Print help]' \
-'--help[Print help]' \
-'::toolchain -- '\''none'\'', a toolchain name, such as '\''stable'\'', '\''nightly'\'', '\''1.8.0'\'', or a custom toolchain name. For more information see `rustup help toolchain`:_default' \
-&& ret=0
-;;
 (toolchain)
 _arguments "${_arguments_options[@]}" : \
 '-h[Print help]' \
@@ -252,6 +156,102 @@ esac
         esac
     ;;
 esac
+;;
+(default)
+_arguments "${_arguments_options[@]}" : \
+'--force-non-host[Install toolchains that require an emulator. See https\://github.com/rust-lang/rustup/wiki/Non-host-toolchains]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::toolchain -- '\''none'\'', a toolchain name, such as '\''stable'\'', '\''nightly'\'', '\''1.8.0'\'', or a custom toolchain name. For more information see `rustup help toolchain`:_default' \
+&& ret=0
+;;
+(show)
+_arguments "${_arguments_options[@]}" : \
+'-v[Enable verbose output with rustc information for all installed toolchains]' \
+'--verbose[Enable verbose output with rustc information for all installed toolchains]' \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_rustup__show_commands" \
+"*::: :->show" \
+&& ret=0
+
+    case $state in
+    (show)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:rustup-show-command-$line[1]:"
+        case $line[1] in
+            (active-toolchain)
+_arguments "${_arguments_options[@]}" : \
+'-v[Enable verbose output with rustc information]' \
+'--verbose[Enable verbose output with rustc information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(home)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(profile)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_rustup__show__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:rustup-show-help-command-$line[1]:"
+        case $line[1] in
+            (active-toolchain)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(home)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(profile)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--no-self-update[Don'\''t perform self update when running the \`rustup update\` command]' \
+'--force[Force an update, even if some components are missing]' \
+'--force-non-host[Install toolchains that require an emulator. See https\://github.com/rust-lang/rustup/wiki/Non-host-toolchains]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'*::toolchain -- Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`:_default' \
+&& ret=0
+;;
+(check)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
 ;;
 (target)
 _arguments "${_arguments_options[@]}" : \
@@ -635,6 +635,13 @@ _arguments "${_arguments_options[@]}" : \
 '::auto_self_update_mode:(enable disable check-only)' \
 && ret=0
 ;;
+(auto-install)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+'::auto_install_mode:(enable disable)' \
+&& ret=0
+;;
 (help)
 _arguments "${_arguments_options[@]}" : \
 ":: :_rustup__set__help_commands" \
@@ -656,6 +663,10 @@ _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (auto-self-update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(auto-install)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
@@ -703,6 +714,42 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
+(toolchain)
+_arguments "${_arguments_options[@]}" : \
+":: :_rustup__help__toolchain_commands" \
+"*::: :->toolchain" \
+&& ret=0
+
+    case $state in
+    (toolchain)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:rustup-help-toolchain-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(install)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(uninstall)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(link)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(default)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
 (show)
 _arguments "${_arguments_options[@]}" : \
 ":: :_rustup__help__show_commands" \
@@ -738,42 +785,6 @@ _arguments "${_arguments_options[@]}" : \
 (check)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
-;;
-(default)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(toolchain)
-_arguments "${_arguments_options[@]}" : \
-":: :_rustup__help__toolchain_commands" \
-"*::: :->toolchain" \
-&& ret=0
-
-    case $state in
-    (toolchain)
-        words=($line[1] "${words[@]}")
-        (( CURRENT += 1 ))
-        curcontext="${curcontext%:*:*}:rustup-help-toolchain-command-$line[1]:"
-        case $line[1] in
-            (list)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(install)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(uninstall)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(link)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-        esac
-    ;;
-esac
 ;;
 (target)
 _arguments "${_arguments_options[@]}" : \
@@ -927,6 +938,10 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
+(auto-install)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
         esac
     ;;
 esac
@@ -954,11 +969,11 @@ _rustup_commands() {
 'install:Install or update the given toolchains, or by default the active toolchain' \
 'uninstall:Uninstall the given toolchains' \
 'dump-testament:Dump information about the build' \
+'toolchain:Install, uninstall, or list toolchains' \
+'default:Set the default toolchain' \
 'show:Show the active and installed toolchains or profiles' \
 'update:Update Rust toolchains and rustup' \
 'check:Check for updates to Rust toolchains and rustup' \
-'default:Set the default toolchain' \
-'toolchain:Modify or query the installed toolchains' \
 'target:Modify a toolchain'\''s supported targets' \
 'component:Modify a toolchain'\''s installed components' \
 'override:Modify toolchain overrides for directories' \
@@ -1059,11 +1074,11 @@ _rustup__help_commands() {
 'install:Install or update the given toolchains, or by default the active toolchain' \
 'uninstall:Uninstall the given toolchains' \
 'dump-testament:Dump information about the build' \
+'toolchain:Install, uninstall, or list toolchains' \
+'default:Set the default toolchain' \
 'show:Show the active and installed toolchains or profiles' \
 'update:Update Rust toolchains and rustup' \
 'check:Check for updates to Rust toolchains and rustup' \
-'default:Set the default toolchain' \
-'toolchain:Modify or query the installed toolchains' \
 'target:Modify a toolchain'\''s supported targets' \
 'component:Modify a toolchain'\''s installed components' \
 'override:Modify toolchain overrides for directories' \
@@ -1201,8 +1216,14 @@ _rustup__help__set_commands() {
 'default-host:The triple used to identify toolchains when not specified' \
 'profile:The default components installed with a toolchain' \
 'auto-self-update:The rustup auto self update mode' \
+'auto-install:The auto toolchain install mode' \
     )
     _describe -t commands 'rustup help set commands' commands "$@"
+}
+(( $+functions[_rustup__help__set__auto-install_commands] )) ||
+_rustup__help__set__auto-install_commands() {
+    local commands; commands=()
+    _describe -t commands 'rustup help set auto-install commands' commands "$@"
 }
 (( $+functions[_rustup__help__set__auto-self-update_commands] )) ||
 _rustup__help__set__auto-self-update_commands() {
@@ -1443,9 +1464,15 @@ _rustup__set_commands() {
 'default-host:The triple used to identify toolchains when not specified' \
 'profile:The default components installed with a toolchain' \
 'auto-self-update:The rustup auto self update mode' \
+'auto-install:The auto toolchain install mode' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'rustup set commands' commands "$@"
+}
+(( $+functions[_rustup__set__auto-install_commands] )) ||
+_rustup__set__auto-install_commands() {
+    local commands; commands=()
+    _describe -t commands 'rustup set auto-install commands' commands "$@"
 }
 (( $+functions[_rustup__set__auto-self-update_commands] )) ||
 _rustup__set__auto-self-update_commands() {
@@ -1463,9 +1490,15 @@ _rustup__set__help_commands() {
 'default-host:The triple used to identify toolchains when not specified' \
 'profile:The default components installed with a toolchain' \
 'auto-self-update:The rustup auto self update mode' \
+'auto-install:The auto toolchain install mode' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'rustup set help commands' commands "$@"
+}
+(( $+functions[_rustup__set__help__auto-install_commands] )) ||
+_rustup__set__help__auto-install_commands() {
+    local commands; commands=()
+    _describe -t commands 'rustup set help auto-install commands' commands "$@"
 }
 (( $+functions[_rustup__set__help__auto-self-update_commands] )) ||
 _rustup__set__help__auto-self-update_commands() {
