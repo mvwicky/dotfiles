@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+bold=$(tput bold)
+# green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+reset=$(tput sgr0)
+
+eval "$(pyenv init - bash)"
+
+eecho() {
+  echo "$@" >&2
+}
+
+__pyversions() {
+  declare versions
+  versions=$(pyenv versions --bare)
+  printf "%s\n" "$versions"
+}
+
+__pyversion_exists() {
+  local version=${1:-}
+  if [[ -z $version ]]; then
+    return 1
+  fi
+  eecho "$version"
+  __pyversions | rg -F "$version" >/dev/null
+}
+
+py_version=${1:-}
+if [[ -z $py_version ]]; then
+  py_version="$(pyenv version --bare)"
+fi
+eecho "Using Python version $py_version"
+
+if __pyversion_exists "$py_version/envs/neovim"; then
+  eecho "${bold}${yellow}A neovim venv already exists for this Python version.$reset"
+  exit 0
+fi
+if __pyversion_exists "neovim"; then
+  eecho "Found an existing neovim venv"
+  pyenv virtualenv-delete -f neovim
+fi
+pyenv virtualenv "$py_version" neovim
+pyenv shell neovim
+python -m pip install -U pip
+pip install neovim
