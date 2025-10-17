@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# [Bash "strict mode"](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
+IFS=$'\n\t'
+
+echo_stderr() {
+  echo "$@" >&2
+}
+
+usage() {
+  echo_stderr "usage: $(basename "$0") {input_file} {log_file_name}"
+}
+
+input_file=${1:-}
+if [[ -z $input_file || $input_file = '--help' || $input_file = '-h' ]]; then
+  usage
+  exit 0
+fi
+
+if [[ ! -f $input_file ]]; then
+  echo_stderr "File not found $input_file"
+  exit 1
+fi
+
+log_file_name=${2:-}
+if [[ -z $log_file_name ]]; then
+  log_file_name="$input_file".log
+elif [[ -d $log_file_name ]]; then
+  log_file_name="$log_file_name"/"$input_file".log
+fi
+
+echo_stderr "input_file: $input_file"
+echo_stderr "log_file_name: $log_file_name"
+
+reset="$(tput sgr0)"
+bold="$(tput bold)"
+echo_stderr "${bold}+ffmpeg -v error -i \"$input_file\" -f null - 2>\"$log_file_name\"${reset}"
+ffmpeg -v error -i "$input_file" -f null - 2>"$log_file_name"
