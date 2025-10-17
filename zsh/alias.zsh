@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-alias dj="poetry run python manage.py"
 alias p="poetry"
 alias py="python"
 alias pym="python manage.py"
