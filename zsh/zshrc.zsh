@@ -92,7 +92,7 @@ export NODE_REPL_HISTORY="$XDG_CACHE_HOME/node_repl_history"
 export NODE_REPL_HISTORY_SIZE=2000
 export TS_NODE_HISTORY="$XDG_CACHE_HOME/ts_node_repl_history"
 
-export FNM_COREPACK_ENABLED="true"
+# export FNM_COREPACK_ENABLED="true"
 
 eval "$(fnm env)"
 
