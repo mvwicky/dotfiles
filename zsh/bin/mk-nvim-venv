@@ -15,6 +15,11 @@ eecho() {
   echo "$@" >&2
 }
 
+print_and_execute() {
+  echo "${bold}+" "$@" "$reset" >&2
+  "$@"
+}
+
 __pyversions() {
   declare versions
   versions=$(pyenv versions --bare)
@@ -26,7 +31,6 @@ __pyversion_exists() {
   if [[ -z $version ]]; then
     return 1
   fi
-  eecho "$version"
   __pyversions | rg -F "$version" >/dev/null
 }
 
@@ -42,9 +46,9 @@ if __pyversion_exists "$py_version/envs/neovim"; then
 fi
 if __pyversion_exists "neovim"; then
   eecho "Found an existing neovim venv"
-  pyenv virtualenv-delete -f neovim
+  print_and_execute virtualenv-delete -f neovim
 fi
-pyenv virtualenv "$py_version" neovim
-pyenv shell neovim
-python -m pip install -U pip
-pip install neovim
+print_and_execute pyenv virtualenv "$py_version" neovim
+print_and_execute pyenv shell neovim
+print_and_execute python -m pip install -U pip
+print_and_execute pip install neovim
