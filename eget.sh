@@ -9,3 +9,4 @@ eget --upgrade-only kristoff-it/superhtml
 eget --upgrade-only frectonz/sql-studio
 eget --upgrade-only reteps/dockerfmt
 eget --upgrade-only arnetheduck/nph
+eget --upgrade-only terror/just-lsp
