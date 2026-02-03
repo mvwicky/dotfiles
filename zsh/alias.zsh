@@ -31,6 +31,7 @@ else
 fi
 
 alias prettiert='prettier --plugin "$(yg dir)"/node_modules/prettier-plugin-toml/lib/index.js'
+alias prettierp='prettier --plugin "$(yg dir)"/node_modules/prettier-plugin-package/lib/index.js'
 
 if command -v gmake 1> /dev/null 2>&1; then
   alias make='gmake'
