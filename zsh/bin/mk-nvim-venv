@@ -46,7 +46,7 @@ if __pyversion_exists "$py_version/envs/neovim"; then
 fi
 if __pyversion_exists "neovim"; then
   eecho "Found an existing neovim venv"
-  print_and_execute virtualenv-delete -f neovim
+  print_and_execute pyenv virtualenv-delete -f neovim
 fi
 print_and_execute pyenv virtualenv "$py_version" neovim
 print_and_execute pyenv shell neovim
