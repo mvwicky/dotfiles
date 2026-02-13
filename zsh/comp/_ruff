@@ -16,6 +16,9 @@ _ruff() {
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" : \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -23,8 +26,8 @@ _ruff() {
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 '-V[Print version]' \
 '--version[Print version]' \
 ":: :_ruff_commands" \
@@ -41,7 +44,7 @@ _arguments "${_arguments_options[@]}" : \
 '--output-format=[Output serialization format for violations. The default serialization format is "full"]:OUTPUT_FORMAT:(concise full json json-lines junit grouped github gitlab pylint rdjson azure sarif)' \
 '-o+[Specify file to write the linter output to (default\: stdout)]:OUTPUT_FILE:_files' \
 '--output-file=[Specify file to write the linter output to (default\: stdout)]:OUTPUT_FILE:_files' \
-'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314)' \
+'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314 py315)' \
 '*--select=[Comma-separated list of rule codes to enable (or ALL, to enable all rules)]:RULE_CODE:((ALL\:"all rules"
 AIR\:"Airflow"
 ERA\:"eradicate"
@@ -105,8 +108,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -333,6 +338,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -838,6 +844,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -1020,9 +1027,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -1097,8 +1110,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -1325,6 +1340,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -1830,6 +1846,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -2012,9 +2029,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -2089,8 +2112,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -2317,6 +2342,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -2822,6 +2848,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -3004,9 +3031,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -3081,8 +3114,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -3309,6 +3344,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -3814,6 +3850,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -3996,9 +4033,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -4077,8 +4120,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -4305,6 +4350,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -4810,6 +4856,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -4992,9 +5039,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -5069,8 +5122,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -5297,6 +5352,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -5802,6 +5858,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -5984,9 +6041,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -6061,8 +6124,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -6289,6 +6354,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -6794,6 +6860,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -6976,9 +7043,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -7053,8 +7126,10 @@ AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -7281,6 +7356,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -7786,6 +7862,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -7968,9 +8045,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -7987,7 +8070,11 @@ TRY401\:"verbose-log-message"))' \
 '--cache-dir=[Path to the cache directory]:CACHE_DIR:_files' \
 '--stdin-filename=[The name of the file when passing it through stdin]:STDIN_FILENAME:_files' \
 '*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION:_default' \
+'(--show-files --show-settings --ignore-noqa --statistics --stdin-filename -w --watch --fix --diff)--add-noqa=[Enable automatic additions of \`noqa\` directives to failing lines. Optionally provide a reason to append after the codes]' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '--fix[Apply fixes to resolve lint violations. Use \`--no-fix\` to disable or \`--unsafe-fixes\` to include unsafe fixes]' \
 '--no-fix[]' \
 '--unsafe-fixes[Include fixes that may not retain the original intent of the code. Use \`--no-unsafe-fixes\` to disable]' \
@@ -8012,7 +8099,6 @@ TRY401\:"verbose-log-message"))' \
 '(--exit-non-zero-on-fix)--exit-zero[Exit with status code "0", even upon detecting lint violations]' \
 '(-e --exit-zero)--exit-non-zero-on-fix[Exit with a non-zero status code if any files were modified via fix, even if no lint violations remain]' \
 '(--diff -w --watch)--statistics[Show counts for every rule with at least one violation]' \
-'(--show-files --show-settings --ignore-noqa --statistics --stdin-filename -w --watch --fix --diff)--add-noqa[Enable automatic additions of \`noqa\` directives to failing lines]' \
 '(--add-noqa --show-settings --ignore-noqa --statistics --stdin-filename -w --watch)--show-files[See the files Ruff will be run against with the current settings]' \
 '(--add-noqa --show-files --ignore-noqa --statistics --stdin-filename -w --watch)--show-settings[See the settings Ruff will use to lint a given Python file]' \
 '-v[Enable verbose logging]' \
@@ -8022,15 +8108,18 @@ TRY401\:"verbose-log-message"))' \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
-'*::files -- List of files or directories to check \[default\: .\]:_files' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::files -- List of files or directories to check, or `-` to read from stdin \[default\: .\]:_files' \
 && ret=0
 ;;
 (rule)
 _arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '()--all[Explain all rules]' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
@@ -8039,14 +8128,16 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 '::rule -- Rule to explain:((AIR001\:"airflow-variable-name-task-id-mismatch"
 AIR002\:"airflow-dag-no-schedule-argument"
 AIR301\:"airflow3-removal"
 AIR302\:"airflow3-moved-to-provider"
+AIR303\:"airflow3-incompatible-function-signature"
 AIR311\:"airflow3-suggested-update"
 AIR312\:"airflow3-suggested-to-move-to-provider"
+AIR321\:"airflow31-moved"
 ERA001\:"commented-out-code"
 FAST001\:"fast-api-redundant-response-model"
 FAST002\:"fast-api-non-annotated-dependency"
@@ -8273,6 +8364,7 @@ INT003\:"printf-in-get-text-func-call"
 ISC001\:"single-line-implicit-string-concatenation"
 ISC002\:"multi-line-implicit-string-concatenation"
 ISC003\:"explicit-string-concatenation"
+ISC004\:"implicit-string-concatenation-in-collection-literal"
 ICN001\:"unconventional-import-alias"
 ICN002\:"banned-import-alias"
 ICN003\:"banned-import-from"
@@ -8778,6 +8870,7 @@ PLR1701\:"repeated-isinstance-calls"
 PLR1702\:"too-many-nested-blocks"
 PLR1704\:"redefined-argument-from-local"
 PLR1706\:"and-or-ternary"
+PLR1708\:"stop-iteration-return"
 PLR1711\:"useless-return"
 PLR1714\:"repeated-equality-comparison"
 PLR1716\:"boolean-chained-comparison"
@@ -8960,9 +9053,15 @@ RUF061\:"legacy-form-pytest-raises"
 RUF063\:"access-annotations-from-class-dict"
 RUF064\:"non-octal-permissions"
 RUF065\:"logging-eager-conversion"
+RUF066\:"property-without-return"
+RUF067\:"non-empty-init-module"
+RUF068\:"duplicate-entry-in-dunder-all"
+RUF069\:"float-equality-comparison"
 RUF100\:"unused-noqa"
 RUF101\:"redirected-noqa"
 RUF102\:"invalid-rule-code"
+RUF103\:"invalid-suppression-comment"
+RUF104\:"unmatched-suppression-comment"
 RUF200\:"invalid-pyproject-toml"
 TRY002\:"raise-vanilla-class"
 TRY003\:"raise-vanilla-args"
@@ -8980,6 +9079,9 @@ TRY401\:"verbose-log-message"))' \
 _arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -8987,10 +9089,10 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 '::option -- Config key to show:((cache-dir\:"A path to the cache directory."
-extend\:"A path to a local \`pyproject.toml\` file to merge into this configuration. User home directory and environment variables will be expanded."
+extend\:"A path to a local \`pyproject.toml\` or \`ruff.toml\` file to merge into this configuration. User home directory and environment variables will be expanded."
 output-format\:"The style in which violation messages should be formatted\: \`'\''full'\''\` (default) (shows source), \`'\''concise'\''\`, \`'\''grouped'\''\` (group messages by file), \`'\''json'\''\` (machine-readable), \`'\''junit'\''\` (machine-readable XML), \`'\''github'\''\` (GitHub Actions annotations), \`'\''gitlab'\''\` (GitLab CI code quality report), \`'\''pylint'\''\` (Pylint text format) or \`'\''azure'\''\` (Azure Pipeline logging commands)."
 fix\:"Enable fix behavior by-default when running \`ruff\` (overridden by the \`--fix\` and \`--no-fix\` command-line flags). Only includes automatic fixes unless \`--unsafe-fixes\` is provided."
 unsafe-fixes\:"Enable application of unsafe fixes. If excluded, a hint will be displayed when unsafe fixes are available. If set to false, the hint will be hidden."
@@ -9120,6 +9222,7 @@ lint.isort.classes\:"An override list of tokens to always recognize as a Class f
 lint.isort.constants\:"An override list of tokens to always recognize as a CONSTANT for \[\`order-by-type\`\](#lint_isort_order-by-type) regardless of casing."
 lint.isort.variables\:"An override list of tokens to always recognize as a var for \[\`order-by-type\`\](#lint_isort_order-by-type) regardless of casing."
 lint.isort.no-lines-before\:"A list of sections that should _not_ be delineated from the previous section via empty lines."
+lint.isort.import-heading\:"A mapping from import section names to their heading comments."
 lint.isort.lines-after-imports\:"The number of blank lines to place after imports. Use \`-1\` for automatic determination."
 lint.isort.lines-between-types\:"The number of lines to place between '\''direct'\'' and \`import from\` imports."
 lint.isort.forced-separate\:"A list of modules to separate into auxiliary block(s) of imports, in the order specified."
@@ -9173,6 +9276,7 @@ lint.ruff\:"Options for the \`ruff\` plugin"
 lint.ruff.parenthesize-tuple-in-subscript\:"Whether to prefer accessing items keyed by tuples with parentheses around the tuple (see \`RUF031\`)."
 lint.ruff.extend-markup-names\:"A list of additional callable names that behave like \[\`markupsafe.Markup\`\](https\://markupsafe.palletsprojects.com/en/stable/escaping/#markupsafe.Markup)."
 lint.ruff.allowed-markup-calls\:"A list of callable names, whose result may be safely passed into \[\`markupsafe.Markup\`\](https\://markupsafe.palletsprojects.com/en/stable/escaping/#markupsafe.Markup)."
+lint.ruff.strictly-empty-init-modules\:"Whether to require \`__init__.py\` files to contain no code at all, including imports and docstrings (see \`RUF067\`)."
 lint.preview\:"Whether to enable preview mode. When preview mode is enabled, Ruff will use unstable rules and fixes."
 lint.typing-extensions\:"Whether to allow imports from the third-party \`typing_extensions\` module for Python versions before a symbol was added to the first-party \`typing\` module."
 lint.future-annotations\:"Whether to allow rules to add \`from __future__ import annotations\` in cases where this would simplify a fix or enable a new diagnostic."
@@ -9191,13 +9295,17 @@ analyze.preview\:"Whether to enable preview mode. When preview mode is enabled, 
 analyze.direction\:"Whether to generate a map from file to files that it depends on (dependencies) or files that depend on it (dependents)."
 analyze.detect-string-imports\:"Whether to detect imports from string literals. When enabled, Ruff will search for string literals that '\''look like'\'' import paths, and include them in the import map, if they resolve to valid Python modules."
 analyze.string-imports-min-dots\:"The minimum number of dots in a string to consider it a valid import."
-analyze.include-dependencies\:"A map from file path to the list of Python or non-Python file paths or globs that should be considered dependencies of that file, regardless of whether relevant imports are detected."))' \
+analyze.include-dependencies\:"A map from file path to the list of Python or non-Python file paths or globs that should be considered dependencies of that file, regardless of whether relevant imports are detected."
+analyze.type-checking-imports\:"Whether to include imports that are only used for type checking (i.e., imports within \`if TYPE_CHECKING\:\` blocks). When enabled (default), type-checking-only imports are included in the import graph. When disabled, they are excluded."))' \
 && ret=0
 ;;
 (linter)
 _arguments "${_arguments_options[@]}" : \
 '--output-format=[Output format]:OUTPUT_FORMAT:(text json)' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9205,13 +9313,16 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (clean)
 _arguments "${_arguments_options[@]}" : \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9219,13 +9330,16 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (generate-shell-completion)
 _arguments "${_arguments_options[@]}" : \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9233,8 +9347,8 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 ':shell:(bash elvish fish nushell powershell zsh)' \
 && ret=0
 ;;
@@ -9245,10 +9359,13 @@ _arguments "${_arguments_options[@]}" : \
 '--line-length=[Set the line-length]:LINE_LENGTH:_default' \
 '--stdin-filename=[The name of the file when passing it through stdin]:STDIN_FILENAME:_files' \
 '*--extension=[List of mappings from file extension to language (one of \`python\`, \`ipynb\`, \`pyi\`). For example, to treat \`.ipy\` files as IPython notebooks, use \`--extension ipy\:ipynb\`]:EXTENSION:_default' \
-'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314)' \
+'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314 py315)' \
 '--range=[When specified, Ruff will try to only format the code in the given range. It might be necessary to extend the start backwards or the end forwards, to fully enclose a logical line. The \`<RANGE>\` uses the format \`<start_line>\:<start_column>-<end_line>\:<end_column>\`.]:RANGE:_default' \
 '--output-format=[Output serialization format for violations, when used with \`--check\`. The default serialization format is "full"]:OUTPUT_FORMAT:(concise full json json-lines junit grouped github gitlab pylint rdjson azure sarif)' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '--check[Avoid writing any formatted files back; instead, exit with a non-zero status code if any files would have been modified, and zero otherwise]' \
 '--diff[Avoid writing any formatted files back; instead, exit with a non-zero status code and the difference between the current file and how the formatted file would look like]' \
 '-n[Disable cache reads]' \
@@ -9269,12 +9386,15 @@ _arguments "${_arguments_options[@]}" : \
 '--isolated[Ignore all configuration files]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
-'*::files -- List of files or directories to format \[default\: .\]:_files' \
+'*::files -- List of files or directories to format, or `-` to read from stdin \[default\: .\]:_files' \
 && ret=0
 ;;
 (server)
 _arguments "${_arguments_options[@]}" : \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '--preview[Enable preview mode. Use \`--no-preview\` to disable]' \
 '--no-preview[]' \
 '-v[Enable verbose logging]' \
@@ -9291,6 +9411,9 @@ _arguments "${_arguments_options[@]}" : \
 (analyze)
 _arguments "${_arguments_options[@]}" : \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9298,8 +9421,8 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 ":: :_ruff__analyze_commands" \
 "*::: :->analyze" \
 && ret=0
@@ -9315,12 +9438,17 @@ _arguments "${_arguments_options[@]}" : \
 '--direction=[The direction of the import map. By default, generates a dependency map, i.e., a map from file to files that it depends on. Use \`--direction dependents\` to generate a map from file to files that depend on it]:DIRECTION:((dependencies\:"Construct a map from module to its dependencies (i.e., the modules that it imports)"
 dependents\:"Construct a map from module to its dependents (i.e., the modules that import it)"))' \
 '--min-dots=[The minimum number of dots in a string import to consider it a valid import]:MIN_DOTS:_default' \
-'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314)' \
+'--target-version=[The minimum Python version that should be supported]:TARGET_VERSION:(py37 py38 py39 py310 py311 py312 py313 py314 py315)' \
 '--python=[Path to a virtual environment to use for resolving additional dependencies]:PYTHON:_files' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '--detect-string-imports[Attempt to detect imports from string literals]' \
 '--preview[Enable preview mode. Use \`--no-preview\` to disable]' \
 '--no-preview[]' \
+'--type-checking-imports[Include imports that are only used for type checking (i.e., imports within \`if TYPE_CHECKING\:\` blocks). Use \`--no-type-checking-imports\` to exclude imports that are only used for type checking]' \
+'--no-type-checking-imports[]' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9365,6 +9493,9 @@ esac
 _arguments "${_arguments_options[@]}" : \
 '--output-format=[]:OUTPUT_FORMAT:(text json)' \
 '*--config=[Either a path to a TOML configuration file (\`pyproject.toml\` or \`ruff.toml\`), or a TOML \`<KEY> = <VALUE>\` pair (such as you might find in a \`ruff.toml\` configuration file) overriding a specific configuration option. Overrides of individual settings using this option always take precedence over all configuration files, including configuration files that were also specified using \`--config\`]:CONFIG_OPTION:_default' \
+'--color=[Control when colored output is used]:WHEN:((auto\:"Display colors if the output goes to an interactive terminal"
+always\:"Always display colors"
+never\:"Never display colors"))' \
 '-v[Enable verbose logging]' \
 '--verbose[Enable verbose logging]' \
 '-q[Print diagnostics, but nothing else]' \
@@ -9372,8 +9503,8 @@ _arguments "${_arguments_options[@]}" : \
 '-s[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--silent[Disable all logging (but still exit with status code "1" upon detecting diagnostics)]' \
 '--isolated[Ignore all configuration files]' \
-'-h[Print help]' \
-'--help[Print help]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (help)
