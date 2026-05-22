@@ -15,7 +15,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/JohnnyMorganz/StyLua"
-rev = "v2.3.0"
+rev = "v2.5.2"
 hooks = [
   { id = "stylua-github" }
 ]
