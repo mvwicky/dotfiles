@@ -15,14 +15,14 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/JohnnyMorganz/StyLua"
-rev = "v2.5.2"
+rev = "v2.6.0"
 hooks = [
   { id = "stylua-github" }
 ]
 
 [[repos]]
 repo = "https://github.com/shellcheck-py/shellcheck-py"
-rev = "v0.11.0.1"
+rev = "v0.11.0.1-1"
 hooks = [
   { id = "shellcheck" }
 ]
