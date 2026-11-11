@@ -1,6 +1,21 @@
+#compdef xan
 
-# Xan completions
-function __xan {
-    xan compgen "$1" "$2" "$3"
+__xan() {
+    local -a completions
+    local completion_output
+
+    completion_output=$(COMP_LINE="${(j: :)words}" xan compgen "$words[1]" "$words[CURRENT]" "$words[$((CURRENT - 1))]")
+
+    if [[ -n "$completion_output" ]]; then
+        completions=("${(@f)completion_output}")
+        compadd -a completions
+    else
+        _default
+    fi
 }
-complete -F __xan -o default xan
+
+if [ "$funcstack[1]" = "_xan" ]; then
+    __xan "$@"
+else
+    compdef __xan xan
+fi
