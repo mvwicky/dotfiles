@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-alias p="poetry"
 alias py="python"
 alias pym="python manage.py"
+alias uma='uv run --script manage.py'
 alias pup="python -m pip install -U pip"
 alias pupx="python -m pip install -U pip pipx"
 alias pip-old="pip list --outdated"
@@ -22,9 +22,9 @@ alias pa="poetry add"
 
 alias ycount="yarn --silent list --depth 0 --json | jq '[.data.trees[].name] | length'"
 if command -v eza 1> /dev/null 2>&1; then
-  alias l="eza -lah"
-  alias ll="eza -lah"
-  alias lg="eza -lah --git"
+  alias l="eza --long --all --header --icons auto"
+  alias ll="eza --long --all --header --icons auto"
+  alias lg="eza --long --all --header --git --icons auto"
 else
   alias l="ls -lah"
   alias ll="ls -lah"
