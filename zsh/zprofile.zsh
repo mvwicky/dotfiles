@@ -36,7 +36,7 @@ if __has gmake; then
 fi
 
 if __has sccache; then
-  export SCCACHE_CACHE_SIZE="2G"
+  export SCCACHE_CACHE_SIZE="1G"
   export RUSTC_WRAPPER=sccache
 fi
 

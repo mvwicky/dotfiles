@@ -25,41 +25,61 @@ __has() {
 }
 
 brew_prefix="/opt/homebrew"
-if __has brew; then
-  brew_completions=("$brew_prefix/share/zsh/site-functions" "$brew_prefix/share/zsh-completions" "$brew_prefix/opt/curl/share/zsh/site-functions")
-  for d in "${brew_completions[@]}"; do
-    if [[ -d $d ]]; then
-      fpath+=$d
-    fi
-  done
+brew_completions=("$brew_prefix/share/zsh/site-functions" "$brew_prefix/share/zsh-completions" "$brew_prefix/opt/curl/share/zsh/site-functions")
+for d in "${brew_completions[@]}"; do
+  if [[ -d $d ]]; then
+    fpath+=$d
+  fi
+done
+
+if [[ -n $ZSH_FOLDER ]]; then
+  funcs="$ZSH_FOLDER/functions.zsh"
+  # Load functions and aliases
+  test -f "$funcs" && source "$funcs"
+  unset funcs
+  custom_comp="${ZSH_FOLDER}/comp"
+  fpath+=${custom_comp}
+  export ZSH_FOLDER
 fi
+# if __has brew; then
+# fi
 
 if __has asdf; then
   export ASDF_DATA_DIR="$XDG_DATA_HOME"/asdf
   export PATH="${ASDF_DATA_DIR}/shims:$PATH"
 fi
 
+# TODO: Replace antigen with zimfw
 export ADOTDIR="$XDG_DATA_HOME/antigen"
 source "$brew_prefix/opt/antigen/share/antigen/antigen.zsh"
 antigen init "$HOME/.antigenrc"
 
+# zstyle ':zim:completion' dumpfile ${XDG_CONFIG_HOME}/zsh/zcompdump
+# zstyle ':completion::complete:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache
+
+# ZIM_CONFIG_FILE="$XDG_CONFIG_HOME"/zsh/zimrc
+# ZIM_HOME="$XDG_CACHE_HOME"/zim
+# # Install missing modules and update ${ZIM_HOME}/init.zsh if missing or outdated.
+# if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE} ]]; then
+#   # shellcheck disable=SC1094
+#   source /opt/homebrew/opt/zimfw/share/zimfw.zsh init
+# fi
+# # shellcheck disable=SC1094
+# source "${ZIM_HOME}"/init.zsh
+
 # Init pyenv
 if __has pyenv; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init - zsh)"
   # eval "$(pyenv virtualenv-init -)"
 fi
 
 export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
 
 if [[ -n $ZSH_FOLDER ]]; then
-  funcs="$ZSH_FOLDER/functions.zsh"
   aliases_file="$ZSH_FOLDER/alias.zsh"
   # Load functions and aliases
-  test -f "$funcs" && source "$funcs"
   test -f "$aliases_file" && source "$aliases_file"
-  unset funcs
   unset aliases_file
-  export ZSH_FOLDER
 fi
 
 if __has fzf; then

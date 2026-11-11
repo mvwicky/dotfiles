@@ -90,3 +90,6 @@ ZSH_FOLDER="$HOME"/Developer/GitHub/dotfiles/zsh
 # See: https://github.com/pyenv/pyenv/tree/master/plugins/python-build
 # export PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto'
 # export PYTHON_CFLAGS='--march-native -mtune=native'
+# autoload -Uz +X compinit
+# functions[compinit]=$'print -u2 \'compinit being called at \'${funcfiletrace[1]}
+# '${functions[compinit]}

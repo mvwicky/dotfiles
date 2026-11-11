@@ -2,7 +2,7 @@
 antigen use oh-my-zsh
 
 antigen bundle rust
-antigen bundle gitfast
+# antigen bundle gitfast
 antigen bundle httpie
 antigen bundle yarn
 antigen bundle ripgrep
